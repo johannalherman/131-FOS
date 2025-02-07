@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Measure Shapes</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #eefff0;
+      position: relative;
+      overflow: hidden;
+    }
+    #dropdown-container {
+      display: flex;
+      font-weight: bold;
+      align-items: center;
+      gap: 15px;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: absolute;
+      top: 10px;
+    }
+    #resetButton {
+      background-color: red;
+      border: 1px solid black;
+      user-select: none;
+    }
+    #resetButton:hover {
+      background-color: darkred;
+    }
+
+    .message-box {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 24px;
+      top: 150px; /* Adjust the value as needed */
+    }
+
+    #drag-ruler {
+      /* Add your preferred styles for the ruler */
+      width: 570px;
+      height: 30px;
+      background-color: darkblue;
+      text-align: right;
+      padding-right: 10px;
+      color: white;
+      padding-top: 15px;
+      border-radius: 1px;
+      box-shadow: 1px 1px 1px black;
+      z-index: 1000;  /* Add this line */
+      position: relative;
+      user-select: none;
+    }
+
+    #cmText {
+      transform: rotate(90deg);
+      color: white;
+    }
+
+    #shape-buttons {
+      display: flex;
+      margin-bottom: 40px;
+      gap: 10px;
+      position: fixed; /* replace this with the type of the position */
+      top: 100px; /* replace this with the value from the top edge */
+      user-select: none;
+    }
+
+    .shape-button {
+      padding: 10px 15px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      transition: background-color 0.3s;
+    }
+    .shape-button:hover {
+      background-color: #0056b3;
+    }
+    .shape {
+      border: 1px solid black;
+    }
+
+    #shapes-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around; /* Or use 'justify-content: space-between' if you want them to take up as much space as possible */
+      gap: 50px;
+      width: 100%;
+    }
+
+    .shape-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      /* No absolute positioning here, so they can flow normally in the #shapes-container flex context */
+    }
+    .shape {
+      border: 1px solid black;
+    }
+    .sphere {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffc87f 30%, #d68a40 90%);
+    }
+    .cube {
+      width: 50px;
+      height: 30px;
+      background: linear-gradient(135deg, #ffc87f 40%, #d68a40 100%);
+    }
+    .cylinder {
+      width: 30px;
+      height: 40px;
+      background: linear-gradient(180deg, #ffc87f 30%, #d68a40 100%);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+<div id="dropdown-container">
+  <label for="shapeSetSelector">Select Assigned Metal:</label>
+  <select id="shapeSetSelector">
+    <option value="" selected>Choose from Dropdown</option>
+    <option value="set1">Set 1</option>
+    <option value="set2">Set 2</option>
+    <option value="set3">Set 3</option>
+  </select>
+  <button id="resetButton" class="shape-button">RESET</button>
+</div>
+<div id="drag-ruler" style="position:absolute; cursor:move;"><span id="cmText">cm</span></div>
+<div id="message" class="message-box"></div>
+<div id="shape-buttons" style="display: none;">
+  <button id="addSphere" class="shape-button">Add Ellipsoid</button>
+  <button id="addCube" class="shape-button">Add Cuboid</button>
+  <button id="addCylinder" class="shape-button">Add Cylinder</button>
+  <button id="removeShapes" class="shape-button" style="background-color: darkred;">Remove Shapes</button>
+</div>
+<div id="shapes-container"></div>
+<script>
+  // JavaScript to make the ruler draggable:
+  var dragRuler = document.querySelector('#drag-ruler');
+  var draggingRuler = false;
+
+  document.onmousedown = function(event) {
+    if (event.target == dragRuler) {
+      draggingRuler = true;
+      moveAt(event.pageX, event.pageY);
+    }
+  };
+
+  document.onmousemove = function(event) {
+    if (draggingRuler) {
+      moveAt(event.pageX, event.pageY);
+    }
+  };
+
+  document.onmouseup = function(event) {
+    draggingRuler = false;
+  };
+
+  function moveAt(pageX, pageY) {
+    dragRuler.style.left = pageX - dragRuler.offsetWidth / 2 + 'px';
+    dragRuler.style.top = pageY - dragRuler.offsetHeight / 2 + 'px';
+  }
+
+  // Generate ticks
+  for (let i = 5; i <= 105; i ++) {
+    var tick = document.createElement('div');
+    tick.style.width = '1px';
+    tick.style.position = 'absolute';
+    tick.style.left = i * 5 + 'px';
+    tick.style.bottom = '0';
+    tick.style.background = 'white';
+
+    if (i % 10 === 0) {  // every 10th tick mark
+      tick.style.height = '10px';
+    } else if (i % 5 === 0) {  // every 5th tick mark
+      tick.style.height = '15px';
+      let label = document.createElement('div');
+      label.textContent = (i - 5) / 10;  // Set the label text to the current tick number
+      label.style.position = 'absolute';
+      label.style.top = '-20px';  // Adjust this value as needed
+      label.style.left = '-4px';  // Adjust this value as needed
+      label.style.color = 'white';
+      tick.appendChild(label);
+
+    } else {  // default tick mark
+      tick.style.height = '5px';
+    }
+
+    dragRuler.appendChild(tick);
+  }
+
+
+  document.getElementById("resetButton").addEventListener("click", () => {
+    // Clear shapes
+    document.getElementById("shapes-container").innerHTML = "";
+
+    // Reset the dropdown
+    const shapeSetSelector = document.getElementById("shapeSetSelector");
+    shapeSetSelector.value = "";
+
+    // Hide the shape buttons
+    document.getElementById("shape-buttons").style.display = "none";
+  });
+
+  document.getElementById("removeShapes").addEventListener("click", () => {
+    document.getElementById("shapes-container").innerHTML = "";
+  });
+
+
+
+  const set1Colors = ["#ffc87fff", "#ffc87fff", "#ffc87fff"];
+  const set2Colors = ["#e69b56ff", "#e69b56ff", "#e69b56ff"];
+  const set3Colors = ["#b7b7b7ff", "#b7b7b7ff", "#b7b7b7ff"];
+
+  function addShapes(shapeClasses, dimensions, colorSet) {
+    const mainContainer = document.getElementById('shapes-container');
+    mainContainer.innerHTML = '';
+    for (let i = 0; i < dimensions.length; i++) {
+      const shapeElement = document.createElement('div');
+      shapeElement.classList.add(shapeClasses[i]);
+      shapeElement.style.width = dimensions[i].width + 'px';
+      shapeElement.style.height = dimensions[i].height + 'px';
+      const gradient = `linear-gradient(to right, ${colorSet.join(",")})`;
+      shapeElement.style.background = gradient;
+      const shapeContainer = document.createElement('div');
+      shapeContainer.classList.add('shape-container');
+      shapeContainer.appendChild(shapeElement);
+      mainContainer.appendChild(shapeContainer);
+    }
+  }
+
+  const sphereSet1Dimensions = [
+    { width: 53.1, height: 48.8 },
+    { width: 48.8, height: 58.3 },
+    { width: 58.3, height: 53.1 },
+  ];
+
+  const sphereSet2Dimensions = [
+    { width: 67.1, height: 56.8 },
+    { width: 56.8, height: 62.7 },
+    { width: 62.7, height: 67.1 },
+  ];
+
+  const sphereSet3Dimensions = [
+    { width: 52.6, height: 63.9 },
+    { width: 63.9, height: 59.2 },
+    { width: 59.2, height: 52.6 },
+  ];
+
+  const cubeSet1Dimensions = [
+    { width: 243.8, height: 52.2 },
+    { width: 52.2, height: 24.5 },
+    { width: 24.5, height: 52.2 },
+  ];
+
+  const cubeSet2Dimensions = [
+    { width: 200.6, height: 63.9 },
+    { width: 63.9, height: 42.3 },
+    { width: 42.3, height: 63.9 },
+  ];
+
+  const cubeSet3Dimensions = [
+    { width: 217.9, height: 53.3 },
+    { width: 53.3, height: 46.8 },
+    { width: 46.8, height: 53.3 },
+  ];
+
+  const cylinderSet1Dimensions = [
+    { width: 212.9, height: 58.6 },
+    { width: 58.6, height: 51.2 },
+    { width: 51.2, height: 58.6 },
+  ];
+
+  const cylinderSet2Dimensions = [
+    { width: 215.2, height: 49.2 },
+    { width: 49.2, height: 57.1 },
+    { width: 57.1, height: 49.2 },
+  ];
+
+  const cylinderSet3Dimensions = [
+    { width: 254.6, height: 48.1 },
+    { width: 48.1, height: 29.5 },
+    { width: 29.5, height: 48.1 },
+  ];
+
+  document.getElementById("addSphere").addEventListener("click", () => {
+    const selectedSet = document.getElementById("shapeSetSelector").value;
+    let dimensions;
+    let colorSet;
+    let shapeClasses;
+    switch (selectedSet) {
+      case 'set1':
+        dimensions = sphereSet1Dimensions;
+        colorSet = set1Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      case 'set2':
+        dimensions = sphereSet2Dimensions;
+        colorSet = set2Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      case 'set3':
+        dimensions = sphereSet3Dimensions;
+        colorSet = set3Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      default:
+        dimensions = []; // Default to an empty array
+    }
+    addShapes(shapeClasses, dimensions, colorSet);
+  });
+
+  document.getElementById("addCube").addEventListener("click", () => {
+    const selectedSet = document.getElementById("shapeSetSelector").value;
+    let dimensions;
+    let colorSet;
+    let shapeClasses;
+    switch (selectedSet) {
+      case 'set1':
+        dimensions = cubeSet1Dimensions;
+        colorSet = set1Colors;
+        shapeClasses = ["cube", "cube", "cube"];
+        break;
+      case 'set2':
+        dimensions = cubeSet2Dimensions;
+        colorSet = set2Colors;
+        shapeClasses = ["cube", "cube", "cube"];
+        break;
+      case 'set3':
+        dimensions = cubeSet3Dimensions;
+        colorSet = set3Colors;
+        shapeClasses = ["cube", "cube", "cube"];
+        break;
+      default:
+        dimensions = []; // Default to an empty array
+    }
+    addShapes(shapeClasses, dimensions, colorSet);
+  });
+
+  document.getElementById("addCylinder").addEventListener("click", () => {
+    const selectedSet = document.getElementById("shapeSetSelector").value;
+    let dimensions;
+    let colorSet;
+    let shapeClasses;
+    switch (selectedSet) {
+      case 'set1':
+        dimensions = cylinderSet1Dimensions;
+        colorSet = set1Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set2':
+        dimensions = cylinderSet2Dimensions;
+        colorSet = set2Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set3':
+        dimensions = cylinderSet3Dimensions;
+        colorSet = set3Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      default:
+        dimensions = []; // Default to an empty array
+    }
+    addShapes(shapeClasses, dimensions, colorSet);
+  });
+
+  // Set the default text when the page loads.
+  var messageElement = document.getElementById("message");
+  messageElement.textContent = "Drag the ruler to measure the shapes. Each shape will be displayed from three different angles so that all sides can be measured. Remember that all the angles are representing a single Ellipsoid, Cuboid, or Cylinder!";
+
+  document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
+    // If "Choose from Dropdown" is selected.
+    if(event.target.value === "") {
+      messageElement.textContent = "Your text goes here.";
+    } else {
+      messageElement.textContent = ""; // Clear the message when another option is selected.
+    }
+
+    document.getElementById("shape-buttons").style.display = event.target.value ? "flex" : "none";
+    document.getElementById("shapes-container").innerHTML = "";
+  });
+
+</script>
+</body>
+</html>
