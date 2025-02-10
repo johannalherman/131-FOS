@@ -6,50 +6,56 @@
   <title>Measure Shapes</title>
   <style>
     body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #eefff0;
-      position: relative;
-      overflow: hidden;
+      max-width: 1000px;
+      margin: auto;
+      font-family: Arial, sans-serif;      
+      padding: 20px;
+      text-align: center;          
     }
+        
+    #instruction-message {
+      font-size: 18px;
+      margin: auto;
+      text-align: left;
+    }
+    
+    hr {
+      border: 5px solid #FF2E37;
+      border-radius: 5px;
+    }
+    
     #dropdown-container {
-      display: flex;
+      margin: auto;
+      margin-top: 4%;
       font-weight: bold;
-      align-items: center;
-      gap: 15px;
-      padding: 10px 20px;
-      background-color: rgba(255, 255, 255, 0.9);
+      width: 650px;
+      gap: 10px;
+      padding: 10px 30px;
+      background-color: #ffd7e1;
+      border: 2px solid black;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      position: absolute;
-      top: 10px;
     }
+
     #resetButton {
-      background-color: red;
-      border: 1px solid black;
+      color: black;
+      background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
+      padding: 10px 20px;
+      margin-left: 40px;
+      border: 1px solid #FF2E37;
       user-select: none;
     }
     #resetButton:hover {
-      background-color: darkred;
-    }
-
-    .message-box {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      font-size: 24px;
-      top: 150px; /* Adjust the value as needed */
+      border: 1px solid white;
     }
 
     #drag-ruler {
+      right: 50%; transform: translateX(50%);
       /* Add your preferred styles for the ruler */
       width: 570px;
       height: 30px;
       background-color: darkblue;
+      opacity: 0.75;
       text-align: right;
       padding-right: 10px;
       color: white;
@@ -57,7 +63,7 @@
       border-radius: 1px;
       box-shadow: 1px 1px 1px black;
       z-index: 1000;  /* Add this line */
-      position: relative;
+      bottom: 40%;
       user-select: none;
     }
 
@@ -68,10 +74,10 @@
 
     #shape-buttons {
       display: flex;
-      margin-bottom: 40px;
+      justify-content: center;  /* Center horizontally */
+      align-items: center;  /* Align items vertically */
+      margin: 20px;
       gap: 10px;
-      position: fixed; /* replace this with the type of the position */
-      top: 100px; /* replace this with the value from the top edge */
       user-select: none;
     }
 
@@ -81,23 +87,25 @@
       font-weight: bold;
       border-radius: 5px;
       cursor: pointer;
-      background-color: #007bff;
-      color: white;
+      color: black;
+      background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
       transition: background-color 0.3s;
     }
     .shape-button:hover {
-      background-color: #0056b3;
+      border: 1px solid white;
     }
-    .shape {
-      border: 1px solid black;
+    .shape-button:focus {
+      padding: 7px 12px;
+      border: 4px solid black;
     }
 
-    #shapes-container {
-      position: relative;
+    #shapes-container {      
       display: flex;
+      justify-content: center;
       flex-direction: column;
-      align-items: center;
-      justify-content: space-around; /* Or use 'justify-content: space-between' if you want them to take up as much space as possible */
+      padding-top: 30px;
+      padding-bottom: 30px;
+      min-height: 500px;
       gap: 50px;
       width: 100%;
     }
@@ -105,33 +113,45 @@
     .shape-container {
       display: flex;
       justify-content: center;
-      align-items: center;
-      gap: 50px;
-      /* No absolute positioning here, so they can flow normally in the #shapes-container flex context */
     }
-    .shape {
-      border: 1px solid black;
-    }
+    
     .sphere {
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: radial-gradient(circle, #ffc87f 30%, #d68a40 90%);
     }
+    
     .cube {
       width: 50px;
       height: 30px;
-      background: linear-gradient(135deg, #ffc87f 40%, #d68a40 100%);
     }
+    
     .cylinder {
       width: 30px;
       height: 40px;
-      background: linear-gradient(180deg, #ffc87f 30%, #d68a40 100%);
       border-radius: 10px;
     }
+    
   </style>
 </head>
 <body>
+<div id="instruction-message">
+<h2 style="font-size: 24pt; color: #ff2e37; text-align: left;">
+<strong>Simulation Instructions</strong>
+</h2>
+<p>
+Use this lab simulation to follow along with your Illustrated Experimental Plan for the FOS Lab Period 1 Experiment.
+  <ol>
+  <li>To begin, use the <strong>drop-down menu</strong> to select your assigned set of metal pieces.</li>
+  <li>Then use the <strong>ADD buttons</strong> to display the three viewing angles for each piece of your assigned metal.</li>
+  <li>You can drag the ruler to measure the pieces individually. Each piece will be displayed from three viewing angles, so that all three sides of the object can be measured. Keep in mind that the three displayed images are representing a single object!</li>
+  </ol>
+</p>
+<p>
+You can restart the simulation at any time by clicking on the <strong>Reset All Controls</strong> button.
+</p>
+</div>
+<hr>
 <div id="dropdown-container">
   <label for="shapeSetSelector">Select Assigned Metal:</label>
   <select id="shapeSetSelector">
@@ -140,17 +160,16 @@
     <option value="set2">Set 2</option>
     <option value="set3">Set 3</option>
   </select>
-  <button id="resetButton" class="shape-button">RESET</button>
+  <button id="resetButton" class="shape-button">Reset All Controls</button>
 </div>
 <div id="drag-ruler" style="position:absolute; cursor:move;"><span id="cmText">cm</span></div>
-<div id="message" class="message-box"></div>
 <div id="shape-buttons" style="display: none;">
-  <button id="addSphere" class="shape-button">Add Ellipsoid</button>
-  <button id="addCube" class="shape-button">Add Cuboid</button>
-  <button id="addCylinder" class="shape-button">Add Cylinder</button>
-  <button id="removeShapes" class="shape-button" style="background-color: darkred;">Remove Shapes</button>
+  <button id="View1" class="shape-button">Add Ellipsoid</button>
+  <button id="View2" class="shape-button">Add Cuboid</button>
+  <button id="View3" class="shape-button">Add Cylinder</button>
 </div>
 <div id="shapes-container"></div>
+<hr>
 <script>
   // JavaScript to make the ruler draggable:
   var dragRuler = document.querySelector('#drag-ruler');
@@ -207,7 +226,7 @@
   }
 
 
-  document.getElementById("resetButton").addEventListener("click", () => {
+document.getElementById("resetButton").addEventListener("click", () => {
     // Clear shapes
     document.getElementById("shapes-container").innerHTML = "";
 
@@ -217,17 +236,18 @@
 
     // Hide the shape buttons
     document.getElementById("shape-buttons").style.display = "none";
-  });
 
-  document.getElementById("removeShapes").addEventListener("click", () => {
-    document.getElementById("shapes-container").innerHTML = "";
-  });
+    // Reset the ruler position to the center
+    const dragRuler = document.getElementById("drag-ruler");
+    dragRuler.style.top = `700px`;
+});
 
 
 
   const set1Colors = ["#ffc87fff", "#ffc87fff", "#ffc87fff"];
   const set2Colors = ["#e69b56ff", "#e69b56ff", "#e69b56ff"];
   const set3Colors = ["#b7b7b7ff", "#b7b7b7ff", "#b7b7b7ff"];
+  
 
   function addShapes(shapeClasses, dimensions, colorSet) {
     const mainContainer = document.getElementById('shapes-container');
@@ -300,7 +320,8 @@
     { width: 29.5, height: 48.1 },
   ];
 
-  document.getElementById("addSphere").addEventListener("click", () => {
+
+  document.getElementById("View1").addEventListener("click", () => {
     const selectedSet = document.getElementById("shapeSetSelector").value;
     let dimensions;
     let colorSet;
@@ -327,7 +348,7 @@
     addShapes(shapeClasses, dimensions, colorSet);
   });
 
-  document.getElementById("addCube").addEventListener("click", () => {
+  document.getElementById("View2").addEventListener("click", () => {
     const selectedSet = document.getElementById("shapeSetSelector").value;
     let dimensions;
     let colorSet;
@@ -354,7 +375,7 @@
     addShapes(shapeClasses, dimensions, colorSet);
   });
 
-  document.getElementById("addCylinder").addEventListener("click", () => {
+  document.getElementById("View3").addEventListener("click", () => {
     const selectedSet = document.getElementById("shapeSetSelector").value;
     let dimensions;
     let colorSet;
@@ -381,18 +402,7 @@
     addShapes(shapeClasses, dimensions, colorSet);
   });
 
-  // Set the default text when the page loads.
-  var messageElement = document.getElementById("message");
-  messageElement.textContent = "Drag the ruler to measure the shapes. Each shape will be displayed from three different angles so that all sides can be measured. Remember that all the angles are representing a single Ellipsoid, Cuboid, or Cylinder!";
-
   document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
-    // If "Choose from Dropdown" is selected.
-    if(event.target.value === "") {
-      messageElement.textContent = "Your text goes here.";
-    } else {
-      messageElement.textContent = ""; // Clear the message when another option is selected.
-    }
-
     document.getElementById("shape-buttons").style.display = event.target.value ? "flex" : "none";
     document.getElementById("shapes-container").innerHTML = "";
   });
