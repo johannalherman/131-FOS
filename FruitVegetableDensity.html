@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Measure Shapes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;      
+      padding: 20px;
+      text-align: center;          
+    }
+        
+    #instruction-message {
+      max-width: 800px;
+      font-size: 18px;
+      margin: auto;
+      text-align: left;
+    }
+    
+    hr {
+      border: 5px solid #FF2E37;
+      border-radius: 5px;
+    }
+    
+    #dropdown-container {
+      margin: auto;
+      margin-top: 20px;
+      font-weight: bold;
+      min-width: 550px; 
+      max-width: 600px;
+      gap: 10px;
+      padding: 10px 30px;
+      background-color: #ffd7e1;
+      border: 2px solid black;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #resetButton {
+      color: black;
+      background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
+      padding: 10px 20px;
+      margin-left: 40px;
+      border: 1px solid #FF2E37;
+      user-select: none;
+    }
+    #resetButton:hover {
+      border: 1px solid white;
+    }
+
+    #drag-ruler {
+      right: 50%; transform: translateX(50%);
+      /* Add your preferred styles for the ruler */
+      width: 570px;
+      height: 30px;
+      background-color: darkblue;
+      opacity: 0.75;
+      text-align: right;
+      padding-right: 10px;
+      color: white;
+      padding-top: 15px;
+      border-radius: 1px;
+      box-shadow: 1px 1px 1px black;
+      z-index: 1000;  /* Add this line */
+      top: 550px;
+      user-select: none;
+    }
+
+    #cmText {
+      transform: rotate(90deg);
+      color: white;
+    }
+
+    #shape-buttons {
+      display: flex;
+      justify-content: center;  /* Center horizontally */
+      align-items: center;  /* Align items vertically */
+      margin: 20px;
+      gap: 10px;
+      user-select: none;
+    }
+
+    .shape-button {
+      padding: 10px 15px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      color: black;
+      background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
+      transition: background-color 0.3s;
+    }
+    .shape-button:hover {
+      border: 1px solid white;
+    }
+    .shape-button:focus {
+      padding: 7px 12px;
+      border: 4px solid black;
+    }
+
+    #shapes-container {      
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding-top: 30px;
+      padding-bottom: 30px;
+      min-height: 500px;
+      gap: 50px;
+      width: 100%;
+    }
+
+    .shape-container {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .sphere {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    
+    .cube {
+      width: 50px;
+      height: 30px;
+    }
+    
+    .cylinder {
+      width: 30px;
+      height: 40px;
+      border-radius: 10px;
+    }
+    
+  </style>
+</head>
+<body>
+<div id="instruction-message">
+<h2 style="font-size: 24pt; color: #ff2e37; text-align: left;">
+<strong>Simulation Instructions</strong>
+</h2>
+<p>
+Use the following simulation to determine the mass of three pieces of a fruit or vegetable. Then, use the measurement method to determine the volume of each piece.
+  <ol>
+  <li>To begin, use the <strong>drop-down menu</strong> to select your assigned fruit/vegetable.</li>
+  <li>Then use the <strong>View Piece # buttons</strong> to display the three viewing angles for each piece of fruit/vegetable.</li>
+  <li>You can drag the ruler to measure the pieces individually. Each piece will be displayed from three viewing angles, so that all three sides of the object can be measured. Keep in mind that the three displayed images are representing a single object!</li>
+  </ol>
+</p>
+<p>
+You can restart the simulation at any time by clicking on the <strong>Reset All Controls</strong> button.
+</p>
+</div>
+<hr>
+<div id="dropdown-container">
+  <label for="shapeSetSelector">Select Assigned Metal:</label>
+  <select id="shapeSetSelector">
+    <option value="" selected>Choose from Dropdown</option>
+    <option value="set1">Green Beans</option>
+    <option value="set2">Cantaloupe Melon Balls</option>
+    <option value="set3">Banana Slices</option>
+    <option value="set4">Cherries</option>
+  </select>
+  <button id="resetButton" class="shape-button">Reset All Controls</button>
+</div>
+<div id="drag-ruler" style="position:absolute; cursor:move;"><span id="cmText">cm</span></div>
+<div id="shape-buttons" style="display: none;">
+  <button id="View1" class="shape-button">View Piece #1</button>
+  <button id="View2" class="shape-button">View Piece #2</button>
+  <button id="View3" class="shape-button">View Piece #3</button>
+</div>
+<div id="shapes-container"></div>
+<hr>
+<script>
+  // JavaScript to make the ruler draggable:
+  var dragRuler = document.querySelector('#drag-ruler');
+  var draggingRuler = false;
+
+  document.onmousedown = function(event) {
+    if (event.target == dragRuler) {
+      draggingRuler = true;
+      moveAt(event.pageX, event.pageY);
+    }
+  };
+
+  document.onmousemove = function(event) {
+    if (draggingRuler) {
+      moveAt(event.pageX, event.pageY);
+    }
+  };
+
+  document.onmouseup = function(event) {
+    draggingRuler = false;
+  };
+
+  function moveAt(pageX, pageY) {
+    dragRuler.style.left = pageX - dragRuler.offsetWidth / 2 + 'px';
+    dragRuler.style.top = pageY - dragRuler.offsetHeight / 2 + 'px';
+  }
+
+  // Generate ticks
+  for (let i = 5; i <= 105; i ++) {
+    var tick = document.createElement('div');
+    tick.style.width = '1px';
+    tick.style.position = 'absolute';
+    tick.style.left = i * 5 + 'px';
+    tick.style.bottom = '0';
+    tick.style.background = 'white';
+
+    if (i % 10 === 0) {  // every 10th tick mark
+      tick.style.height = '10px';
+    } else if (i % 5 === 0) {  // every 5th tick mark
+      tick.style.height = '15px';
+      let label = document.createElement('div');
+      label.textContent = (i - 5) / 10;  // Set the label text to the current tick number
+      label.style.position = 'absolute';
+      label.style.top = '-20px';  // Adjust this value as needed
+      label.style.left = '-4px';  // Adjust this value as needed
+      label.style.color = 'white';
+      tick.appendChild(label);
+
+    } else {  // default tick mark
+      tick.style.height = '5px';
+    }
+
+    dragRuler.appendChild(tick);
+  }
+
+
+document.getElementById("resetButton").addEventListener("click", () => {
+    // Clear shapes
+    document.getElementById("shapes-container").innerHTML = "";
+
+    // Reset the dropdown
+    const shapeSetSelector = document.getElementById("shapeSetSelector");
+    shapeSetSelector.value = "";
+
+    // Hide the shape buttons
+    document.getElementById("shape-buttons").style.display = "none";
+
+    // Reset the ruler position to the center
+    const dragRuler = document.getElementById("drag-ruler");
+    dragRuler.style.top = `700px`;
+});
+
+
+
+  const set1Colors = ["#607c3c", "#607c3c", "#607c3c"];
+  const set2Colors = ["#FFA62F", "#FFA62F", "#FFA62F"];
+  const set3Colors = ["#ffe135", "#ffe135", "#ffe135"];
+  const set4Colors = ["#B62625", "#B62625", "#B62625"];
+
+  function addShapes(shapeClasses, dimensions, colorSet) {
+    const mainContainer = document.getElementById('shapes-container');
+    mainContainer.innerHTML = '';
+    for (let i = 0; i < dimensions.length; i++) {
+      const shapeElement = document.createElement('div');
+      shapeElement.classList.add(shapeClasses[i]);
+      shapeElement.style.width = dimensions[i].width + 'px';
+      shapeElement.style.height = dimensions[i].height + 'px';
+      const gradient = `linear-gradient(to right, ${colorSet.join(",")})`;
+      shapeElement.style.background = gradient;
+      const shapeContainer = document.createElement('div');
+      shapeContainer.classList.add('shape-container');
+      shapeContainer.appendChild(shapeElement);
+      mainContainer.appendChild(shapeContainer);
+    }
+  }
+
+  const GB1Dimensions = [
+    { width: 278.7, height: 50.0 },
+    { width: 50.0, height: 50.0 },
+    { width: 50.0, height: 50.0 },
+  ];
+
+  const GB2Dimensions = [
+    { width: 278.7, height: 50.0 },
+    { width: 50.0, height: 50.0 },
+    { width: 50.0, height: 50.0 },
+  ];
+
+  const GB3Dimensions = [
+    { width: 278.7, height: 50.0 },
+    { width: 50.0, height: 50.0 },
+    { width: 50.0, height: 50.0 },
+  ];
+
+  const CMB1Dimensions = [
+    { width: 150.0, height: 150.0 },
+    { width: 150.0, height: 150.0 },
+    { width: 150.0, height: 150.0 },
+  ];
+
+  const CMB2Dimensions = [
+    { width: 150.0, height: 150.0 },
+    { width: 150.0, height: 150.0 },
+    { width: 150.0, height: 150.0 },
+  ];
+
+  const CMB3Dimensions = [
+    { width: 150.0, height: 150.0 },
+    { width: 150.0, height: 150.0 },
+    { width: 150.0, height: 150.0 },
+  ];
+
+  const BS1Dimensions = [
+    { width: 150.0, height: 40.0 },
+    { width: 150.0, height: 150.0 },
+    { width: 150.0, height: 150.0 },
+  ];
+
+  const BS2Dimensions = [
+    { width: 150.0, height: 40.0 },
+    { width: 150.0, height: 150.0 },
+    { width: 150.0, height: 150.0 },
+  ];
+
+  const BS3Dimensions = [
+    { width: 150.0, height: 40.0 },
+    { width: 150.0, height: 150.0 },
+    { width: 150.0, height: 150.0 },
+  ];
+
+  const C1Dimensions = [
+    { width: 100.0, height: 100.0 },
+    { width: 100.0, height: 100.0 },
+    { width: 100.0, height: 100.0 },
+  ];
+
+  const C2Dimensions = [
+    { width: 100.0, height: 100.0 },
+    { width: 100.0, height: 100.0 },
+    { width: 100.0, height: 100.0 },
+  ];
+
+  const C3Dimensions = [
+    { width: 100.0, height: 100.0 },
+    { width: 100.0, height: 100.0 },
+    { width: 100.0, height: 100.0 },
+  ];
+
+  document.getElementById("View1").addEventListener("click", () => {
+    const selectedSet = document.getElementById("shapeSetSelector").value;
+    let dimensions;
+    let colorSet;
+    let shapeClasses;
+    switch (selectedSet) {
+      case 'set1':
+        dimensions = GB1Dimensions;
+        colorSet = set1Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set2':
+        dimensions = CMB1Dimensions;
+        colorSet = set2Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      case 'set3':
+        dimensions = BS1Dimensions;
+        colorSet = set3Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set4':
+        dimensions = C1Dimensions;
+        colorSet = set4Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      default:
+        dimensions = []; // Default to an empty array
+    }
+    addShapes(shapeClasses, dimensions, colorSet);
+  });
+
+  document.getElementById("View2").addEventListener("click", () => {
+    const selectedSet = document.getElementById("shapeSetSelector").value;
+    let dimensions;
+    let colorSet;
+    let shapeClasses;
+    switch (selectedSet) {
+      case 'set1':
+        dimensions = GB2Dimensions;
+        colorSet = set1Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set2':
+        dimensions = CMB2Dimensions;
+        colorSet = set2Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      case 'set3':
+        dimensions = BS2Dimensions;
+        colorSet = set3Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set4':
+        dimensions = C2Dimensions;
+        colorSet = set4Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      default:
+        dimensions = []; // Default to an empty array
+    }
+    addShapes(shapeClasses, dimensions, colorSet);
+  });
+
+  document.getElementById("View3").addEventListener("click", () => {
+    const selectedSet = document.getElementById("shapeSetSelector").value;
+    let dimensions;
+    let colorSet;
+    let shapeClasses;
+    switch (selectedSet) {
+      case 'set1':
+        dimensions = GB1Dimensions;
+        colorSet = set1Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set2':
+        dimensions = CMB3Dimensions;
+        colorSet = set2Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      case 'set3':
+        dimensions = BS3Dimensions;
+        colorSet = set3Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set4':
+        dimensions = C3Dimensions;
+        colorSet = set4Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      default:
+        dimensions = []; // Default to an empty array
+    }
+    addShapes(shapeClasses, dimensions, colorSet);
+  });
+
+  document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
+    document.getElementById("shape-buttons").style.display = event.target.value ? "flex" : "none";
+    document.getElementById("shapes-container").innerHTML = "";
+  });
+
+</script>
+</body>
+</html>
