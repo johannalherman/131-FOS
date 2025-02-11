@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Measure Shapes</title>
+  <title>Chem 131 FOS-1 Metal Density Simulation</title>
   <style>
     body {
       max-width: 1000px;
@@ -19,13 +19,13 @@
     }
     
     hr {
+      margin: auto;
       border: 5px solid #FF2E37;
       border-radius: 5px;
     }
     
     #dropdown-container {
-      margin: auto;
-      margin-top: 4%;
+      margin: 20px auto 20px auto;
       font-size: 16px;
       font-weight: bold;
       width: 650px;
@@ -41,7 +41,7 @@
       color: black;
       background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
       padding: 10px 20px;
-      margin-left: 40px;
+      margin-left: 60px;
       border: 1px solid #FF2E37;
       user-select: none;
     }
@@ -50,13 +50,12 @@
     }
 
     #drag-ruler {
-      right: 50%; transform: translateX(50%);
       /* Add your preferred styles for the ruler */
       width: 570px;
       height: 30px;
       background-color: darkblue;
       opacity: 0.75;
-      font-size: 16px;
+      font-size: 14px;
       text-align: right;
       padding-right: 10px;
       color: white;
@@ -64,7 +63,8 @@
       border-radius: 1px;
       box-shadow: 1px 1px 1px black;
       z-index: 1000;  /* Add this line */
-      bottom: 40%;
+      bottom: -5%;
+      right: 50%; transform: translateX(20%);
       user-select: none;
     }
 
@@ -83,31 +83,26 @@
     }
 
     .shape-button {
-      padding: 10px 15px;
-      font-size: 14px;
-      font-weight: bold;
+      padding: 10px 20px;
+      font-size: 16px;
       border-radius: 5px;
       cursor: pointer;
-      color: black;
-      background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
       transition: background-color 0.3s;
     }
     .shape-button:hover {
       border: 1px solid white;
     }
     .shape-button:focus {
-      padding: 7px 12px;
-      border: 4px solid black;
+      padding: 8px 18px;
+      border: 4px solid #FF2E37;
     }
 
     #shapes-container {      
       display: flex;
       justify-content: center;
       flex-direction: column;
-      padding-top: 30px;
-      padding-bottom: 30px;
-      min-height: 500px;
-      gap: 50px;
+      padding: 60px 10px;
+      gap: 80px;
       width: 100%;
     }
 
@@ -115,22 +110,100 @@
       display: flex;
       justify-content: center;
     }
-    
+
+    .shape {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 1px solid black;
+    }
+
     .sphere {
-      width: 30px;
-      height: 30px;
       border-radius: 50%;
+      background: radial-gradient(circle, #ffc87f 30%, #d68a40 90%);
+      box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
     }
-    
+
     .cube {
-      width: 50px;
-      height: 30px;
+      width: 50px; /* Change width to make it a rectangle */
+      height: 30px; /* Keep height smaller */
+      background: linear-gradient(135deg, #ffc87f 40%, #d68a40 100%);
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .cylinder {
+      background: linear-gradient(180deg, #ffc87f 30%, #d68a40 100%);
+      border-radius: 10px;
+      box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
     }
     
-    .cylinder {
-      width: 30px;
-      height: 40px;
-      border-radius: 10px;
+    .row {
+      display: flex;
+    }
+
+    .column {
+      flex: 50%;
+      padding: 0px 20px;
+    }
+    
+    @media screen and (max-width: 500px) {
+    .column {
+        width: 100%;
+      }
+    }
+
+    .button-container button {
+      margin-top: 40px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    #work-bench-1, #work-bench-2 {
+      margin: 20px 0px 20px 0px;
+      border: 2px solid #FF2E37;
+      border-radius: 8px;
+      box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+      height: 650px;
+      width: 450px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    #work-bench-3 {
+      margin: 20px 0px 20px 0px;
+      border: 2px solid #FF2E37;
+      border-radius: 8px;
+      box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+      height: 300px;
+      width: 450px;
+      position: relative;
+      display: inline-block;
+    }
+
+    #pan {
+      width: 150px;
+      height: 10px;
+      position: absolute;
+      bottom: 34.5%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+        
+    #total-mass {
+      position: absolute;
+      bottom: 21.5%; /* Adjust as needed */
+      left: 50%; /* Adjust as needed */
+      transform: translateX(-50%);
+      border-radius: 5px;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 0;
+    }
+    
+    #beaker, #cylinder {
+      width: 400px;
+      z-index: 1;
     }
     
   </style>
@@ -140,17 +213,15 @@
 <h2 style="font-size: 24pt; color: #ff2e37; text-align: left;">
 <strong>Simulation Instructions</strong>
 </h2>
-<p>
-Use this lab simulation to follow along with your Illustrated Experimental Plan for the FOS Lab Period 1 Experiment.
+<p>Use this lab simulation to follow along with your Illustrated Experimental Plan for the FOS Lab Period 1 Experiment.
   <ol>
-  <li>To begin, use the <strong>drop-down menu</strong> to select your assigned set of metal pieces.</li>
-  <li>Then use the <strong>ADD buttons</strong> to display the three viewing angles for each piece of your assigned metal.</li>
-  <li>You can drag the ruler to measure the pieces individually. Each piece will be displayed from three viewing angles, so that all three sides of the object can be measured. Keep in mind that the three displayed images are representing a single object!</li>
+  <li>Use the <strong>drop-down menu</strong> to select your assigned set of metal pieces.</li>
+  <li>Use the <strong>shape tabs</strong> to toggle between the three differently shaped pieces of your assigned metal.</li>
+  <li><strong>Drag the ruler</strong> within the left panel to measure the three dimensions of each piece individually. Each piece will be displayed in three ways, so that all three sides of the object can be measured.</li>
+  <li>In the right panel, use the buttons under the balance to obtain a mass for each peice of your metal.</li>
   </ol>
 </p>
-<p>
-You can restart the simulation at any time by clicking on the <strong>Reset All Controls</strong> button.
-</p>
+<p>You can restart the simulation at any time by clicking on the <strong>Reset All Controls</strong> button.</p>
 </div>
 <hr>
 <div id="dropdown-container">
@@ -164,14 +235,131 @@ You can restart the simulation at any time by clicking on the <strong>Reset All 
   <button id="resetButton" class="shape-button">Reset All Controls</button>
 </div>
 <div id="drag-ruler" style="position:absolute; cursor:move;"><span id="cmText">cm</span></div>
-<div id="shape-buttons" style="display: none;">
-  <button id="View1" class="shape-button">Add Ellipsoid</button>
-  <button id="View2" class="shape-button">Add Cuboid</button>
-  <button id="View3" class="shape-button">Add Cylinder</button>
-</div>
-<div id="shapes-container"></div>
+  <div class="row">
+
+    <div class="column">
+    
+      <!--Area #1 Code-->
+      <div id="work-bench-1"> 
+      
+        <div id="shape-buttons">
+          <button id="View1" class="shape-button" type="button" disabled>Ellipsoid</button>
+          <button id="View2" class="shape-button" type="button" disabled>Cuboid</button>
+          <button id="View3" class="shape-button" type="button" disabled>Cylinder</button>
+        </div>     
+        <p style="font-size: 13.9pt; padding: 0px 10px;">The three images below display a single piece of your assigned metal. Each image represents the view from one angle of the same object.</p>
+        <div id="shapes-container"></div>
+      </div>
+      
+    </div>
+
+    <div class="column">
+    <div id="work-bench-2"></div>
+    </div>
+  </div>
+    
+      <!--Area #3 Code--> 
+      <div id="work-bench-3" style="width: 95%">
+        <div id="pan"></div>
+        <img id="beaker" src="https://github.com/johannalherman/Chem131/blob/main/Balance.png?raw=true">
+        <p id="total-mass"><span>0.000</span> g</p>
+        <div class="button-container" style="margin-bottom: 40px;">
+          <button id="addSphere" class="shape-button" type="button" disabled>Add Ellipsoid</button>
+          <button id="addCube" class="shape-button" type="button" disabled>Add Cuboid</button>
+          <button id="addCylinder" class="shape-button" type="button" disabled>Add Cylinder</button>
+          <button id="tareButton" class="shape-button" style="margin-top: 10px;">Tare</button>
+          <button id="removeShapes" class="shape-button">Clear Balance</button>
+        </div>
+      </div>
+      
 <hr>
+<p style="font-size: 16pt; color: #ff2e37; text-align: left;"><em>This simulation was designed for use on a laptop or desktop computer. This simulation may not function properly on a mobile device.</em></p>
+
 <script>
+
+let currentSet = "";
+let totalWeight = 0;
+let tareOffset = 0;
+let addedShapes = {};
+
+function getRandomAmount(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function disableButtons1() {
+  View1.disabled = true;
+  View2.disabled = true;
+  View3.disabled = true;
+}
+
+function enableButtons1() {
+  View1.disabled = false;
+  View2.disabled = false;
+  View3.disabled = false;
+}    
+
+function disableButtons2() {
+  addSphere.disabled = true;
+  addCube.disabled = true;
+  addCylinder.disabled = true;
+}
+
+function enableButtons2() {
+  addSphere.disabled = false;
+  addCube.disabled = false;
+  addCylinder.disabled = false;
+}
+
+document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
+  // for Metal ruler measurement panel
+  enableButtons1();
+  totalMass1 = getRandomAmount(-0.010, 0.010);
+  tareOffset = 0;
+  document.getElementById("shapes-container").innerHTML = "";
+
+  // for Metal mass measurement panel
+  currentSet = event.target.value;
+  removeShapes(); // Remove previous shapes first
+  totalWeight = parseFloat((getRandomAmount(0.005, 0.05)).toFixed(3));
+  tareOffset = 0; // Reset tare offset when changing sets
+  updateMassDisplay1();
+  enableButtons2();
+});
+
+document.getElementById("resetButton").addEventListener("click", () => {
+	// for Metal ruler measurement panel
+  totalMass1 = 0;
+  tareOffset = 0;
+  disableButtons1();
+  document.getElementById("shapes-container").innerHTML = "";
+    
+  // for Metal mass measurement panel
+  totalWeight = 0;
+  tareOffset = 0;
+  currentSet = "";
+  disableButtons2();
+  removeShapes();
+  updateMassDisplay1();
+
+  // Reset dropdown
+  const shapeSetSelector = document.getElementById("shapeSetSelector");
+  shapeSetSelector.value = "";
+});
+  
+function updateMassDisplay1() {
+  document.getElementById("total-mass").textContent = `${(totalWeight - tareOffset).toFixed(3)} g`;
+}
+
+function removeShapes() {
+  for (let shape in addedShapes) {
+    totalWeight -= addedShapes[shape].mass;
+    addedShapes[shape].element.remove();
+  }
+  addedShapes = {};
+  updateMassDisplay1();
+}
+
+
   // JavaScript to make the ruler draggable:
   var dragRuler = document.querySelector('#drag-ruler');
   var draggingRuler = false;
@@ -226,31 +414,7 @@ You can restart the simulation at any time by clicking on the <strong>Reset All 
     dragRuler.appendChild(tick);
   }
 
-
-document.getElementById("resetButton").addEventListener("click", () => {
-    // Clear shapes
-    document.getElementById("shapes-container").innerHTML = "";
-
-    // Reset the dropdown
-    const shapeSetSelector = document.getElementById("shapeSetSelector");
-    shapeSetSelector.value = "";
-
-    // Hide the shape buttons
-    document.getElementById("shape-buttons").style.display = "none";
-
-    // Reset the ruler position to the center
-    const dragRuler = document.getElementById("drag-ruler");
-    dragRuler.style.top = `700px`;
-});
-
-
-
-  const set1Colors = ["#ffc87fff", "#ffc87fff", "#ffc87fff"];
-  const set2Colors = ["#e69b56ff", "#e69b56ff", "#e69b56ff"];
-  const set3Colors = ["#b7b7b7ff", "#b7b7b7ff", "#b7b7b7ff"];
-  
-
-  function addShapes(shapeClasses, dimensions, colorSet) {
+function addShapes_1(shapeClasses, dimensions, colorSet) {
     const mainContainer = document.getElementById('shapes-container');
     mainContainer.innerHTML = '';
     for (let i = 0; i < dimensions.length; i++) {
@@ -266,6 +430,10 @@ document.getElementById("resetButton").addEventListener("click", () => {
       mainContainer.appendChild(shapeContainer);
     }
   }
+
+  const set1Colors = ["#ffc87fff", "#ffc87fff", "#ffc87fff"];
+  const set2Colors = ["#e69b56ff", "#e69b56ff", "#e69b56ff"];
+  const set3Colors = ["#b7b7b7ff", "#b7b7b7ff", "#b7b7b7ff"];
 
   const sphereSet1Dimensions = [
     { width: 53.1, height: 48.8 },
@@ -320,7 +488,36 @@ document.getElementById("resetButton").addEventListener("click", () => {
     { width: 48.1, height: 29.5 },
     { width: 29.5, height: 48.1 },
   ];
+  
+  const shapeSets = {
+    set1: { sphere: 4.899, cube: 21.202, cylinder: 50.138 },
+    set2: { sphere: 8.969, cube: 38.866, cylinder: 34.035 },
+    set3: { sphere: 2.251, cube: 11.740, cylinder: 6.108 }
+  };
+  const shapeColors = {
+    set1: { sphere: '#ffc87fff', cube: '#ffc87fff', cylinder: '#ffc87fff' },
+    set2: { sphere: '#e69b56ff', cube: '#e69b56ff', cylinder: '#e69b56ff' },
+    set3: { sphere: '#b7b7b7ff', cube: '#b7b7b7ff', cylinder: '#b7b7b7ff' }
+  };
 
+  const shapeGradients = {
+    set1: {
+      sphere: 'radial-gradient(circle, #ffc87fff, #cea064)',
+      cube: 'linear-gradient(45deg, #ffc87fff, #cea064)',
+      cylinder: 'linear-gradient(45deg, #ffc87fff, #cea064)'
+    },
+    set2: {
+
+      sphere: 'radial-gradient(circle, #e69b56ff, #c07d3f)',
+      cube: 'linear-gradient(45deg, #e69b56ff, #c07d3f)',
+      cylinder: 'linear-gradient(45deg, #e69b56ff, #c07d3f)'
+    },
+    set3: {
+      sphere: 'radial-gradient(circle, #b7b7b7ff, #9b9b9b)',
+      cube: 'linear-gradient(45deg, #b7b7b7ff, #9b9b9b)',
+      cylinder: 'linear-gradient(45deg, #b7b7b7ff, #9b9b9b)'
+    }
+  };
 
   document.getElementById("View1").addEventListener("click", () => {
     const selectedSet = document.getElementById("shapeSetSelector").value;
@@ -346,9 +543,8 @@ document.getElementById("resetButton").addEventListener("click", () => {
       default:
         dimensions = []; // Default to an empty array
     }
-    addShapes(shapeClasses, dimensions, colorSet);
+    addShapes_1(shapeClasses, dimensions, colorSet);
   });
-
   document.getElementById("View2").addEventListener("click", () => {
     const selectedSet = document.getElementById("shapeSetSelector").value;
     let dimensions;
@@ -373,9 +569,8 @@ document.getElementById("resetButton").addEventListener("click", () => {
       default:
         dimensions = []; // Default to an empty array
     }
-    addShapes(shapeClasses, dimensions, colorSet);
+    addShapes_1(shapeClasses, dimensions, colorSet);
   });
-
   document.getElementById("View3").addEventListener("click", () => {
     const selectedSet = document.getElementById("shapeSetSelector").value;
     let dimensions;
@@ -400,13 +595,56 @@ document.getElementById("resetButton").addEventListener("click", () => {
       default:
         dimensions = []; // Default to an empty array
     }
-    addShapes(shapeClasses, dimensions, colorSet);
-  });
+    addShapes_1(shapeClasses, dimensions, colorSet);
+  });    
 
-  document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
-    document.getElementById("shape-buttons").style.display = event.target.value ? "flex" : "none";
-    document.getElementById("shapes-container").innerHTML = "";
+function addShape(shape) {
+  if (!currentSet || addedShapes[shape]) return;
+
+  const shapeElement = document.createElement("div");
+  shapeElement.classList.add("shape", shape);
+  if (shape === "cube") {
+    shapeElement.style.width = "50px";  // Make it a rectangle
+    shapeElement.style.height = "30px";
+  } else {
+    shapeElement.style.width = "30px";
+    shapeElement.style.height = shape === "cylinder" ? "40px" : "30px";
+  }
+
+  shapeElement.style.background = shapeGradients[currentSet][shape];
+  shapeElement.style.border = "1px solid black"; // Add black border
+
+  if (shape === "sphere") {
+    shapeElement.style.borderRadius = "50%";
+  }
+
+  let pan = document.getElementById("pan");
+
+  // Get the pan's position
+  const panRect = pan.getBoundingClientRect();
+
+  // Position the shape on top of the balance pan
+  shapeElement.style.position = "absolute";
+  shapeElement.style.bottom = "10px"; // Adjust this value so the shape rests on the pan
+  shapeElement.style.left = "50%";
+  shapeElement.style.transform = "translateX(-50%)";
+
+  pan.appendChild(shapeElement); // Append to body so positioning works correctly
+  addedShapes[shape] = { element: shapeElement, mass: shapeSets[currentSet][shape] };
+  totalWeight += shapeSets[currentSet][shape];
+
+  updateMassDisplay1();
+  }
+
+  document.getElementById("tareButton").addEventListener("click", () => {
+    tareOffset = totalWeight;
+    updateMassDisplay1();
   });
+  document.getElementById("removeShapes").addEventListener("click", removeShapes);
+  document.getElementById("addSphere").addEventListener("click", () => addShape("sphere"));
+  document.getElementById("addCube").addEventListener("click", () => addShape("cube"));
+  document.getElementById("addCylinder").addEventListener("click", () => addShape("cylinder"));
+
 
 </script>
 </body>
