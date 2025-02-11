@@ -217,9 +217,9 @@
 <p>Use this lab simulation to follow along with your Illustrated Experimental Plan for the FOS Lab Period 1 Experiment.
   <ol>
   <li>Use the <strong>drop-down menu</strong> to select your assigned set of metal pieces.</li>
-  <li>Use the <strong>shape tabs</strong> to toggle between the three differently shaped pieces of your assigned metal.</li>
-  <li><strong>Drag the ruler</strong> within the left panel to measure the three dimensions of each piece individually. Each piece will be displayed in three ways, so that all three sides of the object can be measured.</li>
-  <li>In the right panel, use the buttons under the balance to obtain a mass for each peice of your metal.</li>
+  <li>In the left panel, use the <strong>shape tabs</strong> to toggle between the three differently shaped pieces of your assigned metal. <strong>Drag the ruler</strong> within the left panel to measure the three dimensions of each piece individually. Each piece will be displayed in three ways, so that all three sides of the object can be measured.</li>
+  <li>In the right panel, </li>
+  <li>In the bottom panel, use the buttons under the balance to obtain a mass for each peice of your metal.</li>
   </ol>
 </p>
 <p>You can restart the simulation at any time by clicking on the <strong>Reset All Controls</strong> button.</p>
@@ -314,7 +314,7 @@ function enableButtons2() {
 document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
   // for Metal ruler measurement panel
   enableButtons1();
-  totalMass1 = getRandomAmount(-0.010, 0.010);
+  totalMass1 = getRandomAmount(0.005, 0.05);
   tareOffset = 0;
   document.getElementById("shapes-container").innerHTML = "";
 
