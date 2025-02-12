@@ -26,9 +26,9 @@
     
     #dropdown-container {
       margin: 20px auto 20px auto;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
-      width: 650px;
+      width: 800px;
       gap: 10px;
       padding: 10px 30px;
       background-color: #ffd7e1;
@@ -36,13 +36,16 @@
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
+    #shapeSetSelector {      
+      font-size: 18px;
+    }
 
     #resetButton {
       color: black;
       font-size: 16px;
       background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
       padding: 10px 20px;
-      margin-left: 60px;
+      margin-left: 80px;
       border: 1px solid #FF2E37;
       user-select: none;
     }
@@ -202,7 +205,6 @@
       transition: height 0.3s ease-in-out;
       z-index: -1;  /* Ensures water is in front of shapes */
     }
-
     .water::after {
       content: "";
       position: absolute;
@@ -397,6 +399,7 @@ document.getElementById("resetButton").addEventListener("click", () => {
   currentSet_2 = "";
   waterHeight = 0;
   removeShapes_2();
+  disableButtons2();
   // Reset water height and visually empty it
   const waterElement = document.getElementById("water");
   waterElement.style.height = "0px";
