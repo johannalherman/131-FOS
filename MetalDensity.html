@@ -6,7 +6,7 @@
   <title>Chem 131 FOS-1 Metal Density Simulation</title>
   <style>
     body {
-      max-width: 1000px;
+      width: 1000px;
       margin: auto;
       font: 24px Arial, sans-serif;     
       padding: 20px;
@@ -39,6 +39,7 @@
 
     #resetButton {
       color: black;
+      font-size: 14px;
       background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
       padding: 10px 20px;
       margin-left: 60px;
@@ -63,7 +64,7 @@
       border-radius: 1px;
       box-shadow: 1px 1px 1px black;
       z-index: 1000;  /* Add this line */
-      bottom: 0%;
+      bottom: -20%;
       right: 50%; transform: translateX(9%);
       user-select: none;
     }
@@ -73,7 +74,7 @@
       color: white;
     }
 
-    #shape-buttons {
+    #shape-buttons-1, #shape-buttons-2 {
       display: flex;
       justify-content: center;  /* Center horizontally */
       align-items: center;  /* Align items vertically */
@@ -84,13 +85,13 @@
 
     .shape-button {
       padding: 10px 20px;
-      font-size: 16px;
+      font-size: 14px;
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s;
     }
     .shape-button:hover {
-      border: 1px solid white;
+      border: 2px solid white;
     }
     .shape-button:focus {
       padding: 8px 18px;
@@ -115,18 +116,15 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      border: 1px solid black;
     }
 
     .sphere {
-      border-radius: 50%;
       background: radial-gradient(circle, #ffc87f 30%, #d68a40 90%);
+      border-radius: 50%;
       box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
     }
 
     .cube {
-      width: 50px; /* Change width to make it a rectangle */
-      height: 30px; /* Keep height smaller */
       background: linear-gradient(135deg, #ffc87f 40%, #d68a40 100%);
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     }
@@ -164,7 +162,7 @@
       border: 2px solid #FF2E37;
       border-radius: 8px;
       box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
-      height: 650px;
+      height: 680px;
       width: 450px;
       position: relative;
       display: inline-block;
@@ -175,36 +173,66 @@
       border: 2px solid #FF2E37;
       border-radius: 8px;
       box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
-      height: 410px;
+      height: 460px;
       width: 450px;
       position: relative;
       display: inline-block;
     }
 
-    #pan {
+    /* Styling for the graduated cylinder */
+    #graduated-cylinder {
+      position: relative;
+    }
+    
+    #cylinder, #beaker {
+      margin: 40px 0px 0px 0px;
+      width: 400px;
+      z-index: 1;
+    }
+
+    /* Water styling */
+    .water {
+      position: absolute;
+      bottom: 6.3%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40%;
+      background-color: #cdeaf7;  /* Light blue water */
+      border-radius: 50% / 0 0 0 0;
+      transition: height 0.3s ease-in-out;
+      z-index: -1;  /* Ensures water is in front of shapes */
+    }
+
+    .water::after {
+      content: "";
+      position: absolute;
+      top: -2px;
+      right: 0;
+      width: 100%;
+      height: 1px;
+      background: #cdeaf7; /* Subtle meniscus highlight */
+      border-radius: 10%;
+    }
+
+    #pan_3 {
       /* background: black; */
       width: 150px;
       height: 10px;
       position: absolute;
-      bottom: 49%;
+      bottom: 212px;
       left: 50%;
       transform: translateX(-50%);
     }
         
     #total-mass {
       position: absolute;
-      bottom: 28%; /* Adjust as needed */
+      bottom: 125px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       border-radius: 5px;
       font-size: 24px;
       font-weight: bold;
       z-index: 0;
-    }
-    
-    #beaker, #cylinder {
-      width: 400px;
-      z-index: 1;
     }
     
   </style>
@@ -238,37 +266,50 @@
 <div id="drag-ruler" style="position:absolute; cursor:move;"><span id="cmText">cm</span></div>
   <div class="row">
 
-    <div class="column">
-    
-      <!--Area #1 Code-->
+    <div class="column"><!--Area #1 Code-->
       <div id="work-bench-1"> 
       
-        <div id="shape-buttons">
+        <div id="shape-buttons-1">
           <button id="View1" class="shape-button" type="button" disabled>Ellipsoid</button>
           <button id="View2" class="shape-button" type="button" disabled>Cuboid</button>
           <button id="View3" class="shape-button" type="button" disabled>Cylinder</button>
         </div>     
         <p style="font-size: 13.9pt; padding: 0px 10px;">The three images below display a single piece of your assigned metal. Each image represents the view from one angle of the same object.</p>
         <div id="shapes-container"></div>
-      </div>
-      
+      </div>      
     </div>
 
-    <div class="column">
-    <div id="work-bench-2"></div>
+    <div class="column"> <!--Area #3 Code-->
+    <div id="work-bench-2">
+      <div id="shape-buttons-2">
+        <button id="addSphere_2" class="shape-button" type="button" disabled>Add Ellipsoid</button>
+        <button id="addCube_2" class="shape-button" type="button" disabled>Add Cuboid</button>
+        <button id="addCylinder_2" class="shape-button" type="button" disabled>Add Cylinder</button>
+        <button id="removeShapes_2" class="shape-button">Remove Everything</button>
+      </div>
+      <div id="graduated-cylinder">
+        <!-- Water element starts here -->
+        <div id="water" class="water"></div>
+        <img id="cylinder" src="https://github.com/johannalherman/Chem131/blob/main/Graduated%20Cylinder.png?raw=true">
+      </div>
+        <div class="button-container" style="margin-bottom: 40px;">
+          <button id="addWaterButton" class="shape-button" >Add Water</button>
+          <button id="removeWaterButton" class="shape-button" >Remove Water</button>
+        </div>      
+      </div>
     </div>
   </div>
     
       <!--Area #3 Code--> 
       <div id="work-bench-3" style="width: 95%">
-        <div id="pan"></div>
+        <div id="pan_3"></div>
         <img id="beaker" src="https://github.com/johannalherman/Chem131/blob/main/Balance.png?raw=true">
         <p id="total-mass"><span>0.000</span> g</p>
         <div class="button-container" style="margin-bottom: 40px;">
-          <button id="addSphere" class="shape-button" type="button" disabled>Add Ellipsoid</button>
-          <button id="addCube" class="shape-button" type="button" disabled>Add Cuboid</button>
-          <button id="addCylinder" class="shape-button" type="button" disabled>Add Cylinder</button>
-          <button id="removeShapes" class="shape-button">Clear Objects</button>
+          <button id="addSphere_3" class="shape-button" type="button" disabled>Add Ellipsoid</button>
+          <button id="addCube_3" class="shape-button" type="button" disabled>Add Cuboid</button>
+          <button id="addCylinder_3" class="shape-button" type="button" disabled>Add Cylinder</button>
+          <button id="removeShapes_3" class="shape-button">Clear Objects</button>
           <button id="tareButton" class="shape-button" style="margin-left: 20px;">Tare</button>
         </div>
       </div>
@@ -278,10 +319,15 @@
 
 <script>
 
-let currentSet = "";
+let currentSet_3 = "";
 let totalWeight = 0;
 let tareOffset = 0;
-let addedShapes = {};
+let addedShapes_3 = {};
+let currentSet_2 = "";
+let addedShapes_2 = {};
+let waterHeight = 0;  // Initial water height in pixels
+const cylinderVolume = 400;  // Total volume of the cylinder (in pixels, height corresponds to volume)    
+let increment = 27.5; // Adjust this value for how much water should be added per click
 
 function getRandomAmount(min, max) {
   return Math.random() * (max - min) + min;
@@ -292,7 +338,6 @@ function disableButtons1() {
   View2.disabled = true;
   View3.disabled = true;
 }
-
 function enableButtons1() {
   View1.disabled = false;
   View2.disabled = false;
@@ -300,15 +345,25 @@ function enableButtons1() {
 }    
 
 function disableButtons2() {
-  addSphere.disabled = true;
-  addCube.disabled = true;
-  addCylinder.disabled = true;
-}
-
+    addSphere_2.disabled = true;
+    addCube_2.disabled = true;
+    addCylinder_2.disabled = true;
+  }
 function enableButtons2() {
-  addSphere.disabled = false;
-  addCube.disabled = false;
-  addCylinder.disabled = false;
+  addSphere_2.disabled = false;
+  addCube_2.disabled = false;
+  addCylinder_2.disabled = false;
+}
+  
+function disableButtons3() {
+  addSphere_3.disabled = true;
+  addCube_3.disabled = true;
+  addCylinder_3.disabled = true;
+}
+function enableButtons3() {
+  addSphere_3.disabled = false;
+  addCube_3.disabled = false;
+  addCylinder_3.disabled = false;
 }
 
 document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
@@ -317,14 +372,18 @@ document.getElementById("shapeSetSelector").addEventListener("change", function(
   totalMass1 = getRandomAmount(0.005, 0.05);
   tareOffset = 0;
   document.getElementById("shapes-container").innerHTML = "";
+  
+  // for water displacement panel
+  currentSet_2 = event.target.value;
+  removeShapes_2();
 
   // for Metal mass measurement panel
-  currentSet = event.target.value;
-  removeShapes(); // Remove previous shapes first
+  currentSet_3 = event.target.value;
+  removeShapes_3(); // Remove previous shapes first
   totalWeight = parseFloat((getRandomAmount(0.005, 0.05)).toFixed(3));
   tareOffset = 0; // Reset tare offset when changing sets
   updateMassDisplay1();
-  enableButtons2();
+  enableButtons3();
 });
 
 document.getElementById("resetButton").addEventListener("click", () => {
@@ -333,13 +392,21 @@ document.getElementById("resetButton").addEventListener("click", () => {
   tareOffset = 0;
   disableButtons1();
   document.getElementById("shapes-container").innerHTML = "";
+  
+  // for water displacement panel
+  currentSet_2 = "";
+  waterHeight = 0;
+  removeShapes_2();
+  // Reset water height and visually empty it
+  const waterElement = document.getElementById("water");
+  waterElement.style.height = "0px";
     
   // for Metal mass measurement panel
   totalWeight = 0;
   tareOffset = 0;
-  currentSet = "";
-  disableButtons2();
-  removeShapes();
+  currentSet_3 = "";
+  disableButtons3();
+  removeShapes_3();
   updateMassDisplay1();
 
   // Reset dropdown
@@ -347,16 +414,19 @@ document.getElementById("resetButton").addEventListener("click", () => {
   shapeSetSelector.value = "";
 });
   
+  
+  
+  
 function updateMassDisplay1() {
   document.getElementById("total-mass").textContent = `${(totalWeight - tareOffset).toFixed(3)} g`;
 }
 
-function removeShapes() {
-  for (let shape in addedShapes) {
-    totalWeight -= addedShapes[shape].mass;
-    addedShapes[shape].element.remove();
+function removeShapes_3() {
+  for (let shape in addedShapes_3) {
+    totalWeight -= addedShapes_3[shape].mass;
+    addedShapes_3[shape].element.remove();
   }
-  addedShapes = {};
+  addedShapes_3 = {};
   updateMassDisplay1();
 }
 
@@ -488,13 +558,18 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
     { width: 254.6, height: 48.1 },
     { width: 48.1, height: 29.5 },
     { width: 29.5, height: 48.1 },
-  ];
+  ];	//height, width, lenght data
   
   const shapeSets = {
     set1: { sphere: 4.899, cube: 21.202, cylinder: 50.138 },
     set2: { sphere: 8.969, cube: 38.866, cylinder: 34.035 },
     set3: { sphere: 2.251, cube: 11.740, cylinder: 6.108 }
-  };
+  };	// mass data
+  const shapeSets2 = {
+    set1: { sphere: 19.76, cube: 85.52, cylinder: 137.61 },
+    set2: { sphere: 34.32, cube: 148.72, cylinder: 130.24 },
+    set3: { sphere: 28.572, cube: 149.074, cylinder: 77.554 }
+  };	//volume data
   const shapeColors = {
     set1: { sphere: '#ffc87fff', cube: '#ffc87fff', cylinder: '#ffc87fff' },
     set2: { sphere: '#e69b56ff', cube: '#e69b56ff', cylinder: '#e69b56ff' },
@@ -599,8 +674,125 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
     addShapes_1(shapeClasses, dimensions, colorSet);
   });    
 
-function addShape(shape) {
-  if (!currentSet || addedShapes[shape]) return;
+// Function to add shapes to the cylinder
+  function addShape_2(shape) {
+    if (!currentSet_2) return;
+    if (Object.keys(addedShapes_2).length > 0) return;
+
+    const shapeElement = document.createElement("div");
+    shapeElement.classList.add("shape", shape);
+
+
+    // Width and height values depending on the shape
+    let width = 0;
+    let height = 0;
+
+    // Assign width and height based on shape type
+    if (shape === "cylinder") {
+      width = "32px"; // Change this value to adjust the cylinder's width
+      height = "130px"; // Change this value to adjust the cylinder's height
+    } else if (shape === "sphere") {
+      width = "34px"; // You can adjust the sphere's width
+      height = "34px"; // Sphere is a circle, so width and height should match
+    } else if (shape === "cube") {
+      width = "35px"; // Adjust the cube's width here
+      height = "137px"; // Adjust the cube's height here
+    }
+
+    // Apply the width and height
+    shapeElement.style.width = width;
+    shapeElement.style.height = height;
+
+    // Set background color based on current set
+    shapeElement.style.background = shapeGradients[currentSet_2][shape];
+
+    // Add the shape to the page
+    document.body.appendChild(shapeElement);  // or wherever you want to append it
+
+    let pan_2 = document.getElementById("graduated-cylinder");
+
+    shapeElement.style.position = "absolute";
+    shapeElement.style.bottom = "27px";  // Adjust this value so the shape rests on the pan_2
+    shapeElement.style.left = "50%";
+    shapeElement.style.transform = "translateX(-50%)";
+
+    pan_2.appendChild(shapeElement);
+    addedShapes_2[shapeElement.id] = { element: shapeElement };
+
+    // Calculate the volume displacement and increase water level
+    increaseWaterLevel(shapeSets2[currentSet_2][shape]);
+
+    // Disable other buttons
+    disableButtons2();
+  }
+
+  // Function to remove all added shapes and water
+  function removeShapes_2() {
+    for (let shape in addedShapes_2) {
+      addedShapes_2[shape].element.remove();
+    }
+    addedShapes_2 = {};
+    resetWaterLevel();  // Reset water level when shapes are removed
+
+    // Enable shape buttons again
+    enableButtons2();
+  }
+  
+  // Function to handle adding water
+  document.getElementById("addWaterButton").addEventListener("click", () => {
+    let water = document.getElementById("water");
+
+    if (waterHeight + increment <= cylinderVolume) {
+      waterHeight += increment;
+      water.style.height = `${waterHeight}px`;
+    } else {
+      waterHeight = cylinderVolume; // Prevent overflow
+      water.style.height = `${waterHeight}px`;
+    }
+  });
+
+  // Function to handle removing water
+  document.getElementById("removeWaterButton").addEventListener("click", () => {
+    if (waterHeight > 0) {
+      waterHeight = Math.max(0, waterHeight - increment);
+      document.getElementById("water").style.height = `${waterHeight}px`;
+    }
+  });
+
+  // Function to reset the water level
+  function resetWaterLevel() {
+    waterHeight = 0; // Set water height to zero
+    const waterElement = document.getElementById("water");
+    waterElement.style.height = `${waterHeight}px`;  // Update the water height to zero
+  }
+
+  function increaseWaterLevel(shapeVolume) {
+    const shapeVolume_px = shapeVolume; // Convert mass to volume in pixels
+
+    // Ensure that displacement does not exceed existing water height
+    if (waterHeight > 0) {
+      let maxPossibleIncrease = Math.min(shapeVolume_px, waterHeight); // Displacement cannot exceed current water
+      waterHeight += maxPossibleIncrease; // Only increase within allowed limit
+
+      if (waterHeight > cylinderVolume) {
+        waterHeight = cylinderVolume; // Prevent overflow
+      }
+
+      document.getElementById("water").style.height = `${waterHeight}px`;
+    }
+  }
+
+  // Shape buttons for adding shapes to cylinder
+  document.getElementById("removeShapes_2").addEventListener("click", removeShapes_2);
+  document.getElementById("addSphere_2").addEventListener("click", () => addShape_2("sphere"));
+  document.getElementById("addCube_2").addEventListener("click", () => addShape_2("cube"));
+  document.getElementById("addCylinder_2").addEventListener("click", () => addShape_2("cylinder"));
+
+
+
+
+function addShape_3(shape) {
+  if (!currentSet_3 || addedShapes_3[shape]) return;
 
   const shapeElement = document.createElement("div");
   shapeElement.classList.add("shape", shape);
@@ -622,27 +814,26 @@ function addShape(shape) {
       shapeElement.style.height = "10px";
   }
 
-  shapeElement.style.background = shapeGradients[currentSet][shape];
-  shapeElement.style.border = "1px solid black"; // Add black border
+  shapeElement.style.background = shapeGradients[currentSet_3][shape];
 
   if (shape === "sphere") {
     shapeElement.style.borderRadius = "50%";
   }
 
-  let pan = document.getElementById("pan");
+  let pan_3 = document.getElementById("pan_3");
 
-  // Get the pan's position
-  const panRect = pan.getBoundingClientRect();
+  // Get the pan_3's position
+  const panRect = pan_3.getBoundingClientRect();
 
-  // Position the shape on top of the balance pan
+  // Position the shape on top of the balance pan_3
   shapeElement.style.position = "absolute";
-  shapeElement.style.bottom = "10px"; // Adjust this value so the shape rests on the pan
+  shapeElement.style.bottom = "10px"; // Adjust this value so the shape rests on the pan_3
   shapeElement.style.left = "50%";
   shapeElement.style.transform = "translateX(-50%)";
 
-  pan.appendChild(shapeElement); // Append to body so positioning works correctly
-  addedShapes[shape] = { element: shapeElement, mass: shapeSets[currentSet][shape] };
-  totalWeight += shapeSets[currentSet][shape];
+  pan_3.appendChild(shapeElement); // Append to body so positioning works correctly
+  addedShapes_3[shape] = { element: shapeElement, mass: shapeSets[currentSet_3][shape] };
+  totalWeight += shapeSets[currentSet_3][shape];
 
   updateMassDisplay1();
   }
@@ -651,10 +842,10 @@ function addShape(shape) {
     tareOffset = totalWeight;
     updateMassDisplay1();
   });
-  document.getElementById("removeShapes").addEventListener("click", removeShapes);
-  document.getElementById("addSphere").addEventListener("click", () => addShape("sphere"));
-  document.getElementById("addCube").addEventListener("click", () => addShape("cube"));
-  document.getElementById("addCylinder").addEventListener("click", () => addShape("cylinder"));
+  document.getElementById("removeShapes_3").addEventListener("click", removeShapes_3);
+  document.getElementById("addSphere_3").addEventListener("click", () => addShape_3("sphere"));
+  document.getElementById("addCube_3").addEventListener("click", () => addShape_3("cube"));
+  document.getElementById("addCylinder_3").addEventListener("click", () => addShape_3("cylinder"));
 
 
 </script>
