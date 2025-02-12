@@ -287,7 +287,7 @@
         <button id="addSphere_2" class="shape-button" type="button" disabled>Add Ellipsoid</button>
         <button id="addCube_2" class="shape-button" type="button" disabled>Add Cuboid</button>
         <button id="addCylinder_2" class="shape-button" type="button" disabled>Add Cylinder</button>
-        <button id="removeShapes_2" class="shape-button">Remove Everything</button>
+        <button id="removeShapes_2" class="shape-button">Empty Cylinder</button>
       </div>
       <div id="graduated-cylinder">
         <!-- Water element starts here -->
@@ -311,8 +311,8 @@
           <button id="addSphere_3" class="shape-button" type="button" disabled>Add Ellipsoid</button>
           <button id="addCube_3" class="shape-button" type="button" disabled>Add Cuboid</button>
           <button id="addCylinder_3" class="shape-button" type="button" disabled>Add Cylinder</button>
-          <button id="removeShapes_3" class="shape-button">Clear Objects</button>
-          <button id="tareButton" class="shape-button" style="margin-left: 20px;">Tare</button>
+          <button id="removeShapes_3" class="shape-button" style="margin-left: 20px;">Clear Balance</button>
+          <button id="tareButton" class="shape-button">Tare</button>
         </div>
       </div>
       
@@ -371,7 +371,7 @@ function enableButtons3() {
 document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
   // for Metal ruler measurement panel
   enableButtons1();
-  totalMass1 = getRandomAmount(0.005, 0.05);
+  totalMass1 = getRandomAmount(0.003, 0.009);
   tareOffset = 0;
   document.getElementById("shapes-container").innerHTML = "";
   
@@ -382,7 +382,7 @@ document.getElementById("shapeSetSelector").addEventListener("change", function(
   // for Metal mass measurement panel
   currentSet_3 = event.target.value;
   removeShapes_3(); // Remove previous shapes first
-  totalWeight = parseFloat((getRandomAmount(0.005, 0.05)).toFixed(3));
+  totalWeight = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
   tareOffset = 0; // Reset tare offset when changing sets
   updateMassDisplay1();
   enableButtons3();
@@ -426,7 +426,7 @@ function updateMassDisplay1() {
 
 function removeShapes_3() {
   for (let shape in addedShapes_3) {
-    totalWeight -= addedShapes_3[shape].mass;
+    totalWeight = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
     addedShapes_3[shape].element.remove();
   }
   addedShapes_3 = {};
