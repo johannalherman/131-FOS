@@ -140,17 +140,20 @@
       background: radial-gradient(circle, #ffc87f 30%, #d68a40 90%);
       border-radius: 50%;
       box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
+      z-index: -10;
     }
 
     .cube {
       background: linear-gradient(135deg, #ffc87f 40%, #d68a40 100%);
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+      z-index: -10;
     }
 
     .cylinder {
       background: linear-gradient(180deg, #ffc87f 30%, #d68a40 100%);
       border-radius: 10px;
       box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
+      z-index: -10;
     }
     
     .row {
@@ -216,6 +219,7 @@
       transform: translateX(-50%);
       width: 40%;
       background-color: #cdeaf7;  /* Light blue water */
+      opacity: 0.75;
       border-radius: 50% / 0 0 0 0;
       transition: height 0.3s ease-in-out;
       z-index: -1;  /* Ensures water is in front of shapes */
