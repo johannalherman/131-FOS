@@ -41,16 +41,32 @@
     }
 
     #resetButton {
-      color: black;
       font-size: 16px;
       background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
       padding: 10px 20px;
       margin-left: 80px;
-      border: 1px solid #FF2E37;
+      border: 2px solid #FF2E37;
       user-select: none;
     }
     #resetButton:hover {
       border: 1px solid white;
+    }
+    
+    .control-button {
+      padding: 10px 20px;
+      font-size: 14px;
+      background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
+      border: 2px solid #FF2E37;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .control-button:hover {
+      border: 2px solid white;
+    }
+    .control-button:focus {
+      padding: 9px 19px;
+      border: 3px solid #FF2E37;
     }
 
     #drag-ruler {
@@ -85,7 +101,6 @@
       gap: 10px;
       user-select: none;
     }
-
     .shape-button {
       padding: 10px 20px;
       font-size: 14px;
@@ -97,8 +112,8 @@
       border: 2px solid white;
     }
     .shape-button:focus {
-      padding: 8px 18px;
-      border: 4px solid #FF2E37;
+      padding: 9px 19px;
+      border: 3px solid #FF2E37;
     }
 
     #shapes-container {      
@@ -287,7 +302,7 @@
         <button id="addSphere_2" class="shape-button" type="button" disabled>Add Ellipsoid</button>
         <button id="addCube_2" class="shape-button" type="button" disabled>Add Cuboid</button>
         <button id="addCylinder_2" class="shape-button" type="button" disabled>Add Cylinder</button>
-        <button id="removeShapes_2" class="shape-button">Empty Cylinder</button>
+        <button id="removeShapes_2" class="control-button">Empty Cylinder</button>
       </div>
       <div id="graduated-cylinder">
         <!-- Water element starts here -->
@@ -296,7 +311,7 @@
       </div>
         <div class="button-container" style="margin-bottom: 40px;">
           <button id="addWaterButton" class="shape-button" >Add Water</button>
-          <button id="removeWaterButton" class="shape-button" >Remove Water</button>
+          <button id="removeWaterButton" class="control-button" >Remove Water</button>
         </div>      
       </div>
     </div>
@@ -311,13 +326,13 @@
           <button id="addSphere_3" class="shape-button" type="button" disabled>Add Ellipsoid</button>
           <button id="addCube_3" class="shape-button" type="button" disabled>Add Cuboid</button>
           <button id="addCylinder_3" class="shape-button" type="button" disabled>Add Cylinder</button>
-          <button id="removeShapes_3" class="shape-button" style="margin-left: 20px;">Clear Balance</button>
-          <button id="tareButton" class="shape-button">Tare</button>
+          <button id="removeShapes_3" class="control-button" style="margin-left: 20px;">Clear Balance</button>
+          <button id="tareButton" class="control-button">Tare</button>
         </div>
       </div>
       
 <hr>
-<p style="font-size: 16pt; color: #ff2e37; text-align: left;"><em>This simulation was designed for use on a laptop or desktop computer. This simulation may not function properly on a mobile device.</em></p>
+<p style="font-size: 16pt; color: #ff2e37; text-align: left;"><em>This simulation was designed for use on a laptop or desktop computer. Functions may not operate properly on a mobile device.</em></p>
 
 <script>
 
