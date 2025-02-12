@@ -63,8 +63,8 @@
       border-radius: 1px;
       box-shadow: 1px 1px 1px black;
       z-index: 1000;  /* Add this line */
-      bottom: -5%;
-      right: 50%; transform: translateX(20%);
+      bottom: 0%;
+      right: 50%; transform: translateX(9%);
       user-select: none;
     }
 
@@ -268,8 +268,8 @@
           <button id="addSphere" class="shape-button" type="button" disabled>Add Ellipsoid</button>
           <button id="addCube" class="shape-button" type="button" disabled>Add Cuboid</button>
           <button id="addCylinder" class="shape-button" type="button" disabled>Add Cylinder</button>
-          <button id="tareButton" class="shape-button" style="margin-top: 10px;">Tare</button>
-          <button id="removeShapes" class="shape-button">Clear Balance</button>
+          <button id="removeShapes" class="shape-button">Clear Objects</button>
+          <button id="tareButton" class="shape-button" style="margin-left: 20px;">Tare</button>
         </div>
       </div>
       
@@ -605,11 +605,11 @@ function addShape(shape) {
   const shapeElement = document.createElement("div");
   shapeElement.classList.add("shape", shape);
   if (shape === "cube") {
-    shapeElement.style.width = "50px";  // Make it a rectangle
-    shapeElement.style.height = "30px";
+    shapeElement.style.width = "150px";  // Make it a rectangle
+    shapeElement.style.height = "90px";
   } else {
-    shapeElement.style.width = "30px";
-    shapeElement.style.height = shape === "cylinder" ? "40px" : "30px";
+    shapeElement.style.width = "90px";
+    shapeElement.style.height = shape === "cylinder" ? "120px" : "90px";
   }
 
   shapeElement.style.background = shapeGradients[currentSet][shape];
