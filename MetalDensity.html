@@ -604,12 +604,22 @@ function addShape(shape) {
 
   const shapeElement = document.createElement("div");
   shapeElement.classList.add("shape", shape);
-  if (shape === "cube") {
-    shapeElement.style.width = "150px";  // Make it a rectangle
-    shapeElement.style.height = "90px";
-  } else {
-    shapeElement.style.width = "90px";
-    shapeElement.style.height = shape === "cylinder" ? "120px" : "90px";
+  switch (shape) {
+    case 'sphere':
+      shapeElement.style.width = "90px";
+      shapeElement.style.height = "80px";
+      break;
+    case 'cube':
+      shapeElement.style.width = "150px";
+      shapeElement.style.height = "40px";
+      break;
+    case 'cylinder':
+      shapeElement.style.width = "200px";
+      shapeElement.style.height = "55px";
+      break;
+    default:
+      shapeElement.style.width = "10px";
+      shapeElement.style.height = "10px";
   }
 
   shapeElement.style.background = shapeGradients[currentSet][shape];
