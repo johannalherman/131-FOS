@@ -49,7 +49,7 @@
       user-select: none;
     }
     #resetButton:hover {
-      border: 1px solid white;
+      border: 2px solid white;
     }
     
     .control-button {
@@ -354,7 +354,7 @@ function getRandomAmount(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-let errorPercent = (getRandomAmount(0.98,1.02));
+let errorPercent = getRandomAmount(0.98,1.02);
 
 function disableButtons1() {
   View1.disabled = true;
