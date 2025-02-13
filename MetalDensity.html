@@ -354,6 +354,8 @@ function getRandomAmount(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+let errorPercent = (getRandomAmount(0.98,1.02));
+
 function disableButtons1() {
   View1.disabled = true;
   View2.disabled = true;
@@ -775,7 +777,7 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
   }
 
   function increaseWaterLevel(shapeVolume) {
-    const shapeVolume_px = shapeVolume; // Convert mass to volume in pixels
+    const shapeVolume_px = shapeVolume;
 
     // Ensure that displacement does not exceed existing water height
     if (waterHeight > 0) {
@@ -841,7 +843,7 @@ function addShape_3(shape) {
 
   pan_3.appendChild(shapeElement); // Append to body so positioning works correctly
   addedShapes_3[shape] = { element: shapeElement, mass: shapeSets3[currentSet_3][shape] };
-  totalWeight += shapeSets3[currentSet_3][shape];
+  totalWeight += shapeSets3[currentSet_3][shape] * errorPercent;
 
   updateMassDisplay1();
   }
