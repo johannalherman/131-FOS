@@ -340,15 +340,15 @@
 
 <script>
 
-let currentSet_3 = "";
-let totalWeight = 0;
-let tareOffset = 0;
-let addedShapes_3 = {};
 let currentSet_2 = "";
 let addedShapes_2 = {};
 let waterHeight = 0;  // Initial water height in pixels
 const cylinderVolume = 400;  // Total volume of the cylinder (in pixels, height corresponds to volume)    
-let increment = 27.5; // Adjust this value for how much water should be added per click
+let increment = 36.5; // Adjust this value for how much water should be added per click
+let currentSet_3 = "";
+let addedShapes_3 = {};
+let totalWeight = 0;
+let tareOffset = 0;
 
 function getRandomAmount(min, max) {
   return Math.random() * (max - min) + min;
@@ -435,22 +435,6 @@ document.getElementById("resetButton").addEventListener("click", () => {
   const shapeSetSelector = document.getElementById("shapeSetSelector");
   shapeSetSelector.value = "";
 });
-  
-  
-  
-  
-function updateMassDisplay1() {
-  document.getElementById("total-mass").textContent = `${(totalWeight - tareOffset).toFixed(3)} g`;
-}
-
-function removeShapes_3() {
-  for (let shape in addedShapes_3) {
-    totalWeight = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
-    addedShapes_3[shape].element.remove();
-  }
-  addedShapes_3 = {};
-  updateMassDisplay1();
-}
 
 
   // JavaScript to make the ruler draggable:
@@ -582,21 +566,18 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
     { width: 29.5, height: 48.1 },
   ];	//height, width, lenght data
   
-  const shapeSets = {
+  
+  const shapeSets2 = {
+    set1: { sphere: 21.037, cube: 91.044, cylinder: 146.493 },
+    set2: { sphere: 36.536, cube: 158.327, cylinder: 138.649 },
+    set3: { sphere: 30.422, cube: 158.713, cylinder: 82.570 }
+  };	//volume data
+  
+  const shapeSets3 = {
     set1: { sphere: 4.899, cube: 21.202, cylinder: 50.138 },
     set2: { sphere: 8.969, cube: 38.866, cylinder: 34.035 },
-    set3: { sphere: 2.251, cube: 11.740, cylinder: 6.108 }
+    set3: { sphere: 2.250, cube: 11.740, cylinder: 6.108 }
   };	// mass data
-  const shapeSets2 = {
-    set1: { sphere: 19.76, cube: 85.52, cylinder: 137.61 },
-    set2: { sphere: 34.32, cube: 148.72, cylinder: 130.24 },
-    set3: { sphere: 28.572, cube: 149.074, cylinder: 77.554 }
-  };	//volume data
-  const shapeColors = {
-    set1: { sphere: '#ffc87fff', cube: '#ffc87fff', cylinder: '#ffc87fff' },
-    set2: { sphere: '#e69b56ff', cube: '#e69b56ff', cylinder: '#e69b56ff' },
-    set3: { sphere: '#b7b7b7ff', cube: '#b7b7b7ff', cylinder: '#b7b7b7ff' }
-  };
 
   const shapeGradients = {
     set1: {
@@ -695,6 +676,10 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
     }
     addShapes_1(shapeClasses, dimensions, colorSet);
   });    
+  
+  
+  
+  
 
 // Function to add shapes to the cylinder
   function addShape_2(shape) {
@@ -762,6 +747,7 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
   
   // Function to handle adding water
   document.getElementById("addWaterButton").addEventListener("click", () => {
+    increment = getRandomAmount(9.125,27.375); // Adjust this value for how much water should be added per click
     let water = document.getElementById("water");
 
     if (waterHeight + increment <= cylinderVolume) {
@@ -805,10 +791,10 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
   }
 
   // Shape buttons for adding shapes to cylinder
-  document.getElementById("removeShapes_2").addEventListener("click", removeShapes_2);
   document.getElementById("addSphere_2").addEventListener("click", () => addShape_2("sphere"));
   document.getElementById("addCube_2").addEventListener("click", () => addShape_2("cube"));
   document.getElementById("addCylinder_2").addEventListener("click", () => addShape_2("cylinder"));
+  document.getElementById("removeShapes_2").addEventListener("click", removeShapes_2);
 
 
 
@@ -854,10 +840,23 @@ function addShape_3(shape) {
   shapeElement.style.transform = "translateX(-50%)";
 
   pan_3.appendChild(shapeElement); // Append to body so positioning works correctly
-  addedShapes_3[shape] = { element: shapeElement, mass: shapeSets[currentSet_3][shape] };
-  totalWeight += shapeSets[currentSet_3][shape];
+  addedShapes_3[shape] = { element: shapeElement, mass: shapeSets3[currentSet_3][shape] };
+  totalWeight += shapeSets3[currentSet_3][shape];
 
   updateMassDisplay1();
+  }
+  
+  function updateMassDisplay1() {
+    document.getElementById("total-mass").textContent = `${(totalWeight - tareOffset).toFixed(3)} g`;
+  }
+
+  function removeShapes_3() {
+    for (let shape in addedShapes_3) {
+      totalWeight = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
+      addedShapes_3[shape].element.remove();
+    }
+    addedShapes_3 = {};
+    updateMassDisplay1();
   }
 
   document.getElementById("tareButton").addEventListener("click", () => {
@@ -868,7 +867,6 @@ function addShape_3(shape) {
   document.getElementById("addSphere_3").addEventListener("click", () => addShape_3("sphere"));
   document.getElementById("addCube_3").addEventListener("click", () => addShape_3("cube"));
   document.getElementById("addCylinder_3").addEventListener("click", () => addShape_3("cylinder"));
-
 
 </script>
 </body>
