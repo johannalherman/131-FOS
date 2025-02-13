@@ -633,23 +633,24 @@ function addShape_3(shape) {
   if (!currentSet_3 || addedShapes_3[shape]) return;
 	const selectedSet = document.getElementById("shapeSetSelector").value;
   const shapeElement = document.createElement("div");
+  let reductionFactor = 0.5;
   
   switch (selectedSet) {
     case 'set1':
-      shapeElement.style.width = GB1Dimensions[0].width + 'px';
-      shapeElement.style.height = GB1Dimensions[0].height + 'px';
+      shapeElement.style.width = (GB1Dimensions[0].width * reductionFactor) + 'px';
+      shapeElement.style.height = (GB1Dimensions[0].height * reductionFactor)  + 'px';
       break;
     case 'set2':
-      shapeElement.style.width = CMB1Dimensions[0].width + 'px';
-      shapeElement.style.height = CMB1Dimensions[0].height + 'px';
+      shapeElement.style.width = (CMB1Dimensions[0].width * reductionFactor)  + 'px';
+      shapeElement.style.height = (CMB1Dimensions[0].height * reductionFactor)  + 'px';
       break;
     case 'set3':
-      shapeElement.style.width = BS1Dimensions[0].width + 'px';
-      shapeElement.style.height = BS1Dimensions[0].height + 'px';
+      shapeElement.style.width = (BS1Dimensions[0].width * reductionFactor)  + 'px';
+      shapeElement.style.height = (BS1Dimensions[0].height * reductionFactor)  + 'px';
       break;
     case 'set4':
-      shapeElement.style.width = C1Dimensions[0].width + 'px';
-      shapeElement.style.height = C1Dimensions[0].height + 'px';
+      shapeElement.style.width = (C1Dimensions[0].width * reductionFactor)  + 'px';
+      shapeElement.style.height = (C1Dimensions[0].height * reductionFactor)  + 'px';
       break;
     default:
       shapeElement.style.width = "10px";
