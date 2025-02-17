@@ -83,7 +83,7 @@
       border-radius: 1px;
       box-shadow: 1px 1px 1px black;
       z-index: 1000;  /* Add this line */
-      bottom: -20%;
+      top: 800px;
       right: 50%; transform: translateX(9%);
       user-select: none;
     }
@@ -281,6 +281,9 @@
     <option value="set1">FOS-1</option>
     <option value="set2">FOS-2</option>
     <option value="set3">FOS-3</option>
+    <option value="set4">FOS-4</option>
+    <option value="set5">FOS-5</option>
+    <option value="set6">FOS-6</option>
   </select>
   <button id="resetButton" class="shape-button">Reset All Controls</button>
 </div>
@@ -512,21 +515,37 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
 
   const set1Colors = ["#ffc87fff", "#ffc87fff", "#ffc87fff"];
   const set2Colors = ["#e69b56ff", "#e69b56ff", "#e69b56ff"];
-  const set3Colors = ["#b7b7b7ff", "#b7b7b7ff", "#b7b7b7ff"];
+  const set3Colors = ["#b7b7b7ff", "#b7b7b7ff", "#b7b7b7ff"];  
+  const set4Colors = ["#ffc87fff", "#ffc87fff", "#ffc87fff"];
+  const set5Colors = ["#e69b56ff", "#e69b56ff", "#e69b56ff"];
+  const set6Colors = ["#b7b7b7ff", "#b7b7b7ff", "#b7b7b7ff"];
 
   const sphereSet1Dimensions = [
     { width: 53.1, height: 48.8 },
     { width: 48.8, height: 58.3 },
     { width: 58.3, height: 53.1 },
   ];
-
   const sphereSet2Dimensions = [
     { width: 67.1, height: 56.8 },
     { width: 56.8, height: 62.7 },
     { width: 62.7, height: 67.1 },
   ];
-
   const sphereSet3Dimensions = [
+    { width: 52.6, height: 63.9 },
+    { width: 63.9, height: 59.2 },
+    { width: 59.2, height: 52.6 },
+  ];
+  const sphereSet4Dimensions = [
+    { width: 53.1, height: 48.8 },
+    { width: 48.8, height: 58.3 },
+    { width: 58.3, height: 53.1 },
+  ];
+  const sphereSet5Dimensions = [
+    { width: 67.1, height: 56.8 },
+    { width: 56.8, height: 62.7 },
+    { width: 62.7, height: 67.1 },
+  ];
+  const sphereSet6Dimensions = [
     { width: 52.6, height: 63.9 },
     { width: 63.9, height: 59.2 },
     { width: 59.2, height: 52.6 },
@@ -537,14 +556,27 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
     { width: 52.2, height: 24.5 },
     { width: 24.5, height: 52.2 },
   ];
-
   const cubeSet2Dimensions = [
     { width: 200.6, height: 63.9 },
     { width: 63.9, height: 42.3 },
     { width: 42.3, height: 63.9 },
   ];
-
   const cubeSet3Dimensions = [
+    { width: 217.9, height: 53.3 },
+    { width: 53.3, height: 46.8 },
+    { width: 46.8, height: 53.3 },
+  ];
+  const cubeSet4Dimensions = [
+    { width: 243.8, height: 52.2 },
+    { width: 52.2, height: 24.5 },
+    { width: 24.5, height: 52.2 },
+  ];
+  const cubeSet5Dimensions = [
+    { width: 200.6, height: 63.9 },
+    { width: 63.9, height: 42.3 },
+    { width: 42.3, height: 63.9 },
+  ];
+  const cubeSet6Dimensions = [
     { width: 217.9, height: 53.3 },
     { width: 53.3, height: 46.8 },
     { width: 46.8, height: 53.3 },
@@ -555,14 +587,27 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
     { width: 58.6, height: 51.2 },
     { width: 51.2, height: 58.6 },
   ];
-
   const cylinderSet2Dimensions = [
     { width: 215.2, height: 49.2 },
     { width: 49.2, height: 57.1 },
     { width: 57.1, height: 49.2 },
   ];
-
   const cylinderSet3Dimensions = [
+    { width: 254.6, height: 48.1 },
+    { width: 48.1, height: 29.5 },
+    { width: 29.5, height: 48.1 },
+  ];
+  const cylinderSet4Dimensions = [
+    { width: 212.9, height: 58.6 },
+    { width: 58.6, height: 51.2 },
+    { width: 51.2, height: 58.6 },
+  ];
+  const cylinderSet5Dimensions = [
+    { width: 215.2, height: 49.2 },
+    { width: 49.2, height: 57.1 },
+    { width: 57.1, height: 49.2 },
+  ];
+  const cylinderSet6Dimensions = [
     { width: 254.6, height: 48.1 },
     { width: 48.1, height: 29.5 },
     { width: 29.5, height: 48.1 },
@@ -572,13 +617,19 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
   const shapeSets2 = {
     set1: { sphere: 21.037, cube: 91.044, cylinder: 146.493 },
     set2: { sphere: 36.536, cube: 158.327, cylinder: 138.649 },
-    set3: { sphere: 30.422, cube: 158.713, cylinder: 82.570 }
+    set3: { sphere: 30.422, cube: 158.713, cylinder: 82.570 },
+    set4: { sphere: 21.037, cube: 91.044, cylinder: 146.493 },
+    set5: { sphere: 36.536, cube: 158.327, cylinder: 138.649 },
+    set6: { sphere: 30.422, cube: 158.713, cylinder: 82.570 }
   };	//volume data
   
   const shapeSets3 = {
     set1: { sphere: 4.899, cube: 21.202, cylinder: 50.138 },
     set2: { sphere: 8.969, cube: 38.866, cylinder: 34.035 },
-    set3: { sphere: 2.250, cube: 11.740, cylinder: 6.108 }
+    set3: { sphere: 2.250, cube: 11.740, cylinder: 6.108 },
+    set4: { sphere: 4.899, cube: 21.202, cylinder: 50.138 },
+    set5: { sphere: 8.969, cube: 38.866, cylinder: 34.035 },
+    set6: { sphere: 2.250, cube: 11.740, cylinder: 6.108 }
   };	// mass data
 
   const shapeGradients = {
@@ -588,12 +639,26 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
       cylinder: 'linear-gradient(45deg, #ffc87fff, #cea064)'
     },
     set2: {
-
       sphere: 'radial-gradient(circle, #e69b56ff, #c07d3f)',
       cube: 'linear-gradient(45deg, #e69b56ff, #c07d3f)',
       cylinder: 'linear-gradient(45deg, #e69b56ff, #c07d3f)'
     },
     set3: {
+      sphere: 'radial-gradient(circle, #b7b7b7ff, #9b9b9b)',
+      cube: 'linear-gradient(45deg, #b7b7b7ff, #9b9b9b)',
+      cylinder: 'linear-gradient(45deg, #b7b7b7ff, #9b9b9b)'
+    },
+    set4: {
+      sphere: 'radial-gradient(circle, #ffc87fff, #cea064)',
+      cube: 'linear-gradient(45deg, #ffc87fff, #cea064)',
+      cylinder: 'linear-gradient(45deg, #ffc87fff, #cea064)'
+    },
+    set5: {
+      sphere: 'radial-gradient(circle, #e69b56ff, #c07d3f)',
+      cube: 'linear-gradient(45deg, #e69b56ff, #c07d3f)',
+      cylinder: 'linear-gradient(45deg, #e69b56ff, #c07d3f)'
+    },
+    set6: {
       sphere: 'radial-gradient(circle, #b7b7b7ff, #9b9b9b)',
       cube: 'linear-gradient(45deg, #b7b7b7ff, #9b9b9b)',
       cylinder: 'linear-gradient(45deg, #b7b7b7ff, #9b9b9b)'
@@ -617,6 +682,21 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
         shapeClasses = ["sphere", "sphere", "sphere"];
         break;
       case 'set3':
+        dimensions = sphereSet3Dimensions;
+        colorSet = set3Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      case 'set4':
+        dimensions = sphereSet1Dimensions;
+        colorSet = set1Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      case 'set5':
+        dimensions = sphereSet2Dimensions;
+        colorSet = set2Colors;
+        shapeClasses = ["sphere", "sphere", "sphere"];
+        break;
+      case 'set6':
         dimensions = sphereSet3Dimensions;
         colorSet = set3Colors;
         shapeClasses = ["sphere", "sphere", "sphere"];
@@ -647,6 +727,21 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
         colorSet = set3Colors;
         shapeClasses = ["cube", "cube", "cube"];
         break;
+      case 'set4':
+        dimensions = cubeSet1Dimensions;
+        colorSet = set1Colors;
+        shapeClasses = ["cube", "cube", "cube"];
+        break;
+      case 'set5':
+        dimensions = cubeSet2Dimensions;
+        colorSet = set2Colors;
+        shapeClasses = ["cube", "cube", "cube"];
+        break;
+      case 'set6':
+        dimensions = cubeSet3Dimensions;
+        colorSet = set3Colors;
+        shapeClasses = ["cube", "cube", "cube"];
+        break;
       default:
         dimensions = []; // Default to an empty array
     }
@@ -669,6 +764,21 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
         shapeClasses = ["cylinder", "sphere", "sphere"];
         break;
       case 'set3':
+        dimensions = cylinderSet3Dimensions;
+        colorSet = set3Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set4':
+        dimensions = cylinderSet1Dimensions;
+        colorSet = set1Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set5':
+        dimensions = cylinderSet2Dimensions;
+        colorSet = set2Colors;
+        shapeClasses = ["cylinder", "sphere", "sphere"];
+        break;
+      case 'set6':
         dimensions = cylinderSet3Dimensions;
         colorSet = set3Colors;
         shapeClasses = ["cylinder", "sphere", "sphere"];
