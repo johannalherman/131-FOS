@@ -261,7 +261,11 @@ function removeSolution() {
 }
 
 function increaseLiquidLevel2() {
-  document.getElementById('solution').style.height = ((solVolume * px_mL)+4) + 'px';
+  if (solVolume > 0) {
+    document.getElementById('solution').style.height = ((solVolume * px_mL)+4) + 'px';
+  } else {
+  document.getElementById('solution').style.height = (solVolume * px_mL) + 'px';
+  }
 }
 
 function updateMassDisplay1() {
