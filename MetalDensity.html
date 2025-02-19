@@ -140,20 +140,20 @@
       background: radial-gradient(circle, #ffc87f 30%, #d68a40 90%);
       border-radius: 50%;
       box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
-      z-index: -10;
+      z-index: -100;
     }
 
     .cube {
       background: linear-gradient(135deg, #ffc87f 40%, #d68a40 100%);
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-      z-index: -10;
+      z-index: -100;
     }
 
     .cylinder {
       background: linear-gradient(180deg, #ffc87f 30%, #d68a40 100%);
       border-radius: 10px;
       box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
-      z-index: -10;
+      z-index: -100;
     }
     
     .row {
@@ -208,31 +208,30 @@
     #cylinder, #beaker {
       margin: 40px 0px 0px 0px;
       width: 400px;
-      z-index: 1;
+      z-index: 5;
     }
 
     /* Water styling */
     .water {
       position: absolute;
       bottom: 25px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40%;
-      background-color: #cdeaf7;  /* Light blue water */
+      left: 50%; transform: translateX(-50%);
+      width: 12.5%;
+      background: #abdcf2;
       opacity: 0.75;
-      border-radius: 50% / 0 0 0 0;
       transition: height 0.3s ease-in-out;
-      z-index: -1;  /* Ensures water is in front of shapes */
+      z-index: -10;  /* Ensures water is in front of shapes */
     }
     .water::after {
       content: "";
       position: absolute;
-      top: -2px;
-      right: 0;
+      top: 0px;
+      right: 50%; transform: translateX(50%);
       width: 100%;
-      height: 1px;
-      background: #cdeaf7; /* Subtle meniscus highlight */
-      border-radius: 10%;
+      height: 5px;
+      background: #def1fa; /* Subtle meniscus highlight */
+      border-radius: 0% 0% 50% 50%; /* Round only the bottom corners */
+      z-index: 0;
     }
 
     #pan_3 {
@@ -1091,10 +1090,10 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
 
     if (waterHeight + increment <= cylinderVolume) {
       waterHeight += increment;
-      water.style.height = `${waterHeight}px`;
+      water.style.height = `${waterHeight+4}px`;
     } else {
       waterHeight = cylinderVolume; // Prevent overflow
-      water.style.height = `${waterHeight}px`;
+      water.style.height = `${waterHeight+4}px`;
     }
   });
 
@@ -1102,7 +1101,7 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
   document.getElementById("removeWaterButton").addEventListener("click", () => {
     if (waterHeight > 0) {
       waterHeight = Math.max(0, waterHeight - increment);
-      document.getElementById("water").style.height = `${waterHeight}px`;
+      document.getElementById("water").style.height = `${waterHeight+4}px`;
     }
   });
 
@@ -1110,7 +1109,7 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
   function resetWaterLevel() {
     waterHeight = 0; // Set water height to zero
     const waterElement = document.getElementById("water");
-    waterElement.style.height = `${waterHeight}px`;  // Update the water height to zero
+    waterElement.style.height = `${waterHeight+4}px`;  // Update the water height to zero
   }
 
   function increaseWaterLevel(shapeVolume) {
@@ -1125,7 +1124,7 @@ function addShapes_1(shapeClasses, dimensions, colorSet) {
         waterHeight = cylinderVolume; // Prevent overflow
       }
 
-      document.getElementById("water").style.height = `${waterHeight}px`;
+      document.getElementById("water").style.height = `${waterHeight+4}px`;
     }
   }
 
