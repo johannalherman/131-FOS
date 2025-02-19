@@ -8,7 +8,7 @@
     body {
       width: 1000px;
       margin: auto;
-      font: 24px Arial, sans-serif;     
+      font: 18px Arial, sans-serif;     
       padding: 20px;
       text-align: center;          
     }
@@ -83,7 +83,7 @@
       border-radius: 1px;
       box-shadow: 1px 1px 1px black;
       z-index: 1000;  /* Add this line */
-      bottom: -20%;
+      top: 800px;
       right: 50%; transform: translateX(9%);
       user-select: none;
     }
@@ -140,20 +140,20 @@
       background: radial-gradient(circle, #ffc87f 30%, #d68a40 90%);
       border-radius: 50%;
       box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
-      z-index: -10;
+      z-index: -100;
     }
 
     .cube {
       background: linear-gradient(135deg, #ffc87f 40%, #d68a40 100%);
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-      z-index: -10;
+      z-index: -100;
     }
 
     .cylinder {
       background: linear-gradient(180deg, #ffc87f 30%, #d68a40 100%);
       border-radius: 10px;
       box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
-      z-index: -10;
+      z-index: -100;
     }
     
     .row {
@@ -189,24 +189,13 @@
       display: inline-block;
     }
     
-    #work-bench-3 {
-      margin: 20px 0px 20px 0px;
-      border: 2px solid #FF2E37;
-      border-radius: 8px;
-      box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
-      height: 460px;
-      width: 450px;
-      position: relative;
-      display: inline-block;
-    }
-    
-    #beaker {
+    #beaker_2, #beaker_3 {
       margin: 40px 0px 0px 0px;
       width: 400px;
-      z-index: 1;
+      z-index: 5;
     }
 
-    #pan_3 {
+    #pan_2 {
       /* background: black; */
       width: 150px;
       height: 10px;
@@ -216,7 +205,7 @@
       transform: translateX(-50%);
     }
         
-    #total-mass {
+    #total-mass-2 {
       position: absolute;
       bottom: 345px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
@@ -224,7 +213,70 @@
       border-radius: 5px;
       font-size: 24px;
       font-weight: bold;
-      z-index: 0;
+      z-index: 10;
+    }
+    
+    #work-bench-3 {
+      margin: 20px 0px 20px 0px;
+      border: 2px solid #FF2E37;
+      border-radius: 8px;
+      box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+      height: 760px;
+      width: 450px;
+      position: relative;
+      display: inline-block;
+    }
+        
+    #total-mass-3 {
+      position: absolute;
+      bottom: 11px; /* Adjust as needed */
+      left: 50%; /* Adjust as needed */
+      transform: translateX(-50%);
+      border-radius: 5px;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 10;
+    }
+    
+    #glassware-container {
+      position: relative;
+      display: inline-block;
+    }
+    
+    #saltMass {
+      position: absolute;
+      bottom: -7%; /* Adjust as needed */
+      left: 50%; /* Adjust as needed */
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      color: red;
+      font-size: 14px;
+      font-weight: bold;
+      z-index: 10;
+    }
+
+    #liquid {
+      position: absolute;
+      bottom: 112px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 38%;
+      height: 0;
+      background: #abdcf2;
+      transition: height 0.3s;
+      opacity: 0.75;
+      z-index: -10;
+    }
+
+    #pan_3 {
+      /* background: black; */
+      width: 150px;
+      height: 10px;
+      position: absolute;
+      bottom: 102px;
+      left: 50%;
+      transform: translateX(-50%);
     }
     
   </style>
@@ -239,6 +291,7 @@
   <li>Use the <strong>drop-down menu</strong> to select your assigned fruit or vegetable.</li>
   <li>In the left panel, use the <strong>piece tabs</strong> to toggle between the three differently shaped pieces of your assigned fruit or vegetable. <strong>Drag the ruler</strong> within the left panel to measure the three dimensions of each piece individually. Each piece will be displayed in three ways, so that all three sides of the object can be measured.</li>
   <li>In the right panel, use the <strong>buttons</strong> along the bottom to control the items on the balance.</li>
+  <li>In the bottom panel, use the ADD buttons below the beaker sitting on a balance to add one of your assigned fruit or vegetable pieces, solid sodium chloride, and water into the beaker.</li>
   </ol>
 </p>
 <p>You can restart the simulation at any time by clicking on the <strong>Reset All Controls</strong> button.</p>
@@ -260,7 +313,7 @@
 
     <div class="column"><!--Area #1 Code-->
       <div id="work-bench-1"> 
-      
+
         <div id="shape-buttons-1">
           <button id="View1" class="shape-button" type="button" disabled>Piece #1</button>
           <button id="View2" class="shape-button" type="button" disabled>Piece #2</button>
@@ -271,440 +324,658 @@
       </div>      
     </div>
 
-    <div class="column"> <!--Area #3 Code-->
-    <div id="work-bench-2">
-      <div id="pan_3"></div>
-      <img id="beaker" src="https://github.com/johannalherman/Chem131/blob/main/Balance.png?raw=true">
-      <p id="total-mass"><span>0.000</span> g</p>
-      <div class="button-container" style="margin-bottom: 40px;">
-        <button id="addPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
-        <button id="addPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
-        <button id="addPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
-        <button id="removeShapes_3" class="control-button" style="margin-left: 20px;">Clear Balance</button>
-        <button id="tareButton" class="control-button">Tare</button>
+    <div class="column"> <!--Area #2 Code-->
+      <div id="work-bench-2">
+        <div id="pan_2"></div>
+        <img id="beaker_2" src="https://github.com/johannalherman/Chem131/blob/main/Balance.png?raw=true">
+        <p id="total-mass-2"><span>0.000</span> g</p>
+        <div class="button-container" style="margin-bottom: 40px;">
+          <button id="addPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
+          <button id="addPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
+          <button id="addPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
+          <button id="removeShapes_2" class="control-button" style="margin-left: 20px;">Clear Balance</button>
+          <button id="tareButton" class="control-button">Tare</button>
+        </div>
       </div>
-    </div>
     </div>
   </div>
-    
-      <!--Area #3 Code--> 
-      <div id="work-bench-3" style="width: 95%">
-      
+
+  <div class="row">
+
+    <div class="column"><!--Area #3 Code--> 
+      <div id="work-bench-3" style="width: 99%">
+
+        <div class="button-container">
+          <button id="floatPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
+          <button id="floatPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
+          <button id="floatPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
+        </div>
+        <div id="glassware-container">
+          <div id="liquid"></div>
+          <div id="pan_3"></div>
+          <img id="beaker_3" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance.png?raw=true" alt="50-mL Beaker">
+          <p id="total-mass-3"><span>0.000</span> g</p>
+          <p id="saltMass">NaCl Mass: <span>0.000</span> g</p>
+        </div>
+        <div class="button-container" style="margin-bottom: 40px;">
+          <button onclick="addSodiumChloride()">Add Solid Sodium Chloride</button>
+          <button onclick="addWater()">Add D.I. Water</button>
+          <button onclick="emptyBeaker()">Empty Beaker</button>
+        </div>
       </div>
+
+      <div class="column"><!--Area #4 Code--> 
+
+
+      </div>
+
+    </div>
+  </div>
       
 <hr>
-<p style="font-size: 16pt; color: #ff2e37; text-align: left;"><em>This simulation was designed for use on a laptop or desktop computer. Functions may not operate properly on a mobile device.</em></p>
+<p style="color: #ff2e37; text-align: left;"><em>This simulation was designed for use on a laptop or desktop computer. Functions may not operate properly on a mobile device.</em></p>
 
-<script>
+  <script>
 
-let currentSet_3 = "";
-let addedShapes_3 = {};
-let totalWeight = 0;
-let tareOffset = 0;
-
-function getRandomAmount(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-let errorPercent = getRandomAmount(0.98,1.02);
-
-function disableButtons1() {
-  View1.disabled = true;
-  View2.disabled = true;
-  View3.disabled = true;
-}
-function enableButtons1() {
-  View1.disabled = false;
-  View2.disabled = false;
-  View3.disabled = false;
-}
-  
-function disableButtons3() {
-  addPiece1.disabled = true;
-  addPiece2.disabled = true;
-  addPiece3.disabled = true;
-}
-function enableButtons3() {
-  addPiece1.disabled = false;
-  addPiece2.disabled = false;
-  addPiece3.disabled = false;
-}
-
-document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
-  // for Metal ruler measurement panel
-  enableButtons1();
-  totalMass1 = getRandomAmount(0.003, 0.009);
-  tareOffset = 0;
-  document.getElementById("shapes-container").innerHTML = "";
-  
-  // for Metal mass measurement panel
-  currentSet_3 = event.target.value;
-  removeShapes_3(); // Remove previous shapes first
-  totalWeight = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
-  tareOffset = 0; // Reset tare offset when changing sets
-  updateMassDisplay1();
-  enableButtons3();
-});
-
-document.getElementById("resetButton").addEventListener("click", () => {
-	// for Metal ruler measurement panel
-  totalMass1 = 0;
-  tareOffset = 0;
-  disableButtons1();
-  document.getElementById("shapes-container").innerHTML = "";
+    let currentSet_2 = "";
+    let addedShapes_2 = {};
+    let totalWeight_2 = 0;
+    let tareOffset = 0;
     
-  // for Metal mass measurement panel
-  totalWeight = 0;
-  tareOffset = 0;
-  currentSet_3 = "";
-  disableButtons3();
-  removeShapes_3();
-  updateMassDisplay1();
+    let totalMass1 = 0;
+    let saltMass = 0;
+    let totalWater = 0;
+    let currentSet_3 = "";
+    let addedShapes_3 = {};
+    let liquidHeight1 = 0;
+    let lim1 = 180;
 
-  // Reset dropdown
-  const shapeSetSelector = document.getElementById("shapeSetSelector");
-  shapeSetSelector.value = "";
-});
-
-
-  // JavaScript to make the ruler draggable:
-  var dragRuler = document.querySelector('#drag-ruler');
-  var draggingRuler = false;
-
-  document.onmousedown = function(event) {
-    if (event.target == dragRuler) {
-      draggingRuler = true;
-      moveAt(event.pageX, event.pageY);
-    }
-  };
-
-  document.onmousemove = function(event) {
-    if (draggingRuler) {
-      moveAt(event.pageX, event.pageY);
-    }
-  };
-
-  document.onmouseup = function(event) {
-    draggingRuler = false;
-  };
-
-  function moveAt(pageX, pageY) {
-    dragRuler.style.left = pageX - dragRuler.offsetWidth / 2 + 'px';
-    dragRuler.style.top = pageY - dragRuler.offsetHeight / 2 + 'px';
-  }
-
-  // Generate ticks
-  for (let i = 5; i <= 105; i ++) {
-    var tick = document.createElement('div');
-    tick.style.width = '1px';
-    tick.style.position = 'absolute';
-    tick.style.left = i * 5 + 'px';
-    tick.style.bottom = '0';
-    tick.style.background = 'white';
-
-    if (i % 10 === 0) {  // every 10th tick mark
-      tick.style.height = '10px';
-    } else if (i % 5 === 0) {  // every 5th tick mark
-      tick.style.height = '15px';
-      let label = document.createElement('div');
-      label.textContent = (i - 5) / 10;  // Set the label text to the current tick number
-      label.style.position = 'absolute';
-      label.style.top = '-20px';  // Adjust this value as needed
-      label.style.left = '-4px';  // Adjust this value as needed
-      label.style.color = 'white';
-      tick.appendChild(label);
-
-    } else {  // default tick mark
-      tick.style.height = '5px';
+    function getRandomAmount(min, max) {
+      return Math.random() * (max - min) + min;
     }
 
-    dragRuler.appendChild(tick);
-  }
+    let errorPercent = getRandomAmount(0.98,1.02);
 
-function addShapes_1(shapeClasses, dimensions, colorSet) {
-    const mainContainer = document.getElementById('shapes-container');
-    mainContainer.innerHTML = '';
-    for (let i = 0; i < dimensions.length; i++) {
-      const shapeElement = document.createElement('div');
-      shapeElement.classList.add(shapeClasses[i]);
-      shapeElement.style.width = dimensions[i].width + 'px';
-      shapeElement.style.height = dimensions[i].height + 'px';
-      const gradient = `linear-gradient(to right, ${colorSet.join(",")})`;
-      shapeElement.style.background = gradient;
-      const shapeContainer = document.createElement('div');
-      shapeContainer.classList.add('shape-container');
-      shapeContainer.appendChild(shapeElement);
-      mainContainer.appendChild(shapeContainer);
+    function disableButtons1() {
+      View1.disabled = true;
+      View2.disabled = true;
+      View3.disabled = true;
     }
-  }
-
-  const set1Colors = ["#607c3c", "#607c3c", "#607c3c"];
-  const set2Colors = ["#FFA62F", "#FFA62F", "#FFA62F"];
-  const set3Colors = ["#ffe135", "#ffe135", "#ffe135"];
-  const set4Colors = ["#B62625", "#B62625", "#B62625"];
-
-
-
-  const GB1Dimensions = [
-    { width: 278.700, height: 50.200 },
-    { width: 50.200, height: 49.000 },
-    { width: 49.000, height: 50.200 },
-  ];
-
-  const GB2Dimensions = [
-    { width: 288.750, height: 46.000 },
-    { width: 46.000, height: 41.000 },
-    { width: 41.000, height: 46.000 },
-  ];
-
-  const GB3Dimensions = [
-    { width: 294.250, height: 53.000 },
-    { width: 53.000, height: 41.000 },
-    { width: 41.000, height: 53.000 },
-  ];
-
-  const CMB1Dimensions = [
-    { width: 125.000, height: 115.000 },
-    { width: 115.000, height: 121.000 },
-    { width: 121.000, height: 115.000 },
-  ];
-
-  const CMB2Dimensions = [
-    { width: 131.250, height: 105.800 },
-    { width: 105.800, height: 99.220 },
-    { width: 99.220, height: 105.800 },
-  ];
-
-  const CMB3Dimensions = [
-    { width: 133.750, height: 121.900 },
-    { width: 99.220, height: 121.900 },
-    { width: 121.900, height: 99.220 },
-  ];
-
-  const BS1Dimensions = [
-    { width: 101.000000, height: 41.000 },
-    { width: 99.000, height: 101.000 },
-    { width: 101.000, height: 99.000 },
-  ];
-
-  const BS2Dimensions = [
-    { width: 106.050, height: 37.720 },
-    { width: 103.950, height: 106.050 },
-    { width: 106.050, height: 103.950 },
-  ];
-
-  const BS3Dimensions = [
-    { width: 108.070, height: 43.460 },
-    { width: 105.930, height: 108.070 },
-    { width: 108.070, height: 105.930 },
-  ];
-
-  const C1Dimensions = [
-    { width: 95.0000, height: 104.000 },
-    { width: 104.000, height: 101.000 },
-    { width: 101.000, height: 104.000 },
-  ];
-
-  const C2Dimensions = [
-    { width: 99.750, height: 95.680 },
-    { width: 95.680, height: 82.820 },
-    { width: 82.820, height: 95.680 },
-  ];
-
-  const C3Dimensions = [
-    { width: 101.650, height: 110.240 },
-    { width: 110.240, height: 82.820 },
-    { width: 82.820, height: 110.240 },
-  ];	//height, width, lenght data
-
-
-  document.getElementById("View1").addEventListener("click", () => {
-    const selectedSet = document.getElementById("shapeSetSelector").value;
-    let dimensions;
-    let colorSet;
-    let shapeClasses;
-    switch (selectedSet) {
-      case 'set1':
-        dimensions = GB1Dimensions;
-        colorSet = set1Colors;
-        shapeClasses = ["cylinder", "sphere", "sphere"];
-        break;
-      case 'set2':
-        dimensions = CMB1Dimensions;
-        colorSet = set2Colors;
-        shapeClasses = ["sphere", "sphere", "sphere"];
-        break;
-      case 'set3':
-        dimensions = BS1Dimensions;
-        colorSet = set3Colors;
-        shapeClasses = ["cylinder", "sphere", "sphere"];
-        break;
-      case 'set4':
-        dimensions = C1Dimensions;
-        colorSet = set4Colors;
-        shapeClasses = ["sphere", "sphere", "sphere"];
-        break;
-      default:
-        dimensions = []; // Default to an empty array
+    function enableButtons1() {
+      View1.disabled = false;
+      View2.disabled = false;
+      View3.disabled = false;
     }
-    addShapes_1(shapeClasses, dimensions, colorSet);
-  });
-  document.getElementById("View2").addEventListener("click", () => {
-    const selectedSet = document.getElementById("shapeSetSelector").value;
-    let dimensions;
-    let colorSet;
-    let shapeClasses;
-    switch (selectedSet) {
-      case 'set1':
-        dimensions = GB2Dimensions;
-        colorSet = set1Colors;
-        shapeClasses = ["cylinder", "sphere", "sphere"];
-        break;
-      case 'set2':
-        dimensions = CMB2Dimensions;
-        colorSet = set2Colors;
-        shapeClasses = ["sphere", "sphere", "sphere"];
-        break;
-      case 'set3':
-        dimensions = BS2Dimensions;
-        colorSet = set3Colors;
-        shapeClasses = ["cylinder", "sphere", "sphere"];
-        break;
-      case 'set4':
-        dimensions = C2Dimensions;
-        colorSet = set4Colors;
-        shapeClasses = ["sphere", "sphere", "sphere"];
-        break;
-      default:
-        dimensions = []; // Default to an empty array
+
+    function disableButtons2() {
+      addPiece1.disabled = true;
+      addPiece2.disabled = true;
+      addPiece3.disabled = true;
     }
-    addShapes_1(shapeClasses, dimensions, colorSet);
-  });
-  document.getElementById("View3").addEventListener("click", () => {
-    const selectedSet = document.getElementById("shapeSetSelector").value;
-    let dimensions;
-    let colorSet;
-    let shapeClasses;
-    switch (selectedSet) {
-      case 'set1':
-        dimensions = GB1Dimensions;
-        colorSet = set1Colors;
-        shapeClasses = ["cylinder", "sphere", "sphere"];
-        break;
-      case 'set2':
-        dimensions = CMB3Dimensions;
-        colorSet = set2Colors;
-        shapeClasses = ["sphere", "sphere", "sphere"];
-        break;
-      case 'set3':
-        dimensions = BS3Dimensions;
-        colorSet = set3Colors;
-        shapeClasses = ["cylinder", "sphere", "sphere"];
-        break;
-      case 'set4':
-        dimensions = C3Dimensions;
-        colorSet = set4Colors;
-        shapeClasses = ["sphere", "sphere", "sphere"];
-        break;
-      default:
-        dimensions = []; // Default to an empty array
+    function enableButtons2() {
+      addPiece1.disabled = false;
+      addPiece2.disabled = false;
+      addPiece3.disabled = false;
     }
-    addShapes_1(shapeClasses, dimensions, colorSet);
-  });    
+
+    function disableButtons3a() {
+      addSodiumChlorideButton.disabled = true;
+      addWaterButton.disabled = true;
+    }
+    function enableButtons3a() {
+      addSodiumChlorideButton.disabled = false;
+      addWaterButton.disabled = false;
+    }    
+    function disableButtons3b() {
+      floatPiece1.disabled = true;
+      floatPiece2.disabled = true;
+      floatPiece3.disabled = true;
+    }
+    function enableButtons3b() {
+      floatPiece1.disabled = false;
+      floatPiece2.disabled = false;
+      floatPiece3.disabled = false;
+    }
+
+    document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
+      // for Metal ruler measurement panel
+      enableButtons1();
+      totalMass1 = getRandomAmount(0.003, 0.009);
+      tareOffset = 0;
+      document.getElementById("shapes-container").innerHTML = "";
+
+      // for Metal mass measurement panel
+      currentSet_2 = event.target.value;
+      removeShapes_2(); // Remove previous shapes first
+      totalWeight_2 = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
+      tareOffset = 0; // Reset tare offset when changing sets
+      updateMassDisplay2();
+      enableButtons2();
+      
+      // for float/sink panel
+      currentSet_3 = event.target.value;
+      removeShapes_3(); // Remove previous shapes first
+      totalMass1 = 0;
+      saltMass = 0;
+      updateMassDisplay1();
+    	totalWater = 0;
+      liquidHeight1 = 0;
+      document.getElementById('liquid').style.height = 0 + 'px';
+      enableButtons3b();
+    });
+
+    document.getElementById("resetButton").addEventListener("click", () => {
+      // for Metal ruler measurement panel
+      totalMass1 = 0;
+      tareOffset = 0;
+      disableButtons1();
+      document.getElementById("shapes-container").innerHTML = "";
+
+      // for Metal mass measurement panel
+      totalWeight_2 = 0;
+      tareOffset = 0;
+      currentSet_2 = "";
+      disableButtons2();
+      removeShapes_2();
+      updateMassDisplay2();
+      
+      
+      // for float/sink panel
+      currentSet_3 = "";
+      totalMass1 = 0;
+      saltMass = 0;
+      updateMassDisplay1();
+    	totalWater = 0;
+      liquidHeight1 = 0;
+      document.getElementById('liquid').style.height = 0 + 'px';
+      disableButtons3b();
+
+      // Reset dropdown
+      const shapeSetSelector = document.getElementById("shapeSetSelector");
+      shapeSetSelector.value = "";
+    });
+
+
+    // JavaScript to make the ruler draggable:
+    var dragRuler = document.querySelector('#drag-ruler');
+    var draggingRuler = false;
+
+    document.onmousedown = function(event) {
+      if (event.target == dragRuler) {
+        draggingRuler = true;
+        moveAt(event.pageX, event.pageY);
+      }
+    };
+
+    document.onmousemove = function(event) {
+      if (draggingRuler) {
+        moveAt(event.pageX, event.pageY);
+      }
+    };
+
+    document.onmouseup = function(event) {
+      draggingRuler = false;
+    };
+
+    function moveAt(pageX, pageY) {
+      dragRuler.style.left = pageX - dragRuler.offsetWidth / 2 + 'px';
+      dragRuler.style.top = pageY - dragRuler.offsetHeight / 2 + 'px';
+    }
+
+    // Generate ticks
+    for (let i = 5; i <= 105; i ++) {
+      var tick = document.createElement('div');
+      tick.style.width = '1px';
+      tick.style.position = 'absolute';
+      tick.style.left = i * 5 + 'px';
+      tick.style.bottom = '0';
+      tick.style.background = 'white';
+
+      if (i % 10 === 0) {  // every 10th tick mark
+        tick.style.height = '10px';
+      } else if (i % 5 === 0) {  // every 5th tick mark
+        tick.style.height = '15px';
+        let label = document.createElement('div');
+        label.textContent = (i - 5) / 10;  // Set the label text to the current tick number
+        label.style.position = 'absolute';
+        label.style.top = '-20px';  // Adjust this value as needed
+        label.style.left = '-4px';  // Adjust this value as needed
+        label.style.color = 'white';
+        tick.appendChild(label);
+
+      } else {  // default tick mark
+        tick.style.height = '5px';
+      }
+
+      dragRuler.appendChild(tick);
+    }
+
+    function addShapes_1(shapeClasses, dimensions, colorSet) {
+      const mainContainer = document.getElementById('shapes-container');
+      mainContainer.innerHTML = '';
+      for (let i = 0; i < dimensions.length; i++) {
+        const shapeElement = document.createElement('div');
+        shapeElement.classList.add(shapeClasses[i]);
+        shapeElement.style.width = dimensions[i].width + 'px';
+        shapeElement.style.height = dimensions[i].height + 'px';
+        const gradient = `linear-gradient(to right, ${colorSet.join(",")})`;
+        shapeElement.style.background = gradient;
+        const shapeContainer = document.createElement('div');
+        shapeContainer.classList.add('shape-container');
+        shapeContainer.appendChild(shapeElement);
+        mainContainer.appendChild(shapeContainer);
+      }
+    }
+
+
+    const set1Colors = ["#607c3c", "#607c3c", "#607c3c"];
+    const set2Colors = ["#FFA62F", "#FFA62F", "#FFA62F"];
+    const set3Colors = ["#ffe135", "#ffe135", "#ffe135"];
+    const set4Colors = ["#B62625", "#B62625", "#B62625"];
+
+
+    const GB1Dimensions = [
+      { width: 278.700, height: 50.200 },
+      { width: 50.200, height: 49.000 },
+      { width: 49.000, height: 50.200 },
+    ];
+
+    const GB2Dimensions = [
+      { width: 288.750, height: 46.000 },
+      { width: 46.000, height: 41.000 },
+      { width: 41.000, height: 46.000 },
+    ];
+
+    const GB3Dimensions = [
+      { width: 294.250, height: 53.000 },
+      { width: 53.000, height: 41.000 },
+      { width: 41.000, height: 53.000 },
+    ];
+
+    const CMB1Dimensions = [
+      { width: 125.000, height: 115.000 },
+      { width: 115.000, height: 121.000 },
+      { width: 121.000, height: 115.000 },
+    ];
+
+    const CMB2Dimensions = [
+      { width: 131.250, height: 105.800 },
+      { width: 105.800, height: 99.220 },
+      { width: 99.220, height: 105.800 },
+    ];
+
+    const CMB3Dimensions = [
+      { width: 133.750, height: 121.900 },
+      { width: 99.220, height: 121.900 },
+      { width: 121.900, height: 99.220 },
+    ];
+
+    const BS1Dimensions = [
+      { width: 101.000000, height: 41.000 },
+      { width: 99.000, height: 101.000 },
+      { width: 101.000, height: 99.000 },
+    ];
+
+    const BS2Dimensions = [
+      { width: 106.050, height: 37.720 },
+      { width: 103.950, height: 106.050 },
+      { width: 106.050, height: 103.950 },
+    ];
+
+    const BS3Dimensions = [
+      { width: 108.070, height: 43.460 },
+      { width: 105.930, height: 108.070 },
+      { width: 108.070, height: 105.930 },
+    ];
+
+    const C1Dimensions = [
+      { width: 95.0000, height: 104.000 },
+      { width: 104.000, height: 101.000 },
+      { width: 101.000, height: 104.000 },
+    ];
+
+    const C2Dimensions = [
+      { width: 99.750, height: 95.680 },
+      { width: 95.680, height: 82.820 },
+      { width: 82.820, height: 95.680 },
+    ];
+
+    const C3Dimensions = [
+      { width: 101.650, height: 110.240 },
+      { width: 110.240, height: 82.820 },
+      { width: 82.820, height: 110.240 },
+    ];	//height, width, lenght data
+
+
+    document.getElementById("View1").addEventListener("click", () => {
+      const selectedSet = document.getElementById("shapeSetSelector").value;
+      let dimensions;
+      let colorSet;
+      let shapeClasses;
+      switch (selectedSet) {
+        case 'set1':
+          dimensions = GB1Dimensions;
+          colorSet = set1Colors;
+          shapeClasses = ["cylinder", "sphere", "sphere"];
+          break;
+        case 'set2':
+          dimensions = CMB1Dimensions;
+          colorSet = set2Colors;
+          shapeClasses = ["sphere", "sphere", "sphere"];
+          break;
+        case 'set3':
+          dimensions = BS1Dimensions;
+          colorSet = set3Colors;
+          shapeClasses = ["cylinder", "sphere", "sphere"];
+          break;
+        case 'set4':
+          dimensions = C1Dimensions;
+          colorSet = set4Colors;
+          shapeClasses = ["sphere", "sphere", "sphere"];
+          break;
+        default:
+          dimensions = []; // Default to an empty array
+      }
+      addShapes_1(shapeClasses, dimensions, colorSet);
+    });
+    document.getElementById("View2").addEventListener("click", () => {
+      const selectedSet = document.getElementById("shapeSetSelector").value;
+      let dimensions;
+      let colorSet;
+      let shapeClasses;
+      switch (selectedSet) {
+        case 'set1':
+          dimensions = GB2Dimensions;
+          colorSet = set1Colors;
+          shapeClasses = ["cylinder", "sphere", "sphere"];
+          break;
+        case 'set2':
+          dimensions = CMB2Dimensions;
+          colorSet = set2Colors;
+          shapeClasses = ["sphere", "sphere", "sphere"];
+          break;
+        case 'set3':
+          dimensions = BS2Dimensions;
+          colorSet = set3Colors;
+          shapeClasses = ["cylinder", "sphere", "sphere"];
+          break;
+        case 'set4':
+          dimensions = C2Dimensions;
+          colorSet = set4Colors;
+          shapeClasses = ["sphere", "sphere", "sphere"];
+          break;
+        default:
+          dimensions = []; // Default to an empty array
+      }
+      addShapes_1(shapeClasses, dimensions, colorSet);
+    });
+    document.getElementById("View3").addEventListener("click", () => {
+      const selectedSet = document.getElementById("shapeSetSelector").value;
+      let dimensions;
+      let colorSet;
+      let shapeClasses;
+      switch (selectedSet) {
+        case 'set1':
+          dimensions = GB3Dimensions;
+          colorSet = set1Colors;
+          shapeClasses = ["cylinder", "sphere", "sphere"];
+          break;
+        case 'set2':
+          dimensions = CMB3Dimensions;
+          colorSet = set2Colors;
+          shapeClasses = ["sphere", "sphere", "sphere"];
+          break;
+        case 'set3':
+          dimensions = BS3Dimensions;
+          colorSet = set3Colors;
+          shapeClasses = ["cylinder", "sphere", "sphere"];
+          break;
+        case 'set4':
+          dimensions = C3Dimensions;
+          colorSet = set4Colors;
+          shapeClasses = ["sphere", "sphere", "sphere"];
+          break;
+        default:
+          dimensions = []; // Default to an empty array
+      }
+      addShapes_1(shapeClasses, dimensions, colorSet);
+    });    
+
+
+
+    const shapeSets2 = {
+      set1: { Piece1: 4.888, Piece2: 3.872, Piece3: 4.546 },
+      set2: { Piece1: 7.65, Piece2: 6.060, Piece3: 7.115 },
+      set3: { Piece1: 2.911, Piece2: 2.952, Piece3: 3.532 },
+      set4: { Piece1: 4.598, Piece2: 3.642, Piece3: 4.276 }
+    };	// mass data
+
+    const shapeSets3 = {
+      set1: { Piece1: 4.250, Piece2: 3.367, Piece3: 3.953 },
+      set2: { Piece1: 7.286, Piece2: 5.771, Piece3: 6.776 },
+      set3: { Piece1: 2.576, Piece2: 2.613, Piece3: 3.126 },
+      set4: { Piece1: 4.180, Piece2: 3.311, Piece3: 3.888 }
+    };	// volume data
+    
+    const shapeGradients = {
+      set1: 'linear-gradient(#607c3c, #8fa376, #607c3c)',
+      set2: 'radial-gradient(circle, #FFA62F, #ffdbab)',
+      set3: 'linear-gradient(#ffe135, #fff6c2, #ffe135)',
+      set4: 'radial-gradient(circle, #6d1616, #B62625)'
+    };
+
+
+    function addShape_2(shape) {
+      if (!currentSet_2 || addedShapes_2[shape]) return;
+      const selectedSet = document.getElementById("shapeSetSelector").value;
+      const shapeElement = document.createElement("div");
+      let reductionFactor = 0.5;
+
+      switch (selectedSet) {
+        case 'set1':
+          shapeElement.style.width = (GB1Dimensions[0].width * reductionFactor) + 'px';
+          shapeElement.style.height = (GB1Dimensions[0].height * reductionFactor)  + 'px';
+          break;
+        case 'set2':
+          shapeElement.style.width = (CMB1Dimensions[0].width * reductionFactor)  + 'px';
+          shapeElement.style.height = (CMB1Dimensions[0].height * reductionFactor)  + 'px';
+          break;
+        case 'set3':
+          shapeElement.style.width = (BS1Dimensions[0].width * reductionFactor)  + 'px';
+          shapeElement.style.height = (BS1Dimensions[0].height * reductionFactor)  + 'px';
+          break;
+        case 'set4':
+          shapeElement.style.width = (C1Dimensions[0].width * reductionFactor)  + 'px';
+          shapeElement.style.height = (C1Dimensions[0].height * reductionFactor)  + 'px';
+          break;
+        default:
+          shapeElement.style.width = "10px";
+          shapeElement.style.height = "10px";
+      }
+
+      shapeElement.style.background = shapeGradients[currentSet_2];
+
+      if (selectedSet === 'set2' || selectedSet === 'set4') {
+        shapeElement.style.borderRadius = "50%";
+      }  else {
+        shapeElement.style.borderRadius = "10px";
+      }
+
+      let pan_2 = document.getElementById("pan_2");
+
+      // Get the pan_2's position
+      const panRect = pan_2.getBoundingClientRect();
+
+      // Position the shape on top of the balance pan_2
+      shapeElement.style.position = "absolute";
+      shapeElement.style.bottom = "10px"; // Adjust this value so the shape rests on the pan_2
+      shapeElement.style.left = "50%";
+      shapeElement.style.transform = "translateX(-50%)";
+
+      pan_2.appendChild(shapeElement); // Append to body so positioning works correctly
+      addedShapes_2[shape] = { element: shapeElement, mass: shapeSets2[currentSet_2][shape] };
+      totalWeight_2 += shapeSets2[currentSet_2][shape] * errorPercent;
+
+      updateMassDisplay2();
+    }
+
+    function updateMassDisplay2() {
+      document.getElementById("total-mass-2").textContent = `${(totalWeight_2 - tareOffset).toFixed(3)} g`;
+    }
+
+    function removeShapes_2() {
+      for (let shape in addedShapes_2) {
+        totalWeight_2 = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
+        addedShapes_2[shape].element.remove();
+      }
+      addedShapes_2 = {};
+      updateMassDisplay2();
+    }
+
+    document.getElementById("tareButton").addEventListener("click", () => {
+      tareOffset = totalWeight_2;
+      updateMassDisplay2();
+    });
+    document.getElementById("removeShapes_2").addEventListener("click", removeShapes_2);
+    document.getElementById("addPiece1").addEventListener("click", () => addShape_2("Piece1"));
+    document.getElementById("addPiece2").addEventListener("click", () => addShape_2("Piece2"));
+    document.getElementById("addPiece3").addEventListener("click", () => addShape_2("Piece3"));
+
+
+
+
+    const addSodiumChlorideButton = document.querySelector('button[onclick="addSodiumChloride()"]');
+    const addWaterButton = document.querySelector('button[onclick="addWater()"]');
+    const emptyBeakerButton = document.querySelector('button[onclick="emptyBeaker()"]');
+
+    function addSodiumChloride() {
+      amount = getRandomAmount(0.10, 0.30);
+      saltMass += amount; // amounts = generic grams
+      totalMass1 += amount;
+      updateMassDisplay1();
+      increaseLiquidLevel1(amount);
+    }
+
+    function addWater() {
+      amount = getRandomAmount(2,5);
+      totalMass1 += amount;
+      totalWater += amount;
+      updateMassDisplay1();
+      increaseLiquidLevel1(amount);
+    }
+
+    function addShape_3(shape) {
+    	disableButtons3b();
+      if (!currentSet_3 || addedShapes_3[shape]) return;
+      const selectedSet = document.getElementById("shapeSetSelector").value;
+      const shapeElement = document.createElement("div");
+      let reductionFactor = 0.40;
+
+      switch (selectedSet) {
+        case 'set1':
+          shapeElement.style.width = (GB1Dimensions[0].width * reductionFactor) + 'px';
+          shapeElement.style.height = (GB1Dimensions[0].height * reductionFactor)  + 'px';
+          break;
+        case 'set2':
+          shapeElement.style.width = (CMB1Dimensions[0].width * reductionFactor)  + 'px';
+          shapeElement.style.height = (CMB1Dimensions[0].height * reductionFactor)  + 'px';
+          break;
+        case 'set3':
+          shapeElement.style.width = (BS1Dimensions[0].width * reductionFactor)  + 'px';
+          shapeElement.style.height = (BS1Dimensions[0].height * reductionFactor)  + 'px';
+          break;
+        case 'set4':
+          shapeElement.style.width = (C1Dimensions[0].width * reductionFactor)  + 'px';
+          shapeElement.style.height = (C1Dimensions[0].height * reductionFactor)  + 'px';
+          break;
+        default:
+          shapeElement.style.width = "10px";
+          shapeElement.style.height = "10px";
+      }
+
+      shapeElement.style.background = shapeGradients[currentSet_3];
+
+      if (selectedSet === 'set2' || selectedSet === 'set4') {
+        shapeElement.style.borderRadius = "50%";
+      }  else {
+        shapeElement.style.borderRadius = "10px";
+      }
+
+      let pan_3 = document.getElementById("pan_3");
+
+      // Get the pan_3's position
+      const panRect = pan_3.getBoundingClientRect();
+
+      // Position the shape on top of the balance pan_2
+      shapeElement.style.position = "absolute";
+      shapeElement.style.bottom = "10px"; // Adjust this value so the shape rests on the pan_2
+      shapeElement.style.left = "50%";
+      shapeElement.style.transform = "translateX(-50%)";
+
+      pan_3.appendChild(shapeElement); // Append to body so positioning works correctly
+      addedShapes_3[shape] = { element: shapeElement, mass: shapeSets2[currentSet_2][shape] };
+      totalMass1 += shapeSets3[currentSet_3][shape] * errorPercent;
+      
+      // if needed, adjust liquid height 
+    	displaceWaterLevel(shapeSets3[currentSet_3][shape]);
+
+      updateMassDisplay1();
+    }
+
+    function removeShapes_3() {
+      for (let shape in addedShapes_3) {
+        addedShapes_3[shape].element.remove();
+      }
+      addedShapes_3 = {};
+    }
+    
+    function emptyBeaker() {
+      totalMass1 = 0;
+      saltMass = 0;
+      updateMassDisplay1();
+    	totalWater = 0;
+      liquidHeight1 = 0;
+      document.getElementById('liquid').style.height = 0 + 'px';
+      removeShapes_3();
+      enableButtons3b();
+    }
+
+    function increaseLiquidLevel1(px_increase) {
+      liquidHeight1 += px_increase * 5;
+      if (liquidHeight1 > lim1) liquidHeight1 = lim1; // Prevent liquid from going above px limit
+      document.getElementById('liquid').style.height = liquidHeight1 + 'px';
+
+      if (liquidHeight1 >= lim1) {
+      	disableButtons3a(); // Disable buttons when liquid height reaches 200
+      }
+    }
+    
+    function displaceWaterLevel(shapeVolume) {
+      const shapeVolume_px = shapeVolume * 5;
+
+      // Ensure that displacement does not exceed existing water height
+      if (liquidHeight1 > 0) {
+        let maxPossibleIncrease = Math.min(shapeVolume_px, liquidHeight1); // Displacement cannot exceed current water
+        liquidHeight1 += maxPossibleIncrease; // Only increase within allowed limit
+
+        if (liquidHeight1 > lim1) {
+          liquidHeight1 = lim1; // Prevent overflow
+        }
+
+        document.getElementById('liquid').style.height = liquidHeight1 + 'px';
+      }
+    }
   
-
-
-  const shapeSets3 = {
-    set1: { Piece1: 4.888, Piece2: 3.872, Piece3: 4.546 },
-    set2: { Piece1: 7.65, Piece2: 6.060, Piece3: 7.115 },
-    set3: { Piece1: 2.911, Piece2: 2.952, Piece3: 3.532 },
-    set4: { Piece1: 4.598, Piece2: 3.642, Piece3: 4.276 }
-  };	// mass data
-
-  const shapeGradients = {
-    set1: 'linear-gradient(#607c3c, #8fa376, #607c3c)',
-    set2: 'radial-gradient(circle, #FFA62F, #ffdbab)',
-    set3: 'linear-gradient(#ffe135, #fff6c2, #ffe135)',
-    set4: 'radial-gradient(circle, #6d1616, #B62625)'
-  };
-  
-
-function addShape_3(shape) {
-  if (!currentSet_3 || addedShapes_3[shape]) return;
-	const selectedSet = document.getElementById("shapeSetSelector").value;
-  const shapeElement = document.createElement("div");
-  let reductionFactor = 0.5;
-  
-  switch (selectedSet) {
-    case 'set1':
-      shapeElement.style.width = (GB1Dimensions[0].width * reductionFactor) + 'px';
-      shapeElement.style.height = (GB1Dimensions[0].height * reductionFactor)  + 'px';
-      break;
-    case 'set2':
-      shapeElement.style.width = (CMB1Dimensions[0].width * reductionFactor)  + 'px';
-      shapeElement.style.height = (CMB1Dimensions[0].height * reductionFactor)  + 'px';
-      break;
-    case 'set3':
-      shapeElement.style.width = (BS1Dimensions[0].width * reductionFactor)  + 'px';
-      shapeElement.style.height = (BS1Dimensions[0].height * reductionFactor)  + 'px';
-      break;
-    case 'set4':
-      shapeElement.style.width = (C1Dimensions[0].width * reductionFactor)  + 'px';
-      shapeElement.style.height = (C1Dimensions[0].height * reductionFactor)  + 'px';
-      break;
-    default:
-      shapeElement.style.width = "10px";
-      shapeElement.style.height = "10px";
-  }
-
-  shapeElement.style.background = shapeGradients[currentSet_3];
-
-  if (selectedSet === 'set2' || selectedSet === 'set4') {
-    shapeElement.style.borderRadius = "50%";
-  }  else {
-  	shapeElement.style.borderRadius = "10px";
-  }
-
-  let pan_3 = document.getElementById("pan_3");
-
-  // Get the pan_3's position
-  const panRect = pan_3.getBoundingClientRect();
-
-  // Position the shape on top of the balance pan_3
-  shapeElement.style.position = "absolute";
-  shapeElement.style.bottom = "10px"; // Adjust this value so the shape rests on the pan_3
-  shapeElement.style.left = "50%";
-  shapeElement.style.transform = "translateX(-50%)";
-
-  pan_3.appendChild(shapeElement); // Append to body so positioning works correctly
-  addedShapes_3[shape] = { element: shapeElement, mass: shapeSets3[currentSet_3][shape] };
-  totalWeight += shapeSets3[currentSet_3][shape] * errorPercent;
-
-  updateMassDisplay1();
-  }
-  
-  function updateMassDisplay1() {
-    document.getElementById("total-mass").textContent = `${(totalWeight - tareOffset).toFixed(3)} g`;
-  }
-
-  function removeShapes_3() {
-    for (let shape in addedShapes_3) {
-      totalWeight = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
-      addedShapes_3[shape].element.remove();
+    function updateMassDisplay1() {
+      document.querySelector('#total-mass-3 span').textContent = totalMass1.toFixed(3);
+      document.querySelector('#saltMass span').textContent = saltMass.toFixed(3);
     }
-    addedShapes_3 = {};
-    updateMassDisplay1();
-  }
 
-  document.getElementById("tareButton").addEventListener("click", () => {
-    tareOffset = totalWeight;
-    updateMassDisplay1();
-  });
-  document.getElementById("removeShapes_3").addEventListener("click", removeShapes_3);
-  document.getElementById("addPiece1").addEventListener("click", () => addShape_3("Piece1"));
-  document.getElementById("addPiece2").addEventListener("click", () => addShape_3("Piece2"));
-  document.getElementById("addPiece3").addEventListener("click", () => addShape_3("Piece3"));
+    document.getElementById("floatPiece1").addEventListener("click", () => addShape_3("Piece1"));
+    document.getElementById("floatPiece2").addEventListener("click", () => addShape_3("Piece2"));
+    document.getElementById("floatPiece3").addEventListener("click", () => addShape_3("Piece3"));
 
-</script>
+
+  </script>
 </body>
 </html>
