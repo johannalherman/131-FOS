@@ -68,19 +68,6 @@
       z-index: 0;
     }
     
-    #saltMass, #amount {
-      position: absolute;
-      bottom: -7%; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 16px;
-      font-weight: bold;
-      z-index: 0;
-    }
-    
     #beaker, #cylinder {
       display: absolute;
       width: 400px;
@@ -213,7 +200,7 @@ function reset() {
   solVolume = 0;
   liquidHeight2 = 0;
   updateMassDisplay1();
-  updateMassDisplay2(0);
+  updateMassDisplay2();
   document.getElementById('liquid').style.height = liquidHeight1 + 'px';
   document.getElementById('solution').style.height = liquidHeight2 + 'px';
   enableButtons1(); // Enable buttons when resetting
@@ -266,7 +253,7 @@ function addSolution() {
   }
   
   totalMass2 = ((0.00871*((saltMass/totalMass1)*100)) + 0.97303) * solVolume; // amount = volumne (mL) in grad. cylinder
-  updateMassDisplay2(solVolume);
+  updateMassDisplay2();
   disableButtons1();
   increaseLiquidLevel2(amount);  
   increaseLiquidLevel1(-amount);
@@ -276,15 +263,15 @@ function addSolution() {
 function removeSolution() {
 	const amount0 = getRandomAmount(0.25,0.75);
 	if (amount0 > solVolume) {  
-  	amount = solVolume;
-  } else { amount = amount0; }
+  	amount2 = solVolume;
+  } else { amount2 = amount0; }
   
-  solVolume -= amount;
+  solVolume -= amount2;
   
   totalMass2 = ((0.00871*((saltMass/totalMass1)*100)) + 0.97303) * solVolume; // amount = volumne (mL) in grad. cylinder
-  updateMassDisplay2(solVolume);
-  increaseLiquidLevel2(-amount);
-  increaseLiquidLevel1(amount);
+  updateMassDisplay2();
+  increaseLiquidLevel2(-amount2);
+  increaseLiquidLevel1(amount2);
 }
 
 function increaseLiquidLevel2(amount) {
@@ -296,7 +283,7 @@ function updateMassDisplay1() {
   document.querySelector('#total-mass span').textContent = totalMass1.toFixed(3);
 }
 
-function updateMassDisplay2(amount) {
+function updateMassDisplay2() {
   document.querySelector('#total-mass-2 span').textContent = totalMass2.toFixed(3);
 }
 
