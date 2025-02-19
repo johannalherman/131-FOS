@@ -5,12 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chem 131 FOS-1 Salt Solution Density Simulation</title>
   <style>
-    body {      
-      max-width: 1000px; 
+    body {
+      max-width: 1000px;
       margin: auto;
-      font-family: Arial, sans-serif;
+      font: 18px Arial, sans-serif;
       text-align: center;
       padding: 20px;
+    }
+        
+    #instruction-message {
+      margin: auto;
+      text-align: left;
     }
     
     hr {
@@ -18,10 +23,17 @@
       border-radius: 5px;
     }
 
+    .reset-button-container button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
     .button-container button {
       margin-top: 40px;
       padding: 10px 20px;
-      font-size: 1em;
+      font-size: 16px;
       cursor: pointer;
     }
     
@@ -47,11 +59,24 @@
     
     #total-mass, #total-mass-2 {
       position: absolute;
-      bottom: 2%; /* Adjust as needed */
+      bottom: 2.5%; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       border-radius: 5px;
-      font-size: 1.5em;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 0;
+    }
+    
+    #saltMass, #amount {
+      position: absolute;
+      bottom: -7%; /* Adjust as needed */
+      left: 50%; /* Adjust as needed */
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      color: red;
+      font-size: 16px;
       font-weight: bold;
       z-index: 0;
     }
@@ -64,7 +89,7 @@
 
     #liquid {
       position: absolute;
-      bottom: 21.5%;
+      bottom: 21.6%;
       left: 50%;
       transform: translateX(-50%);
       width: 38%;
@@ -78,7 +103,7 @@
 
     #solution {
       position: absolute;
-      bottom: 23.9%;
+      bottom: 24.1%;
       left: 50%;
       transform: translateX(-50%);
       width: 38%;
@@ -89,26 +114,38 @@
       border-radius: 5px;
       z-index: -1;
     }
+    .solution::after {
+      content: "";
+      position: absolute;
+      top: -2px;
+      right: 0;
+      width: 100%;
+      height: 1px;
+      background: #cdeaf7; /* Subtle meniscus highlight */
+      border-radius: 10%;
+    }
     
     
   </style>
 </head>
 <body>
+<div id="instruction-message">
 <h2 style="font-size: 24pt; color: #ff2e37; text-align: left;">
 <strong>Simulation Instructions</strong>
 </h2>
-<p style="font-size: 18pt; text-align: left;">
+<p>
 Use this lab simulation to follow along with your Illustrated Experimental Plan for the FOS Lab Period 1 Experiment.
-  <ol style="font-size: 18pt; text-align: left;">
+  <ol>
   <li>To begin, use the <strong>ADD</strong> buttons below the beaker sitting on a balance to add sodium chloride and water into the beaker, preparing your sodium chloride solution.</li>
   <li>Once you have your sodium chloride solution prepared, use the <strong>ADD</strong> buttons below the graduated cylinder sitting on a balance to add portions of your prepared solution into the cylinder.</li>
   </ol>
 </p>
-<p style="font-size: 18pt; text-align: left;">
+<p>
 You can restart the simulation at any time by clicking on the <strong>Reset All Controls</strong> button.
 </p>
+</div>
 <hr>
-  <div class="button-container" style="text-align: left; margin-bottom: 40px;">
+  <div class="reset-button-container" style="text-align: left;">
       <button onclick="reset()">Reset All Controls</button>
   </div>
   
@@ -120,6 +157,7 @@ You can restart the simulation at any time by clicking on the <strong>Reset All 
         <div id="liquid"></div>
         <img id="beaker" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance.png?raw=true" alt="50-mL Beaker">
         <p id="total-mass"><span>0.000</span> g</p>
+        <p id="saltMass">NaCl Mass: <span>0.000</span> g</p>
       </div>
     </div>
     <div class="button-container" style="margin-bottom: 40px;">
@@ -132,17 +170,20 @@ You can restart the simulation at any time by clicking on the <strong>Reset All 
     <!--Balance Area #2 Code-->
     <div id="balance-area-2">
       <div id="glassware-container-2">
-        <div id="solution"></div>
+        <div id="solution" class="solution"></div>
         <img id="cylinder" src="https://github.com/johannalherman/Chem131/blob/main/Graduated%20Cylinder%20on%20Balance.png?raw=true">
         <p id="total-mass-2"><span>0.000</span> g</p> 
+        <p id="amount">Solution Volume: <span>0.00</span> mL</p>
       </div>
     </div>
     <div class="button-container">
-      <button onclick="addSolution()">Add Prepared Sodium Chloride Solution</button>
+      <button onclick="addSolution()">Add Solution</button>
+      <button onclick="removeSolution()">Remove Solution</button>
     </div>
   </div>
 </div>
 <hr>
+<p style="color: #ff2e37; text-align: left;"><em>This simulation was designed for use on a laptop or desktop computer. This simulation may not function properly on a mobile device.</em></p>
  
   <script>
 let totalMass1 = 0;
@@ -152,10 +193,19 @@ let lim1 = 180;
 let totalMass2 = 0;
 let solVolume = 0;
 let liquidHeight2= 0;
+let cylinderVolume = 395;  // Total px hieght volume of the cylinder
+let px_mL = 35.9; // number of px in mL in cylinder image
+let increment = 0; // Adjust this value for how much water should be added to cylinder per click
 
 const addSodiumChlorideButton = document.querySelector('button[onclick="addSodiumChloride()"]');
 const addWaterButton = document.querySelector('button[onclick="addWater()"]');
 const addSolutionButton = document.querySelector('button[onclick="addSolution()"]');
+const removeSolutionButton = document.querySelector('button[onclick="removeSolution()"]');
+
+
+function getRandomAmount(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
 function reset() {
   totalMass1 = 0;
@@ -189,12 +239,34 @@ function addWater() {
   checkAddSolutionButton();
 }
 
+function checkAddSolutionButton() {
+    if (liquidHeight1 < 75) { // ensures at least 15 mL of solution has been prepared
+      addSolutionButton.disabled = true;
+    } else {
+      addSolutionButton.disabled = false;
+    }
+}
+
+function increaseLiquidLevel1(amount) {
+  liquidHeight1 += amount * 5;
+  if (liquidHeight1 > lim1) liquidHeight1 = lim1; // Prevent liquid from going above px limit
+  document.getElementById('liquid').style.height = liquidHeight1 + 'px';
+  
+  if (liquidHeight1 >= lim1) disableButtons1(); // Disable buttons when liquid height reaches 200
+}
+
 function addSolution() {
-  const amount = getRandomAmount(0.5,0.9);
-  solVolume += amount;
-  if (solVolume >= 9.1) {
-    disableButtons2(); 
+  const amount = getRandomAmount(0.25,0.75);
+  const amountX = (cylinderVolume/px_mL) - solVolume;
+
+  if (solVolume + amount <= cylinderVolume/px_mL) {
+  	solVolume += amount; 
+    } else {
+  	amount = amountX;
+    disableButtons2();
+    solVolume = cylinderVolume/px_mL; // Prevent overflow
   }
+  
   totalMass2 = ((0.00871*((saltMass/totalMass1)*100)) + 0.97303) * solVolume; // amount = volumne (mL) in grad. cylinder
   updateMassDisplay2(solVolume);
   disableButtons1();
@@ -203,39 +275,33 @@ function addSolution() {
   document.querySelector('#total-mass span').textContent = "- - - - . - - - ";
 }
 
-function updateMassDisplay1() {
-  document.querySelector('#total-mass span').textContent = totalMass1.toFixed(3);
-}
-
-function updateMassDisplay2(amount) {
-  document.querySelector('#total-mass-2 span').textContent = totalMass2.toFixed(3);
-}
-
-function getRandomAmount(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-function increaseLiquidLevel1(amount) {
-  liquidHeight1 += amount * 5;
-  if (liquidHeight1 > lim1) liquidHeight1 = lim1; // Prevent liquid from going above 200 px
-  document.getElementById('liquid').style.height = liquidHeight1 + 'px';
+function removeSolution() {
+	const amount0 = getRandomAmount(0.25,0.75);
+	if (amount0 > solVolume) {  
+  	amount = solVolume;
+  } else { amount = amount0; }
   
-  if (liquidHeight1 >= lim1) {
-    disableButtons1(); // Disable buttons when liquid height reaches 200
-  }
-}
-
-function checkAddSolutionButton() {
-    if (liquidHeight1 < 50) {
-      addSolutionButton.disabled = true;
-    } else {
-      addSolutionButton.disabled = false;
-    }
+  solVolume -= amount;
+  
+  totalMass2 = ((0.00871*((saltMass/totalMass1)*100)) + 0.97303) * solVolume; // amount = volumne (mL) in grad. cylinder
+  updateMassDisplay2(solVolume);
+  increaseLiquidLevel2(-amount);
+  increaseLiquidLevel1(amount);
 }
 
 function increaseLiquidLevel2(amount) {
-  liquidHeight2 += amount * 36; 
+  liquidHeight2 += amount * px_mL;
   document.getElementById('solution').style.height = liquidHeight2 + 'px';
+}
+
+function updateMassDisplay1() {
+  document.querySelector('#total-mass span').textContent = totalMass1.toFixed(3);
+  document.querySelector('#saltMass span').textContent = saltMass.toFixed(3);
+}
+
+function updateMassDisplay2(amount) {
+  document.querySelector('#total-mass-2 span').textContent = totalMass2.toFixed(3);  
+  document.querySelector('#amount span').textContent = amount.toFixed(2);
 }
 
 function disableButtons1() {
