@@ -157,7 +157,6 @@ You can restart the simulation at any time by clicking on the <strong>Reset All 
         <div id="liquid"></div>
         <img id="beaker" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance.png?raw=true" alt="50-mL Beaker">
         <p id="total-mass"><span>0.000</span> g</p>
-        <p id="saltMass">NaCl Mass: <span>0.000</span> g</p>
       </div>
     </div>
     <div class="button-container" style="margin-bottom: 40px;">
@@ -173,7 +172,6 @@ You can restart the simulation at any time by clicking on the <strong>Reset All 
         <div id="solution" class="solution"></div>
         <img id="cylinder" src="https://github.com/johannalherman/Chem131/blob/main/Graduated%20Cylinder%20on%20Balance.png?raw=true">
         <p id="total-mass-2"><span>0.000</span> g</p> 
-        <p id="amount">Solution Volume: <span>0.00</span> mL</p>
       </div>
     </div>
     <div class="button-container">
@@ -296,12 +294,10 @@ function increaseLiquidLevel2(amount) {
 
 function updateMassDisplay1() {
   document.querySelector('#total-mass span').textContent = totalMass1.toFixed(3);
-  document.querySelector('#saltMass span').textContent = saltMass.toFixed(3);
 }
 
 function updateMassDisplay2(amount) {
-  document.querySelector('#total-mass-2 span').textContent = totalMass2.toFixed(3);  
-  document.querySelector('#amount span').textContent = amount.toFixed(2);
+  document.querySelector('#total-mass-2 span').textContent = totalMass2.toFixed(3);
 }
 
 function disableButtons1() {
