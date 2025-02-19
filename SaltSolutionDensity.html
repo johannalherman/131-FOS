@@ -65,7 +65,7 @@
     #beaker, #cylinder {
       display: absolute;
       width: 400px;
-      z-index: 1;
+      z-index: 5;
     }
 
     #liquid {
@@ -75,35 +75,34 @@
       transform: translateX(-50%);
       width: 38%;
       height: 0;
-      background: #cdeaf7;
+      background: #abdcf2;
       transition: height 0.3s;
-      opacity: 0.7;
+      opacity: 0.75;
       border-radius: 5px;
-      z-index: -1;
+      z-index: -10;
     }
 
     #solution {
       position: absolute;
       bottom: 24.1%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 38%;
+      left: 50%; transform: translateX(-50%);
+      width: 12.5%;
       height: 0;
-      background: #cdeaf7;
-      transition: height 0.3s;
-      opacity: 0.7;
-      border-radius: 5px;
-      z-index: -1;
+      background: #abdcf2;
+      transition: height 0.3s ease-in-out;
+      opacity: 0.75;
+      z-index: -10;
     }
     .solution::after {
       content: "";
       position: absolute;
-      top: -2px;
-      right: 0;
+      top: 0px;
+      right: 50%; transform: translateX(50%);
       width: 100%;
-      height: 1px;
-      background: #cdeaf7; /* Subtle meniscus highlight */
-      border-radius: 10%;
+      height: 5px;
+      background: #def1fa; /* Subtle meniscus highlight */
+      border-radius: 0% 0% 50% 50%; /* Round only the bottom corners */
+      z-index: 0;
     }
     
     
@@ -152,7 +151,7 @@ You can restart the simulation at any time by clicking on the <strong>Reset All 
       <div id="glassware-container-2">
         <div id="solution" class="solution"></div>
         <img id="cylinder" src="https://github.com/johannalherman/Chem131/blob/main/Graduated%20Cylinder%20on%20Balance.png?raw=true">
-        <p id="total-mass-2"><span>0.000</span> g</p> 
+        <p id="total-mass-2"><span>0.000</span> g</p>
       </div>
     </div>
     <div class="button-container">
@@ -262,7 +261,7 @@ function removeSolution() {
 }
 
 function increaseLiquidLevel2() {
-  document.getElementById('solution').style.height = (solVolume * px_mL) + 'px';
+  document.getElementById('solution').style.height = ((solVolume * px_mL)+4) + 'px';
 }
 
 function updateMassDisplay1() {
