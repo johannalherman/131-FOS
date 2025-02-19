@@ -46,12 +46,6 @@
       padding: 0px 20px;
     }
     
-    @media screen and (max-width: 500px) {
-    .column {
-        width: 100%;
-      }
-    }
-    
     #glassware-container, #glassware-container-2 {
       position: relative;
       display: inline-block;
@@ -171,6 +165,7 @@ You can restart the simulation at any time by clicking on the <strong>Reset All 
 <p style="color: #ff2e37; text-align: left;"><em>This simulation was designed for use on a laptop or desktop computer. This simulation may not function properly on a mobile device.</em></p>
  
   <script>
+let amount = 0;
 let totalMass1 = 0;
 let saltMass = 0;
 let liquidHeight1 = 0;
@@ -178,7 +173,7 @@ let lim1 = 180;
 let totalMass2 = 0;
 let solVolume = 0;
 let liquidHeight2= 0;
-let cylinderVolume = 395;  // Total px hieght volume of the cylinder
+let cylinderVolume = 390;  // Total px hieght volume of the cylinder
 let px_mL = 35.9; // number of px in mL in cylinder image
 let increment = 0; // Adjust this value for how much water should be added to cylinder per click
 
@@ -198,17 +193,16 @@ function reset() {
   liquidHeight1 = 0;
   totalMass2 = 0;
   solVolume = 0;
-  liquidHeight2 = 0;
   updateMassDisplay1();
   updateMassDisplay2();
-  document.getElementById('liquid').style.height = liquidHeight1 + 'px';
-  document.getElementById('solution').style.height = liquidHeight2 + 'px';
+  document.getElementById('liquid').style.height = 0 + 'px';
+  document.getElementById('solution').style.height = 0 + 'px';
   enableButtons1(); // Enable buttons when resetting
   checkAddSolutionButton();
   }
     
 function addSodiumChloride() {
-  const amount = getRandomAmount(0.10, 0.30);
+  amount = getRandomAmount(0.10, 0.30);
   saltMass += amount; // amounts = generic grams
   totalMass1 += amount;
   updateMassDisplay1();
@@ -217,7 +211,7 @@ function addSodiumChloride() {
 }
 
 function addWater() {
-  const amount = getRandomAmount(2,5);
+  amount = getRandomAmount(2,5);
   totalMass1 += amount;
   updateMassDisplay1();
   increaseLiquidLevel1(amount);
@@ -232,8 +226,8 @@ function checkAddSolutionButton() {
     }
 }
 
-function increaseLiquidLevel1(amount) {
-  liquidHeight1 += amount * 5;
+function increaseLiquidLevel1(px_increase) {
+  liquidHeight1 += px_increase * 5;
   if (liquidHeight1 > lim1) liquidHeight1 = lim1; // Prevent liquid from going above px limit
   document.getElementById('liquid').style.height = liquidHeight1 + 'px';
   
@@ -241,49 +235,41 @@ function increaseLiquidLevel1(amount) {
 }
 
 function addSolution() {
-  const amount = getRandomAmount(0.25,0.75);
-  const amountX = (cylinderVolume/px_mL) - solVolume;
-
-  if (solVolume + amount <= cylinderVolume/px_mL) {
-  	solVolume += amount; 
-    } else {
-  	amount = amountX;
-    disableButtons2();
-    solVolume = cylinderVolume/px_mL; // Prevent overflow
-  }
+  amount = getRandomAmount(0.25,0.75);
+  solVolume = Math.min(cylinderVolume/px_mL, solVolume + amount);
   
   totalMass2 = ((0.00871*((saltMass/totalMass1)*100)) + 0.97303) * solVolume; // amount = volumne (mL) in grad. cylinder
   updateMassDisplay2();
   disableButtons1();
-  increaseLiquidLevel2(amount);  
+  increaseLiquidLevel2();  
   increaseLiquidLevel1(-amount);
   document.querySelector('#total-mass span').textContent = "- - - - . - - - ";
 }
 
 function removeSolution() {
-	const amount0 = getRandomAmount(0.25,0.75);
-	if (amount0 > solVolume) {  
-  	amount2 = solVolume;
-  } else { amount2 = amount0; }
+	amount = 1;
+	if (amount >= solVolume) {  
+  	amount = solVolume;
+  }
   
-  solVolume -= amount2;
+  solVolume = Math.max(0, solVolume - amount);
   
   totalMass2 = ((0.00871*((saltMass/totalMass1)*100)) + 0.97303) * solVolume; // amount = volumne (mL) in grad. cylinder
   updateMassDisplay2();
-  increaseLiquidLevel2(-amount2);
-  increaseLiquidLevel1(amount2);
+  increaseLiquidLevel2();
+  increaseLiquidLevel1(amount);
+  enableButtons2();
 }
 
-function increaseLiquidLevel2(amount) {
-  liquidHeight2 += amount * px_mL;
-  document.getElementById('solution').style.height = liquidHeight2 + 'px';
+function increaseLiquidLevel2() {
+  document.getElementById('solution').style.height = (solVolume * px_mL) + 'px';
 }
 
 function updateMassDisplay1() {
   document.querySelector('#total-mass span').textContent = totalMass1.toFixed(3);
 }
 
-function updateMassDisplay2() {
+function updateMassDisplay2(solVoume) {
   document.querySelector('#total-mass-2 span').textContent = totalMass2.toFixed(3);
 }
 
