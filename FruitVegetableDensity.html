@@ -83,7 +83,7 @@
       border-radius: 1px;
       box-shadow: 1px 1px 1px black;
       z-index: 1000;  /* Add this line */
-      top: 700px;
+      top: 720px;
       right: 50%; transform: translateX(9%);
       user-select: none;
     }
@@ -192,7 +192,7 @@
       border: 2px solid #FF2E37;
       border-radius: 8px;
       box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
-      height: 680px;
+      height: 740px;
       width: 450px;
       position: relative;
       display: inline-block;
@@ -209,14 +209,14 @@
       width: 150px;
       height: 10px;
       position: absolute;
-      bottom: 280px;
+      bottom: 340px;
       left: 50%;
       transform: translateX(-50%);
     }
         
     #total-mass-2 {
       position: absolute;
-      bottom: 195px; /* Adjust as needed */
+      bottom: 255px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       border-radius: 5px;
@@ -668,8 +668,7 @@
         shapeElement.classList.add(shapeClasses[i]);
         shapeElement.style.width = dimensions[i].width + 'px';
         shapeElement.style.height = dimensions[i].height + 'px';
-        const gradient = `linear-gradient(to right, ${colorSet.join(",")})`;
-        shapeElement.style.background = gradient;
+        shapeElement.style.background = colorSet[i];
         const shapeContainer = document.createElement('div');
         shapeContainer.classList.add('shape-container');
         shapeContainer.appendChild(shapeElement);
@@ -678,10 +677,26 @@
     }
 
 
-    const set1Colors = ["#607c3c", "#607c3c", "#607c3c"];
-    const set2Colors = ["#FFA62F", "#FFA62F", "#FFA62F"];
-    const set3Colors = ["#ffe135", "#ffe135", "#ffe135"];
-    const set4Colors = ["#B62625", "#B62625", "#B62625"];
+    const set1Colors = {
+      1: ["#607c3c", "#7b9e4d", "#7b9e4d"],
+      2: ["#7b9e4d", "#88ae57", "#88ae57"],
+      3: ["#455a2b", "#607c3c", "#607c3c"]
+    };
+    const set2Colors = {
+      1: ["#FFA62F", "#FFA62F", "#FFA62F"],
+      2: ["#ffb149", "#ffb149", "#ffb149"],
+      3: ["#ff9b16", "#ff9b16", "#ff9b16"]
+    };
+    const set3Colors = {
+      1: ["#eedd79", "#eedd79", "#eedd79"],
+      2: ["#ffe54f", "#ffe54f", "#ffe54f"],
+      3: ["#ffe968", "#ffe968", "#ffe968"]
+    };
+    const set4Colors = {
+      1: ["#a12221", "#a12221", "#a12221"],
+      2: ["#B62625", "#B62625", "#B62625"],
+      3: ["#8c1d1c", "#8c1d1c", "#8c1d1c"]
+    };
 
 
     const GB1Dimensions = [
@@ -765,22 +780,22 @@
       switch (selectedSet) {
         case 'set1':
           dimensions = GB1Dimensions;
-          colorSet = set1Colors;
+          colorSet = set1Colors["1"];
           shapeClasses = ["cylinder", "sphere", "sphere"];
           break;
         case 'set2':
           dimensions = CMB1Dimensions;
-          colorSet = set2Colors;
+          colorSet = set2Colors["1"];
           shapeClasses = ["sphere", "sphere", "sphere"];
           break;
         case 'set3':
           dimensions = BS1Dimensions;
-          colorSet = set3Colors;
+          colorSet = set3Colors["1"];
           shapeClasses = ["cylinder", "sphere", "sphere"];
           break;
         case 'set4':
           dimensions = C1Dimensions;
-          colorSet = set4Colors;
+          colorSet = set4Colors["1"];
           shapeClasses = ["sphere", "sphere", "sphere"];
           break;
         default:
@@ -796,22 +811,22 @@
       switch (selectedSet) {
         case 'set1':
           dimensions = GB2Dimensions;
-          colorSet = set1Colors;
+          colorSet = set1Colors["2"];
           shapeClasses = ["cylinder", "sphere", "sphere"];
           break;
         case 'set2':
           dimensions = CMB2Dimensions;
-          colorSet = set2Colors;
+          colorSet = set2Colors["2"];
           shapeClasses = ["sphere", "sphere", "sphere"];
           break;
         case 'set3':
           dimensions = BS2Dimensions;
-          colorSet = set3Colors;
+          colorSet = set3Colors["2"];
           shapeClasses = ["cylinder", "sphere", "sphere"];
           break;
         case 'set4':
           dimensions = C2Dimensions;
-          colorSet = set4Colors;
+          colorSet = set4Colors["2"];
           shapeClasses = ["sphere", "sphere", "sphere"];
           break;
         default:
@@ -827,22 +842,22 @@
       switch (selectedSet) {
         case 'set1':
           dimensions = GB3Dimensions;
-          colorSet = set1Colors;
+          colorSet = set1Colors["3"];
           shapeClasses = ["cylinder", "sphere", "sphere"];
           break;
         case 'set2':
           dimensions = CMB3Dimensions;
-          colorSet = set2Colors;
+          colorSet = set2Colors["3"];
           shapeClasses = ["sphere", "sphere", "sphere"];
           break;
         case 'set3':
           dimensions = BS3Dimensions;
-          colorSet = set3Colors;
+          colorSet = set3Colors["3"];
           shapeClasses = ["cylinder", "sphere", "sphere"];
           break;
         case 'set4':
           dimensions = C3Dimensions;
-          colorSet = set4Colors;
+          colorSet = set4Colors["3"];
           shapeClasses = ["sphere", "sphere", "sphere"];
           break;
         default:
@@ -855,7 +870,7 @@
 
     const shapeSets2 = {
       set1: { Piece1: 4.888, Piece2: 3.872, Piece3: 4.546 },
-      set2: { Piece1: 7.65, Piece2: 6.060, Piece3: 7.115 },
+      set2: { Piece1: 7.650, Piece2: 6.060, Piece3: 7.115 },
       set3: { Piece1: 2.911, Piece2: 2.952, Piece3: 3.532 },
       set4: { Piece1: 4.598, Piece2: 3.642, Piece3: 4.276 }
     };	// mass data
@@ -878,32 +893,93 @@
     function addShape_2(shape) {
       if (!currentSet_2 || addedShapes_2[shape]) return;
       const selectedSet = document.getElementById("shapeSetSelector").value;
+      const selectedPiece = shape;
       const shapeElement = document.createElement("div");
       let reductionFactor = 0.6;
 
       switch (selectedSet) {
         case 'set1':
-          shapeElement.style.width = (GB1Dimensions[0].width * reductionFactor) + 'px';
-          shapeElement.style.height = (GB1Dimensions[0].height * reductionFactor)  + 'px';
+          switch (selectedPiece) {
+            case 'Piece1':
+              shapeElement.style.width = (GB1Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (GB1Dimensions[0].height * reductionFactor)  + 'px'; 
+              shapeElement.style.background = set1Colors["1"][0];
+              break;
+            case 'Piece2':
+              shapeElement.style.width = (GB2Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (GB2Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement.style.background = set1Colors["2"][0];
+              break;
+            case 'Piece3':
+              shapeElement.style.width = (GB3Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (GB3Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement.style.background = set1Colors["3"][0];
+              break;
+          }
           break;
         case 'set2':
-          shapeElement.style.width = (CMB1Dimensions[0].width * reductionFactor)  + 'px';
-          shapeElement.style.height = (CMB1Dimensions[0].height * reductionFactor)  + 'px';
+          switch (selectedPiece) {
+            case 'Piece1':
+              shapeElement.style.width = (CMB1Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (CMB1Dimensions[0].height * reductionFactor)  + 'px'; 
+              shapeElement.style.background = set2Colors["1"][0];
+              break;
+            case 'Piece2':
+              shapeElement.style.width = (CMB2Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (CMB2Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement.style.background = set2Colors["2"][0];
+              break;
+            case 'Piece3':
+              shapeElement.style.width = (CMB3Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (CMB3Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement.style.background = set2Colors["3"][0];
+              break;
+          }
           break;
         case 'set3':
-          shapeElement.style.width = (BS1Dimensions[0].width * reductionFactor)  + 'px';
-          shapeElement.style.height = (BS1Dimensions[0].height * reductionFactor)  + 'px';
+          switch (selectedPiece) {
+            case 'Piece1':
+              shapeElement.style.width = (BS1Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (BS1Dimensions[0].height * reductionFactor)  + 'px'; 
+              shapeElement.style.background = set3Colors["1"][0];
+              break;
+            case 'Piece2':
+              shapeElement.style.width = (BS2Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (BS2Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement.style.background = set3Colors["2"][0];
+              break;
+            case 'Piece3':
+              shapeElement.style.width = (BS3Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (BS3Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement.style.background = set3Colors["3"][0];
+              break;
+          }
           break;
         case 'set4':
-          shapeElement.style.width = (C1Dimensions[0].width * reductionFactor)  + 'px';
-          shapeElement.style.height = (C1Dimensions[0].height * reductionFactor)  + 'px';
+          switch (selectedPiece) {
+            case 'Piece1':
+              shapeElement.style.width = (C1Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (C1Dimensions[0].height * reductionFactor)  + 'px'; 
+              shapeElement.style.background = set4Colors["1"][0];
+              break;
+            case 'Piece2':
+              shapeElement.style.width = (C2Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (C2Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement.style.background = set4Colors["2"][0];
+              break;
+            case 'Piece3':
+              shapeElement.style.width = (C3Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement.style.height = (C3Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement.style.background = set4Colors["3"][0];
+              break;
+          }
           break;
         default:
           shapeElement.style.width = "10px";
           shapeElement.style.height = "10px";
       }
 
-      shapeElement.style.background = shapeGradients[currentSet_2];
+      // shapeElement.style.background = shapeGradients[currentSet_2];
 
       if (selectedSet === 'set2' || selectedSet === 'set4') {
         shapeElement.style.borderRadius = "50%";
@@ -921,8 +997,8 @@
       shapeElement.style.bottom = "10px"; // Adjust this value so the shape rests on the pan_2
       shapeElement.style.left = "50%";
       shapeElement.style.transform = "translateX(-50%)";
-
       pan_2.appendChild(shapeElement); // Append to body so positioning works correctly
+      
       addedShapes_2[shape] = { element: shapeElement, mass: shapeSets2[currentSet_2][shape] };
       totalMass2 += shapeSets2[currentSet_2][shape] * errorPercent;
 
@@ -980,32 +1056,93 @@
     	disableButtons3b();
       if (!currentSet_3 || addedShapes_3[shape]) return;
       const selectedSet = document.getElementById("shapeSetSelector").value;
+      const selectedPiece = shape;
       const shapeElement_3 = document.createElement("div");
       let reductionFactor = 0.40;
 
       switch (selectedSet) {
         case 'set1':
-          shapeElement_3.style.width = (GB1Dimensions[0].width * reductionFactor) + 'px';
-          shapeElement_3.style.height = (GB1Dimensions[0].height * reductionFactor)  + 'px';
+          switch (selectedPiece) {
+            case 'Piece1':
+              shapeElement_3.style.width = (GB1Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (GB1Dimensions[0].height * reductionFactor)  + 'px'; 
+              shapeElement_3.style.background = set1Colors["1"][0];
+              break;
+            case 'Piece2':
+              shapeElement_3.style.width = (GB2Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (GB2Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement_3.style.background = set1Colors["2"][0];
+              break;
+            case 'Piece3':
+              shapeElement_3.style.width = (GB3Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (GB3Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement_3.style.background = set1Colors["3"][0];
+              break;
+          }
           break;
         case 'set2':
-          shapeElement_3.style.width = (CMB1Dimensions[0].width * reductionFactor)  + 'px';
-          shapeElement_3.style.height = (CMB1Dimensions[0].height * reductionFactor)  + 'px';
+          switch (selectedPiece) {
+            case 'Piece1':
+              shapeElement_3.style.width = (CMB1Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (CMB1Dimensions[0].height * reductionFactor)  + 'px'; 
+              shapeElement_3.style.background = set2Colors["1"][0];
+              break;
+            case 'Piece2':
+              shapeElement_3.style.width = (CMB2Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (CMB2Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement_3.style.background = set2Colors["2"][0];
+              break;
+            case 'Piece3':
+              shapeElement_3.style.width = (CMB3Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (CMB3Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement_3.style.background = set2Colors["3"][0];
+              break;
+          }
           break;
         case 'set3':
-          shapeElement_3.style.width = (BS1Dimensions[0].width * reductionFactor)  + 'px';
-          shapeElement_3.style.height = (BS1Dimensions[0].height * reductionFactor)  + 'px';
+          switch (selectedPiece) {
+            case 'Piece1':
+              shapeElement_3.style.width = (BS1Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (BS1Dimensions[0].height * reductionFactor)  + 'px'; 
+              shapeElement_3.style.background = set3Colors["1"][0];
+              break;
+            case 'Piece2':
+              shapeElement_3.style.width = (BS2Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (BS2Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement_3.style.background = set3Colors["2"][0];
+              break;
+            case 'Piece3':
+              shapeElement_3.style.width = (BS3Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (BS3Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement_3.style.background = set3Colors["3"][0];
+              break;
+          }
           break;
         case 'set4':
-          shapeElement_3.style.width = (C1Dimensions[0].width * reductionFactor)  + 'px';
-          shapeElement_3.style.height = (C1Dimensions[0].height * reductionFactor)  + 'px';
+          switch (selectedPiece) {
+            case 'Piece1':
+              shapeElement_3.style.width = (C1Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (C1Dimensions[0].height * reductionFactor)  + 'px'; 
+              shapeElement_3.style.background = set4Colors["1"][0];
+              break;
+            case 'Piece2':
+              shapeElement_3.style.width = (C2Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (C2Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement_3.style.background = set4Colors["2"][0];
+              break;
+            case 'Piece3':
+              shapeElement_3.style.width = (C3Dimensions[0].width * reductionFactor) + 'px';
+              shapeElement_3.style.height = (C3Dimensions[0].height * reductionFactor)  + 'px';
+              shapeElement_3.style.background = set4Colors["3"][0];
+              break;
+          }
           break;
         default:
           shapeElement_3.style.width = "10px";
           shapeElement_3.style.height = "10px";
       }
 
-      shapeElement_3.style.background = shapeGradients[currentSet_3];
+      // shapeElement_3.style.background = shapeGradients[currentSet_3];
 
       if (selectedSet === 'set2' || selectedSet === 'set4') {
         shapeElement_3.style.borderRadius = "50%";
