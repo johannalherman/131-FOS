@@ -981,7 +981,7 @@
       if (!currentSet_3 || addedShapes_3[shape]) return;
       const selectedSet = document.getElementById("shapeSetSelector").value;
       const shapeElement_3 = document.createElement("div");
-      let reductionFactor = 0.50;
+      let reductionFactor = 0.40;
 
       switch (selectedSet) {
         case 'set1':
@@ -1155,7 +1155,7 @@
     
     function addSolution() {
     	removeShapes_3();
-      amount = 1;
+      amount = getRandomAmount(0.25, 0.75);
       solVolume = Math.min(cylinderVolume/px_mL, solVolume + amount);
 
       calcSolnDensity();
@@ -1168,7 +1168,7 @@
     }
 
     function removeSolution() {
-      amount = 1;
+      amount = 0.85;
       if (solVolume>0) {
         if (amount >= solVolume) {  
           amount = solVolume;
