@@ -249,7 +249,46 @@
     
     #saltMass, #volumeAdded {
       position: absolute;
-      bottom: 250px; /* Adjust as needed */
+      bottom: 260px; /* Adjust as needed */
+      left: 50%; /* Adjust as needed */
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      color: red;
+      font-size: 14px;
+      font-weight: bold;
+      z-index: 10;
+    }
+    
+    #waterMass {
+      position: absolute;
+      bottom: 240px; /* Adjust as needed */
+      left: 50%; /* Adjust as needed */
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      color: red;
+      font-size: 14px;
+      font-weight: bold;
+      z-index: 10;
+    }
+    
+    #SolnDensity {
+      position: absolute;
+      bottom: 280px; /* Adjust as needed */
+      left: 50%; /* Adjust as needed */
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      color: red;
+      font-size: 14px;
+      font-weight: bold;
+      z-index: 10;
+    }
+    
+    #objectDensity {
+      position: absolute;
+      bottom: 220px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.8);
@@ -278,7 +317,7 @@
       width: 150px;
       height: 10px;
       position: absolute;
-      bottom: 102px;
+      bottom: 390px;
       left: 50%;
       transform: translateX(-50%);
     }
@@ -376,6 +415,9 @@
           <img id="beaker_3" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance.png?raw=true">
           <p id="total-mass-3"><span>0.000</span> g</p>
           <p id="saltMass">NaCl Mass: <span>0.000</span> g</p>
+          <p id="waterMass">Water Mass: <span>0.000</span> g</p>
+          <p id="SolnDensity">SolnDensity: <span>0.000</span> g/mL</p>
+          <p id="objectDensity">objectDensity: <span>0.000</span> g/mL</p>
         
         <div class="button-container">
           <button id="floatPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
@@ -412,18 +454,21 @@
 
     let currentSet_2 = "";
     let addedShapes_2 = {};
-    let totalWeight_2 = 0;
+    let totalMass2 = 0;
     let tareOffset = 0;
     
-    let totalMass1 = 0;
+    let totalMass3 = 0;
     let saltMass = 0;
-    let totalWater = 0;
+    let waterMass = 0;
     let currentSet_3 = "";
     let addedShapes_3 = {};
-    let liquidHeight1 = 0;
+    let liquidHeight_2 = 0;
     let lim1 = 180;
+    let currentheight = 10;
+    let addedShapeDensity_3 = 0;
+    let SolnDensity = 0;
     
-    let totalMass2 = 0;
+    let totalMass4 = 0;
     let solVolume = 0;
     let liquidHeight2= 0;
     let cylinderVolume = 380;  // Total px hieght volume of the cylinder
@@ -488,31 +533,31 @@
     document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
       // for Metal ruler measurement panel
       enableButtons1();
-      totalMass1 = getRandomAmount(0.003, 0.009);
-      tareOffset = 0;
       document.getElementById("shapes-container").innerHTML = "";
 
       // for Metal mass measurement panel
       currentSet_2 = event.target.value;
       removeShapes_2(); // Remove previous shapes first
-      totalWeight_2 = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
+      totalMass2 = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
       tareOffset = 0; // Reset tare offset when changing sets
-      updateMassDisplay2();
+      updateMassDisplay_2();
       enableButtons2();
       
       // for float/sink panel
       currentSet_3 = event.target.value;
       removeShapes_3(); // Remove previous shapes first
-      totalMass1 = 0;
+      totalMass3 = 0;
       saltMass = 0;
-      updateMassDisplay1();
-    	totalWater = 0;
-      liquidHeight1 = 0;
+      updateMassDisplay_3();
+    	waterMass = 0;
+      liquidHeight_2 = 0;
+    	addedShapeDensity_3 = 0;
+      calcSolnDensity();
       document.getElementById('liquid').style.height = 0 + 'px';
       enableButtons3b();
       
       // for solution in cylinder      
-      totalMass2 = 0;
+      totalMass4 = 0;
       solVolume = 0;
       updateMassDisplay4();
       document.getElementById('solution').style.height = 0 + 'px';
@@ -521,32 +566,35 @@
 
     document.getElementById("resetButton").addEventListener("click", () => {
       // for Metal ruler measurement panel
-      totalMass1 = 0;
-      tareOffset = 0;
       disableButtons1();
       document.getElementById("shapes-container").innerHTML = "";
 
       // for Metal mass measurement panel
-      totalWeight_2 = 0;
+      totalMass2 = 0;
       tareOffset = 0;
       currentSet_2 = "";
       disableButtons2();
       removeShapes_2();
-      updateMassDisplay2();
+      updateMassDisplay_2();
       
       
       // for float/sink panel
       currentSet_3 = "";
-      totalMass1 = 0;
+      totalMass3 = 0;
       saltMass = 0;
-      updateMassDisplay1();
-    	totalWater = 0;
-      liquidHeight1 = 0;
+      updateMassDisplay_3();
+    	waterMass = 0;
+      liquidHeight_2 = 0;
+    	addedShapeDensity_3 = 0;
+      calcSolnDensity();
       document.getElementById('liquid').style.height = 0 + 'px';
-      disableButtons3b();
+      disableButtons3b();      
+      // reposition pan_3
+      pan_3.removeAttribute("style"); // Removes all inline styles
+      pan_3.classList.add("pan_3");
       
       // for solution in cylinder      
-      totalMass2 = 0;
+      totalMass4 = 0;
       solVolume = 0;
       updateMassDisplay4();
       document.getElementById('solution').style.height = 0 + 'px';
@@ -876,27 +924,27 @@
 
       pan_2.appendChild(shapeElement); // Append to body so positioning works correctly
       addedShapes_2[shape] = { element: shapeElement, mass: shapeSets2[currentSet_2][shape] };
-      totalWeight_2 += shapeSets2[currentSet_2][shape] * errorPercent;
+      totalMass2 += shapeSets2[currentSet_2][shape] * errorPercent;
 
-      updateMassDisplay2();
+      updateMassDisplay_2();
     }
 
-    function updateMassDisplay2() {
-      document.getElementById("total-mass-2").textContent = `${(totalWeight_2 - tareOffset).toFixed(3)} g`;
+    function updateMassDisplay_2() {
+      document.getElementById("total-mass-2").textContent = `${(totalMass2 - tareOffset).toFixed(3)} g`;
     }
 
     function removeShapes_2() {
       for (let shape in addedShapes_2) {
-        totalWeight_2 = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
+        totalMass2 = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
         addedShapes_2[shape].element.remove();
       }
       addedShapes_2 = {};
-      updateMassDisplay2();
+      updateMassDisplay_2();
     }
 
     document.getElementById("tareButton").addEventListener("click", () => {
-      tareOffset = totalWeight_2;
-      updateMassDisplay2();
+      tareOffset = totalMass2;
+      updateMassDisplay_2();
     });
     document.getElementById("removeShapes_2").addEventListener("click", removeShapes_2);
     document.getElementById("addPiece1").addEventListener("click", () => addShape_2("Piece1"));
@@ -906,25 +954,25 @@
 
 
 
-    const addSodiumChlorideButton = document.querySelector('button[onclick="addSodiumChloride()"]');
-    const addWaterButton = document.querySelector('button[onclick="addWater()"]');
-    const emptyBeakerButton = document.querySelector('button[onclick="emptyBeaker()"]');
-
     function addSodiumChloride() {
-      amount = getRandomAmount(0.10, 0.30);
+      amount = getRandomAmount(0.1, 0.3);
       saltMass += amount; // amounts = generic grams
-      totalMass1 += amount;
-      updateMassDisplay1();
-      increaseLiquidLevel1(amount);
+      totalMass3 += amount;
+      increaseLiquidLevel_1(amount);
+      calcSolnDensity();
+      simulateFloating();
+      updateMassDisplay_3();
       checkAddSolutionButton();
     }
 
     function addWater() {
-      amount = getRandomAmount(2,5);
-      totalMass1 += amount;
-      totalWater += amount;
-      updateMassDisplay1();
-      increaseLiquidLevel1(amount);
+      amount = getRandomAmount(5, 10);
+      waterMass += amount;  // amounts = generic grams & generic mL
+      totalMass3 += amount;
+      increaseLiquidLevel_1(amount);
+      calcSolnDensity();
+      simulateFloating();
+      updateMassDisplay_3();
       checkAddSolutionButton();
     }
 
@@ -932,37 +980,37 @@
     	disableButtons3b();
       if (!currentSet_3 || addedShapes_3[shape]) return;
       const selectedSet = document.getElementById("shapeSetSelector").value;
-      const shapeElement = document.createElement("div");
-      let reductionFactor = 0.40;
+      const shapeElement_3 = document.createElement("div");
+      let reductionFactor = 0.50;
 
       switch (selectedSet) {
         case 'set1':
-          shapeElement.style.width = (GB1Dimensions[0].width * reductionFactor) + 'px';
-          shapeElement.style.height = (GB1Dimensions[0].height * reductionFactor)  + 'px';
+          shapeElement_3.style.width = (GB1Dimensions[0].width * reductionFactor) + 'px';
+          shapeElement_3.style.height = (GB1Dimensions[0].height * reductionFactor)  + 'px';
           break;
         case 'set2':
-          shapeElement.style.width = (CMB1Dimensions[0].width * reductionFactor)  + 'px';
-          shapeElement.style.height = (CMB1Dimensions[0].height * reductionFactor)  + 'px';
+          shapeElement_3.style.width = (CMB1Dimensions[0].width * reductionFactor)  + 'px';
+          shapeElement_3.style.height = (CMB1Dimensions[0].height * reductionFactor)  + 'px';
           break;
         case 'set3':
-          shapeElement.style.width = (BS1Dimensions[0].width * reductionFactor)  + 'px';
-          shapeElement.style.height = (BS1Dimensions[0].height * reductionFactor)  + 'px';
+          shapeElement_3.style.width = (BS1Dimensions[0].width * reductionFactor)  + 'px';
+          shapeElement_3.style.height = (BS1Dimensions[0].height * reductionFactor)  + 'px';
           break;
         case 'set4':
-          shapeElement.style.width = (C1Dimensions[0].width * reductionFactor)  + 'px';
-          shapeElement.style.height = (C1Dimensions[0].height * reductionFactor)  + 'px';
+          shapeElement_3.style.width = (C1Dimensions[0].width * reductionFactor)  + 'px';
+          shapeElement_3.style.height = (C1Dimensions[0].height * reductionFactor)  + 'px';
           break;
         default:
-          shapeElement.style.width = "10px";
-          shapeElement.style.height = "10px";
+          shapeElement_3.style.width = "10px";
+          shapeElement_3.style.height = "10px";
       }
 
-      shapeElement.style.background = shapeGradients[currentSet_3];
+      shapeElement_3.style.background = shapeGradients[currentSet_3];
 
       if (selectedSet === 'set2' || selectedSet === 'set4') {
-        shapeElement.style.borderRadius = "50%";
+        shapeElement_3.style.borderRadius = "50%";
       }  else {
-        shapeElement.style.borderRadius = "10px";
+        shapeElement_3.style.borderRadius = "10px";
       }
 
       let pan_3 = document.getElementById("pan_3");
@@ -971,19 +1019,24 @@
       const panRect = pan_3.getBoundingClientRect();
 
       // Position the shape on top of the balance pan_2
-      shapeElement.style.position = "absolute";
-      shapeElement.style.bottom = "10px"; // Adjust this value so the shape rests on the pan_2
-      shapeElement.style.left = "50%";
-      shapeElement.style.transform = "translateX(-50%)";
+      shapeElement_3.style.position = "absolute";
+      shapeElement_3.style.bottom = "10px"; // Adjust this value so the shape rests on the pan_2
+      shapeElement_3.style.left = "50%";
+      shapeElement_3.style.transform = "translateX(-50%)";
 
-      pan_3.appendChild(shapeElement); // Append to body so positioning works correctly
-      addedShapes_3[shape] = { element: shapeElement, mass: shapeSets2[currentSet_2][shape] };
-      totalMass1 += shapeSets3[currentSet_3][shape] * errorPercent;
+      pan_3.appendChild(shapeElement_3); // Append to body so positioning works correctly
+      addedShapes_3[shape] = { element: shapeElement_3, mass: shapeSets2[currentSet_2][shape] };
+      totalMass3 += shapeSets3[currentSet_3][shape] * errorPercent;
       
       // if needed, adjust liquid height 
     	displaceWaterLevel(shapeSets3[currentSet_3][shape]);
+      
+      // store current object density
+      currentheight = shapeElement_3.offsetHeight;
+      addedShapeDensity_3 = shapeSets2[currentSet_3][shape]/shapeSets3[currentSet_3][shape];
+      simulateFloating();
 
-      updateMassDisplay1();
+      updateMassDisplay_3();
     }
 
     function removeShapes_3() {
@@ -992,31 +1045,27 @@
       }
       addedShapes_3 = {};
     }
-    
-    function emptyBeaker() {
-      totalMass1 = 0;
-      saltMass = 0;
-      updateMassDisplay1();
-    	totalWater = 0;
-      liquidHeight1 = 0;
-      document.getElementById('liquid').style.height = 0 + 'px';
-      removeShapes_3();
-      enableButtons3a(); enableButtons3b();
-      
-      // for solution in cylinder      
-      totalMass2 = 0;
-      solVolume = 0;
-      updateMassDisplay4();
-      document.getElementById('solution').style.height = 0 + 'px';
-      checkAddSolutionButton();
+
+    function simulateFloating() {
+      const object = pan_3;
+      if (SolnDensity > addedShapeDensity_3) {
+        // Object should float
+        object.style.transition = "transform 2s ease-out";
+        object.style.left = "50%";
+        object.style.transform = `translate(-50%, -${liquidHeight_2 - currentheight/2}px)`;
+      } else {
+        // Object stays sunken
+        object.style.left = "50%";
+      	object.style.transform = "translateX(-50%)";
+      }
     }
 
-    function increaseLiquidLevel1(px_increase) {
-      liquidHeight1 += px_increase * 5;
-      if (liquidHeight1 > lim1) liquidHeight1 = lim1; // Prevent liquid from going above px limit
-      document.getElementById('liquid').style.height = liquidHeight1 + 'px';
+    function increaseLiquidLevel_1(px_increase) {
+      liquidHeight_2 += px_increase * 5;
+      if (liquidHeight_2 > lim1) liquidHeight_2 = lim1; // Prevent liquid from going above px limit
+      document.getElementById('liquid').style.height = liquidHeight_2 + 'px';
 
-      if (liquidHeight1 >= lim1) {
+      if (liquidHeight_2 >= lim1) {
       	disableButtons3a(); // Disable buttons when liquid height reaches 200
       }
     }
@@ -1025,26 +1074,69 @@
       const shapeVolume_px = shapeVolume * 5;
 
       // Ensure that displacement does not exceed existing water height
-      if (liquidHeight1 > 0) {
-        let maxPossibleIncrease = Math.min(shapeVolume_px, liquidHeight1); // Displacement cannot exceed current water
-        liquidHeight1 += maxPossibleIncrease; // Only increase within allowed limit
+      if (liquidHeight_2 > 0) {
+        let maxPossibleIncrease = Math.min(shapeVolume_px, liquidHeight_2); // Displacement cannot exceed current water
+        liquidHeight_2 += maxPossibleIncrease; // Only increase within allowed limit
 
-        if (liquidHeight1 > lim1) {
-          liquidHeight1 = lim1; // Prevent overflow
+        if (liquidHeight_2 > lim1) {
+          liquidHeight_2 = lim1; // Prevent overflow
         }
 
-        document.getElementById('liquid').style.height = liquidHeight1 + 'px';
+        document.getElementById('liquid').style.height = liquidHeight_2 + 'px';
       }
     }
   
-    function updateMassDisplay1() {
-      document.querySelector('#total-mass-3 span').textContent = totalMass1.toFixed(3);
+    function updateMassDisplay_3() {
+      document.querySelector('#total-mass-3 span').textContent = totalMass3.toFixed(3);
       document.querySelector('#saltMass span').textContent = saltMass.toFixed(3);
+      document.querySelector('#waterMass span').textContent = waterMass.toFixed(3);
+      document.querySelector('#SolnDensity span').textContent = SolnDensity.toFixed(3);
+      document.querySelector('#objectDensity span').textContent = addedShapeDensity_3.toFixed(3);
+    }    
+    
+    function calcSolnDensity() {
+      if (waterMass <= 0) {
+        SolnDensity = 0;
+      } else if (saltMass <= 0) {
+      	 SolnDensity = 0.97303;
+      } else {      
+        SolnDensity = ((0.00871*((saltMass/(waterMass+saltMass))*100)) + 0.97303);
+      }
+    }
+    
+    function emptyBeaker() {
+    	// for float/sink panel
+      totalMass3 = 0;
+      saltMass = 0;
+    	waterMass = 0;
+      liquidHeight_2 = 0;
+    	addedShapeDensity_3 = 0;
+      calcSolnDensity();
+      updateMassDisplay_3();
+      document.getElementById('liquid').style.height = 0 + 'px';
+      removeShapes_3();
+      enableButtons3a(); enableButtons3b();
+      // reposition pan_3
+      pan_3.removeAttribute("style"); // Removes all inline styles
+      pan_3.classList.add("pan_3");
+      
+      // for solution in cylinder panel
+      totalMass4 = 0;
+      solVolume = 0;
+      updateMassDisplay4();
+      document.getElementById('solution').style.height = 0 + 'px';
+      checkAddSolutionButton();
     }
 
     document.getElementById("floatPiece1").addEventListener("click", () => addShape_3("Piece1"));
     document.getElementById("floatPiece2").addEventListener("click", () => addShape_3("Piece2"));
-    document.getElementById("floatPiece3").addEventListener("click", () => addShape_3("Piece3"));
+    document.getElementById("floatPiece3").addEventListener("click", () => addShape_3("Piece3"));    
+    
+    const addSodiumChlorideButton = document.querySelector('button[onclick="addSodiumChloride()"]');
+    const addWaterButton = document.querySelector('button[onclick="addWater()"]');
+    const emptyBeakerButton = document.querySelector('button[onclick="emptyBeaker()"]');
+
+    
 
 
 
@@ -1054,7 +1146,7 @@
     checkAddSolutionButton();
     
     function checkAddSolutionButton() {
-      if (liquidHeight1 < 75) { // ensures at least 15 mL of solution has been prepared
+      if (liquidHeight_2 < 75) { // ensures at least 15 mL of solution has been prepared
         addSolutionButton.disabled = true;
       } else {
         addSolutionButton.disabled = false;
@@ -1062,15 +1154,17 @@
     }
     
     function addSolution() {
-      amount = getRandomAmount(0.25,0.75);
+    	removeShapes_3();
+      amount = 1;
       solVolume = Math.min(cylinderVolume/px_mL, solVolume + amount);
 
-      totalMass2 = ((0.00871*((saltMass/totalMass1)*100)) + 0.97303) * solVolume; // amount = volumne (mL) in grad. cylinder
+      calcSolnDensity();
+      totalMass4 = (SolnDensity) * solVolume; // amount = volumne (mL) in grad. cylinder
       updateMassDisplay4();
       disableButtons3a();
-      increaseLiquidLevel2();  
-      increaseLiquidLevel1(-amount);
-      document.querySelector('#total-mass span').textContent = "- - - - . - - - ";
+      increaseLiquidLevel_2();  
+      increaseLiquidLevel_1(-amount);
+      document.querySelector('#total-mass-3 span').textContent = "- - - - . - - - ";
     }
 
     function removeSolution() {
@@ -1082,15 +1176,16 @@
 
         solVolume = Math.max(0, solVolume - amount);
 
-        totalMass2 = ((0.00871*((saltMass/totalMass1)*100)) + 0.97303) * solVolume; // amount = volumne (mL) in grad. cylinder
+        calcSolnDensity();
+      	totalMass4 = (SolnDensity) * solVolume; // amount = volumne (mL) in grad. cylinder
         updateMassDisplay4();
-        increaseLiquidLevel2();
-        increaseLiquidLevel1(amount);
+        increaseLiquidLevel_2();
+        increaseLiquidLevel_1(amount);
         enableButtons4();
       }
     }
 
-    function increaseLiquidLevel2() {
+    function increaseLiquidLevel_2() {
       if (solVolume > 0) {
         document.getElementById('solution').style.height = ((solVolume * px_mL)+4) + 'px';
       } else {
@@ -1099,7 +1194,7 @@
     }
 
     function updateMassDisplay4(solVoume) {
-      document.querySelector('#total-mass-4 span').textContent = totalMass2.toFixed(3);  
+      document.querySelector('#total-mass-4 span').textContent = totalMass4.toFixed(3);  
       document.querySelector('#volumeAdded span').textContent = solVolume.toFixed(4);
     }
     
