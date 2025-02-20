@@ -83,7 +83,7 @@
       border-radius: 1px;
       box-shadow: 1px 1px 1px black;
       z-index: 1000;  /* Add this line */
-      top: 800px;
+      top: 650px;
       right: 50%; transform: translateX(9%);
       user-select: none;
     }
@@ -172,10 +172,19 @@
     }
 
     .button-container button {
+      font-size: 14px;
       margin-top: 40px;
       padding: 10px 20px;
-      font-size: 16px;
+      border: 2px solid;
+      border-radius: 5px;
       cursor: pointer;
+    }  
+    .button-container button:hover {
+      border: 2px solid white;
+    }
+    .button-container button:focus {
+      padding: 9px 19px;
+      border: 3px solid #FF2E37;
     }
     
     #work-bench-1, #work-bench-2 {
@@ -189,7 +198,7 @@
       display: inline-block;
     }
     
-    #beaker_2, #beaker_3 {
+    #beaker_2, #beaker_3, #cylinder {
       margin: 40px 0px 0px 0px;
       width: 400px;
       z-index: 5;
@@ -216,18 +225,18 @@
       z-index: 10;
     }
     
-    #work-bench-3 {
+    #work-bench-3, #work-bench-4 {
       margin: 20px 0px 20px 0px;
       border: 2px solid #FF2E37;
       border-radius: 8px;
       box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
-      height: 760px;
+      height: 850px;
       width: 450px;
       position: relative;
       display: inline-block;
     }
         
-    #total-mass-3 {
+    #total-mass-3, #total-mass-4 {
       position: absolute;
       bottom: 11px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
@@ -238,12 +247,12 @@
       z-index: 10;
     }
     
-    #glassware-container {
+    #glassware-container, #glassware-container-2 {
       position: relative;
       display: inline-block;
     }
     
-    #saltMass {
+    #saltMass, #volumeAdded {
       position: absolute;
       bottom: -7%; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
@@ -277,6 +286,29 @@
       bottom: 102px;
       left: 50%;
       transform: translateX(-50%);
+    }
+
+    #solution {
+      position: absolute;
+      bottom: 22.2%;
+      left: 50%; transform: translateX(-50%);
+      width: 13%;
+      height: 0;
+      background: #abdcf2;
+      transition: height 0.3s ease-in-out;
+      opacity: 0.75;
+      z-index: -10;
+    }
+    .solution::after {
+      content: "";
+      position: absolute;
+      top: 0px;
+      right: 50%; transform: translateX(50%);
+      width: 100%;
+      height: 5px;
+      background: #def1fa; /* Subtle meniscus highlight */
+      border-radius: 0% 0% 50% 50%; /* Round only the bottom corners */
+      z-index: 0;
     }
     
   </style>
@@ -343,32 +375,40 @@
   <div class="row">
 
     <div class="column"><!--Area #3 Code--> 
-      <div id="work-bench-3" style="width: 99%">
-
+      <div id="work-bench-3">
+        <div id="glassware-container">
+          <div id="liquid"></div>
+          <div id="pan_3"></div>
+          <img id="beaker_3" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance.png?raw=true">
+          <p id="total-mass-3"><span>0.000</span> g</p>
+          <p id="saltMass">NaCl Mass: <span>0.000</span> g</p>
+        </div>
         <div class="button-container">
           <button id="floatPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
           <button id="floatPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
           <button id="floatPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
         </div>
-        <div id="glassware-container">
-          <div id="liquid"></div>
-          <div id="pan_3"></div>
-          <img id="beaker_3" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance.png?raw=true" alt="50-mL Beaker">
-          <p id="total-mass-3"><span>0.000</span> g</p>
-          <p id="saltMass">NaCl Mass: <span>0.000</span> g</p>
-        </div>
         <div class="button-container" style="margin-bottom: 40px;">
           <button onclick="addSodiumChloride()">Add Solid Sodium Chloride</button>
           <button onclick="addWater()">Add D.I. Water</button>
-          <button onclick="emptyBeaker()">Empty Beaker</button>
+          <button onclick="emptyBeaker()" class="control-button" >Empty Beaker</button>
         </div>
       </div>
+    </div>
 
-      <div class="column"><!--Area #4 Code--> 
-
-
+    <div class="column"><!--Area #4 Code--> 
+      <div id="work-bench-4">
+        <div id="glassware-container-2">
+          <div id="solution" class="solution"></div>
+          <img id="cylinder" src="https://github.com/johannalherman/Chem131/blob/main/Graduated%20Cylinder%20on%20Balance.png?raw=true">
+          <p id="total-mass-4"><span>0.000</span> g</p> 
+          <p id="volumeAdded">Solution Volume: <span>0.0000</span> mL</p>
+        </div>
+        <div class="button-container">
+          <button onclick="addSolution()">Add Solution</button>
+          <button onclick="removeSolution()" class="control-button">Remove Solution</button>
+        </div>
       </div>
-
     </div>
   </div>
       
@@ -389,6 +429,14 @@
     let addedShapes_3 = {};
     let liquidHeight1 = 0;
     let lim1 = 180;
+    
+    let totalMass2 = 0;
+    let solVolume = 0;
+    let liquidHeight2= 0;
+    let cylinderVolume = 380;  // Total px hieght volume of the cylinder
+    let px_mL = 35.9; // number of px in mL in cylinder image
+    let increment = 0; // Adjust this value for how much water should be added to cylinder per click
+
 
     function getRandomAmount(min, max) {
       return Math.random() * (max - min) + min;
@@ -437,6 +485,13 @@
       floatPiece3.disabled = false;
     }
 
+    function disableButtons4() {
+      addSolutionButton.disabled = true;
+    }
+    function enableButtons4() {
+      addSolutionButton.disabled = false;
+    }
+
     document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
       // for Metal ruler measurement panel
       enableButtons1();
@@ -462,6 +517,13 @@
       liquidHeight1 = 0;
       document.getElementById('liquid').style.height = 0 + 'px';
       enableButtons3b();
+      
+      // for solution in cylinder      
+      totalMass2 = 0;
+      solVolume = 0;
+      updateMassDisplay4();
+      document.getElementById('solution').style.height = 0 + 'px';
+      checkAddSolutionButton();
     });
 
     document.getElementById("resetButton").addEventListener("click", () => {
@@ -489,6 +551,13 @@
       liquidHeight1 = 0;
       document.getElementById('liquid').style.height = 0 + 'px';
       disableButtons3b();
+      
+      // for solution in cylinder      
+      totalMass2 = 0;
+      solVolume = 0;
+      updateMassDisplay4();
+      document.getElementById('solution').style.height = 0 + 'px';
+      checkAddSolutionButton();
 
       // Reset dropdown
       const shapeSetSelector = document.getElementById("shapeSetSelector");
@@ -854,6 +923,7 @@
       totalMass1 += amount;
       updateMassDisplay1();
       increaseLiquidLevel1(amount);
+      checkAddSolutionButton();
     }
 
     function addWater() {
@@ -862,6 +932,7 @@
       totalWater += amount;
       updateMassDisplay1();
       increaseLiquidLevel1(amount);
+      checkAddSolutionButton();
     }
 
     function addShape_3(shape) {
@@ -937,7 +1008,14 @@
       liquidHeight1 = 0;
       document.getElementById('liquid').style.height = 0 + 'px';
       removeShapes_3();
-      enableButtons3b();
+      enableButtons3a(); enableButtons3b();
+      
+      // for solution in cylinder      
+      totalMass2 = 0;
+      solVolume = 0;
+      updateMassDisplay4();
+      document.getElementById('solution').style.height = 0 + 'px';
+      checkAddSolutionButton();
     }
 
     function increaseLiquidLevel1(px_increase) {
@@ -976,6 +1054,63 @@
     document.getElementById("floatPiece3").addEventListener("click", () => addShape_3("Piece3"));
 
 
+
+
+    const addSolutionButton = document.querySelector('button[onclick="addSolution()"]');
+    const removeSolutionButton = document.querySelector('button[onclick="removeSolution()"]');
+    checkAddSolutionButton();
+    
+    function checkAddSolutionButton() {
+      if (liquidHeight1 < 75) { // ensures at least 15 mL of solution has been prepared
+        addSolutionButton.disabled = true;
+      } else {
+        addSolutionButton.disabled = false;
+      }
+    }
+    
+    function addSolution() {
+      amount = getRandomAmount(0.25,0.75);
+      solVolume = Math.min(cylinderVolume/px_mL, solVolume + amount);
+
+      totalMass2 = ((0.00871*((saltMass/totalMass1)*100)) + 0.97303) * solVolume; // amount = volumne (mL) in grad. cylinder
+      updateMassDisplay4();
+      disableButtons3a();
+      increaseLiquidLevel2();  
+      increaseLiquidLevel1(-amount);
+      document.querySelector('#total-mass span').textContent = "- - - - . - - - ";
+    }
+
+    function removeSolution() {
+      amount = 1;
+      if (solVolume>0) {
+        if (amount >= solVolume) {  
+          amount = solVolume;
+        }
+
+        solVolume = Math.max(0, solVolume - amount);
+
+        totalMass2 = ((0.00871*((saltMass/totalMass1)*100)) + 0.97303) * solVolume; // amount = volumne (mL) in grad. cylinder
+        updateMassDisplay4();
+        increaseLiquidLevel2();
+        increaseLiquidLevel1(amount);
+        enableButtons4();
+      }
+    }
+
+    function increaseLiquidLevel2() {
+      if (solVolume > 0) {
+        document.getElementById('solution').style.height = ((solVolume * px_mL)+4) + 'px';
+      } else {
+        document.getElementById('solution').style.height = (solVolume * px_mL) + 'px';
+      }
+    }
+
+    function updateMassDisplay4(solVoume) {
+      document.querySelector('#total-mass-4 span').textContent = totalMass2.toFixed(3);  
+      document.querySelector('#volumeAdded span').textContent = solVolume.toFixed(4);
+    }
+    
+    
   </script>
 </body>
 </html>
