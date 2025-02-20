@@ -209,14 +209,14 @@
       width: 150px;
       height: 10px;
       position: absolute;
-      bottom: 430px;
+      bottom: 280px;
       left: 50%;
       transform: translateX(-50%);
     }
         
     #total-mass-2 {
       position: absolute;
-      bottom: 345px; /* Adjust as needed */
+      bottom: 195px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       border-radius: 5px;
@@ -365,7 +365,7 @@
 </div>
 <hr>
 <div id="dropdown-container">
-  <label for="shapeSetSelector">Select Assigned Metal:</label>
+  <label for="shapeSetSelector">Select Assigned Fruit/Vegatable:</label>
   <select id="shapeSetSelector">
     <option value="" selected>Choose from Dropdown</option>
     <option value="set1">Green Beans</option>
@@ -380,13 +380,12 @@
 
     <div class="column"><!--Area #1 Code-->
       <div id="work-bench-1"> 
-
         <div id="shape-buttons-1">
           <button id="View1" class="shape-button" type="button" disabled>Piece #1</button>
           <button id="View2" class="shape-button" type="button" disabled>Piece #2</button>
           <button id="View3" class="shape-button" type="button" disabled>Piece #3</button>
         </div>     
-        <p style="font-size: 13.9pt; padding: 0px 10px;">The three images below display a single piece of your assigned metal. Each image represents the view from one angle of the same object.</p>
+        <p style="font-size: 13.9pt; padding: 0px 10px;">The three images below display a single piece of your assigned fruit/vegetable. Each image represents the view from one angle of the same object.</p>
         <div id="shapes-container"></div>
       </div>      
     </div>
@@ -394,7 +393,7 @@
     <div class="column"> <!--Area #2 Code-->
       <div id="work-bench-2">
         <div id="pan_2"></div>
-        <img id="beaker_2" src="https://github.com/johannalherman/Chem131/blob/main/Balance.png?raw=true">
+        <img id="beaker_2" src="https://github.com/johannalherman/Chem131/blob/main/Balance.png?raw=true" style="padding-top: 150px;">
         <p id="total-mass-2"><span>0.000</span> g</p>
         <div class="button-container" style="margin-bottom: 40px;">
           <button id="addPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
@@ -532,11 +531,11 @@
     }
 
     document.getElementById("shapeSetSelector").addEventListener("change", function(event) {
-      // for Metal ruler measurement panel
+      // for  ruler measurement panel
       enableButtons1();
       document.getElementById("shapes-container").innerHTML = "";
 
-      // for Metal mass measurement panel
+      // for mass measurement panel
       currentSet_2 = event.target.value;
       removeShapes_2(); // Remove previous shapes first
       totalMass2 = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
@@ -566,11 +565,11 @@
     });
 
     document.getElementById("resetButton").addEventListener("click", () => {
-      // for Metal ruler measurement panel
+      // for ruler measurement panel
       disableButtons1();
       document.getElementById("shapes-container").innerHTML = "";
 
-      // for Metal mass measurement panel
+      // for mass measurement panel
       totalMass2 = 0;
       tareOffset = 0;
       currentSet_2 = "";
@@ -880,7 +879,7 @@
       if (!currentSet_2 || addedShapes_2[shape]) return;
       const selectedSet = document.getElementById("shapeSetSelector").value;
       const shapeElement = document.createElement("div");
-      let reductionFactor = 0.5;
+      let reductionFactor = 0.6;
 
       switch (selectedSet) {
         case 'set1':
