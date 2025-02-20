@@ -173,7 +173,7 @@
 
     .button-container button {
       font-size: 14px;
-      margin-top: 40px;
+      margin-top: 10px;
       padding: 10px 20px;
       border: 2px solid;
       border-radius: 5px;
@@ -199,7 +199,7 @@
     }
     
     #beaker_2, #beaker_3, #cylinder {
-      margin: 40px 0px 0px 0px;
+      margin: 40px 0px 40px 0px;
       width: 400px;
       z-index: 5;
     }
@@ -238,7 +238,7 @@
         
     #total-mass-3, #total-mass-4 {
       position: absolute;
-      bottom: 11px; /* Adjust as needed */
+      bottom: 300px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       border-radius: 5px;
@@ -247,14 +247,9 @@
       z-index: 10;
     }
     
-    #glassware-container, #glassware-container-2 {
-      position: relative;
-      display: inline-block;
-    }
-    
     #saltMass, #volumeAdded {
       position: absolute;
-      bottom: -7%; /* Adjust as needed */
+      bottom: 250px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.8);
@@ -267,7 +262,7 @@
 
     #liquid {
       position: absolute;
-      bottom: 112px;
+      bottom: 400px;
       left: 50%;
       transform: translateX(-50%);
       width: 38%;
@@ -290,7 +285,7 @@
 
     #solution {
       position: absolute;
-      bottom: 22.2%;
+      bottom: 412.5px;
       left: 50%; transform: translateX(-50%);
       width: 13%;
       height: 0;
@@ -376,19 +371,18 @@
 
     <div class="column"><!--Area #3 Code--> 
       <div id="work-bench-3">
-        <div id="glassware-container">
           <div id="liquid"></div>
           <div id="pan_3"></div>
           <img id="beaker_3" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance.png?raw=true">
           <p id="total-mass-3"><span>0.000</span> g</p>
           <p id="saltMass">NaCl Mass: <span>0.000</span> g</p>
-        </div>
+        
         <div class="button-container">
           <button id="floatPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
           <button id="floatPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
           <button id="floatPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
         </div>
-        <div class="button-container" style="margin-bottom: 40px;">
+        <div class="button-container">
           <button onclick="addSodiumChloride()">Add Solid Sodium Chloride</button>
           <button onclick="addWater()">Add D.I. Water</button>
           <button onclick="emptyBeaker()" class="control-button" >Empty Beaker</button>
@@ -398,12 +392,11 @@
 
     <div class="column"><!--Area #4 Code--> 
       <div id="work-bench-4">
-        <div id="glassware-container-2">
           <div id="solution" class="solution"></div>
           <img id="cylinder" src="https://github.com/johannalherman/Chem131/blob/main/Graduated%20Cylinder%20on%20Balance.png?raw=true">
           <p id="total-mass-4"><span>0.000</span> g</p> 
           <p id="volumeAdded">Solution Volume: <span>0.0000</span> mL</p>
-        </div>
+        
         <div class="button-container">
           <button onclick="addSolution()">Add Solution</button>
           <button onclick="removeSolution()" class="control-button">Remove Solution</button>
@@ -434,7 +427,7 @@
     let solVolume = 0;
     let liquidHeight2= 0;
     let cylinderVolume = 380;  // Total px hieght volume of the cylinder
-    let px_mL = 35.9; // number of px in mL in cylinder image
+    let px_mL = 36.1; // number of px in mL in cylinder image
     let increment = 0; // Adjust this value for how much water should be added to cylinder per click
 
 
