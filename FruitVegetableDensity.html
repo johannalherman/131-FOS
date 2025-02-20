@@ -164,12 +164,6 @@
       flex: 50%;
       padding: 0px 20px;
     }
-    
-    @media screen and (max-width: 500px) {
-    .column {
-        width: 100%;
-      }
-    }
 
     .button-container button {
       font-size: 14px;
@@ -243,58 +237,6 @@
       transform: translateX(-50%);
       border-radius: 5px;
       font-size: 24px;
-      font-weight: bold;
-      z-index: 10;
-    }
-    
-    #saltMass, #volumeAdded {
-      position: absolute;
-      bottom: 260px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }
-    
-    #waterMass {
-      position: absolute;
-      bottom: 240px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }
-    
-    #SolnDensity {
-      position: absolute;
-      bottom: 280px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }
-    
-    #objectDensity {
-      position: absolute;
-      bottom: 220px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
       font-weight: bold;
       z-index: 10;
     }
@@ -414,10 +356,6 @@
           <div id="pan_3"></div>
           <img id="beaker_3" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance.png?raw=true">
           <p id="total-mass-3"><span>0.000</span> g</p>
-          <p id="saltMass">NaCl Mass: <span>0.000</span> g</p>
-          <p id="waterMass">Water Mass: <span>0.000</span> g</p>
-          <p id="SolnDensity">SolnDensity: <span>0.000</span> g/mL</p>
-          <p id="objectDensity">objectDensity: <span>0.000</span> g/mL</p>
         
         <div class="button-container">
           <button id="floatPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
@@ -437,7 +375,6 @@
           <div id="solution" class="solution"></div>
           <img id="cylinder" src="https://github.com/johannalherman/Chem131/blob/main/Graduated%20Cylinder%20on%20Balance.png?raw=true">
           <p id="total-mass-4"><span>0.000</span> g</p> 
-          <p id="volumeAdded">Solution Volume: <span>0.0000</span> mL</p>
         
         <div class="button-container">
           <button onclick="addSolution()">Add Solution</button>
@@ -1054,7 +991,7 @@
     }
 
     function addWater() {
-      amount = getRandomAmount(5, 10);
+      amount = getRandomAmount(15, 20);
       waterMass += amount;  // amounts = generic grams & generic mL
       totalMass3 += amount;
       increaseLiquidLevel_1(amount);
@@ -1249,10 +1186,6 @@
   
     function updateMassDisplay_3() {
       document.querySelector('#total-mass-3 span').textContent = totalMass3.toFixed(3);
-      document.querySelector('#saltMass span').textContent = saltMass.toFixed(3);
-      document.querySelector('#waterMass span').textContent = waterMass.toFixed(3);
-      document.querySelector('#SolnDensity span').textContent = SolnDensity.toFixed(3);
-      document.querySelector('#objectDensity span').textContent = addedShapeDensity_3.toFixed(3);
     }    
     
     function calcSolnDensity() {
@@ -1355,8 +1288,7 @@
     }
 
     function updateMassDisplay4(solVoume) {
-      document.querySelector('#total-mass-4 span').textContent = totalMass4.toFixed(3);  
-      document.querySelector('#volumeAdded span').textContent = solVolume.toFixed(4);
+      document.querySelector('#total-mass-4 span').textContent = totalMass4.toFixed(3);
     }
     
     
