@@ -1,435 +1,435 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CHEM 131 FOS-2 Fruit/Veggie Density Simulation</title>
-  <style>
-    body {
-      width: 1000px;
-      margin: auto;
-      font: 18px Arial, sans-serif;     
-      padding: 20px;
-      text-align: center;          
-    }
-        
-    #instruction-message {
-      margin: auto;
-      text-align: left;
-    }
-    
-    hr {
-      margin: auto;
-      border: 5px solid #FF2E37;
-      border-radius: 5px;
-    }
-    
-    
-    .tab {
-      overflow: hidden;
-    }
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHEM 131 FOS-2 Fruit/Veggie Density Simulation</title>
+    <style>
+      body {
+        width: 1000px;
+        margin: auto;
+        font: 18px Arial, sans-serif;     
+        padding: 20px;
+        text-align: center;          
+      }
 
-    /* Style the buttons that are used to open the tab content */
-    .tab button { 
-      border: 2px solid #FF2E37;
-      border-radius: 5px;
-      background-color: #ffd7e1;
-      margin: 0px 10px 10px 0px;
-      font: 24px Arial, sans-serif; 
-      float: left;
-      outline: none;
-      cursor: pointer;
-      padding: 15px 10px;
-      transition: 0.3s;
-      width: 28%;
-    }
+      #instruction-message {
+        margin: auto;
+        text-align: left;
+      }
 
-    /* Change background color of buttons on hover */
-    .tab button:hover {
-      background-color: #f5f5f5;
-      border: 2px solid #FF2E37;
-      border-radius: 5px;
-    }
+      hr {
+        margin: auto;
+        border: 5px solid #FF2E37;
+        border-radius: 5px;
+      }
 
-    /* Create an active/current tablink class */
-    .tab button.active {
-      font-weight: bold;
-      border: 2px solid #FF2E37;
-      border-radius: 5px;
-      background-color: white;
-    }
 
-    /* Style the tab content */
-    .tabcontent {
-      display: none;
-      padding: 10px;
-      border: 2px solid #FF2E37;
-      border-radius: 5px;
-    }
-    
-    
-    #dropdown-container {
-      margin: 40px auto 40px auto;
-      font-size: 18px;
-      font-weight: bold;
-      width: 800px;
-      gap: 10px;
-      padding: 10px 30px;
-      background-color: #ffd7e1;
-      border: 2px solid black;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    #shapeSetSelector {      
-      font-size: 18px;
-    }
+      .tab {
+        overflow: hidden;
+      }
 
-    #resetButton {
-      font-size: 18px;
-      background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
-      padding: 10px 20px;
-      margin-left: 80px;
-      border: 2px solid #FF2E37;
-      user-select: none;
-    }
-    #resetButton:hover {
-      border: 2px solid white;
-    }
-    
-    .control-button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
-      border: 2px solid #FF2E37;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .control-button:hover {
-      border: 2px solid white;
-    }
-    .control-button:focus {
-      padding: 9px 19px;
-      border: 3px solid #FF2E37;
-    }
+      /* Style the buttons that are used to open the tab content */
+      .tab button { 
+        border: 2px solid #FF2E37;
+        border-radius: 5px;
+        background-color: #ffd7e1;
+        margin: 0px 10px 10px 0px;
+        font: 24px Arial, sans-serif; 
+        float: left;
+        outline: none;
+        cursor: pointer;
+        padding: 15px 10px;
+        transition: 0.3s;
+        width: 28%;
+      }
 
-    #drag-ruler {
-      /* Add your preferred styles for the ruler */
-      width: 570px;
-      height: 30px;
-      background-color: darkblue;
-      opacity: 0.75;
-      font-size: 14px;
-      text-align: right;
-      padding-right: 10px;
-      color: white;
-      padding-top: 15px;
-      border-radius: 1px;
-      box-shadow: 1px 1px 1px black;
-      z-index: 1000;  /* Add this line */
-      top: 840px;
-      right: 50%; transform: translateX(50%);
-      user-select: none;
-    }
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+        background-color: #f5f5f5;
+        border: 2px solid #FF2E37;
+        border-radius: 5px;
+      }
 
-    #cmText {
-      transform: rotate(90deg);
-      color: white;
-    }
+      /* Create an active/current tablink class */
+      .tab button.active {
+        font-weight: bold;
+        border: 2px solid #FF2E37;
+        border-radius: 5px;
+        background-color: white;
+      }
 
-    #button-container {
-      display: flex;
-      justify-content: center;  /* Center horizontally */
-      align-items: center;  /* Align items vertically */
-      user-select: none;
-    }
-    .button-container button {
-      font-size: 16px;
-      margin: 20px 5px 0px 5px;
-      padding: 10px 20px;
-      border: 2px solid;
-      border-radius: 5px;
-      cursor: pointer;
-    }  
-    .button-container button:hover {
-      border: 2px solid white;
-    }
-    .button-container button:focus {
-      padding: 9px 19px;
-      border: 3px solid #FF2E37;
-    }
+      /* Style the tab content */
+      .tabcontent {
+        display: none;
+        padding: 10px;
+        border: 2px solid #FF2E37;
+        border-radius: 5px;
+      }
 
-    #shapes-container {      
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      padding: 60px 10px;
-      gap: 50px;
-      width: 100%;
-    }
 
-    .shape-container {
-      display: flex;
-      justify-content: center;
-    }
+      #dropdown-container {
+        margin: 40px auto 40px auto;
+        font-size: 18px;
+        font-weight: bold;
+        width: 800px;
+        gap: 10px;
+        padding: 10px 30px;
+        background-color: #ffd7e1;
+        border: 2px solid black;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      #shapeSetSelector {      
+        font-size: 18px;
+      }
 
-    .shape {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+      #resetButton {
+        font-size: 18px;
+        background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
+        padding: 10px 20px;
+        margin-left: 80px;
+        border: 2px solid #FF2E37;
+        user-select: none;
+      }
+      #resetButton:hover {
+        border: 2px solid white;
+      }
 
-    .sphere {
-      background: radial-gradient(circle, #ffc87f 30%, #d68a40 90%);
-      border-radius: 50%;
-      box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
-      z-index: -100;
-    }
+      .control-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
+        border: 2px solid #FF2E37;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .control-button:hover {
+        border: 2px solid white;
+      }
+      .control-button:focus {
+        padding: 9px 19px;
+        border: 3px solid #FF2E37;
+      }
 
-    .cube {
-      background: linear-gradient(135deg, #ffc87f 40%, #d68a40 100%);
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-      z-index: -100;
-    }
+      #drag-ruler {
+        /* Add your preferred styles for the ruler */
+        width: 570px;
+        height: 30px;
+        background-color: darkblue;
+        opacity: 0.75;
+        font-size: 14px;
+        text-align: right;
+        padding-right: 10px;
+        color: white;
+        padding-top: 15px;
+        border-radius: 1px;
+        box-shadow: 1px 1px 1px black;
+        z-index: 1000;  /* Add this line */
+        top: 840px;
+        right: 50%; transform: translateX(50%);
+        user-select: none;
+      }
 
-    .cylinder {
-      background: linear-gradient(180deg, #ffc87f 30%, #d68a40 100%);
-      border-radius: 10px;
-      box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
-      z-index: -100;
-    }
-    
-    .row {
-      display: flex;
-    }
+      #cmText {
+        transform: rotate(90deg);
+        color: white;
+      }
 
-    .column {
-      flex: 50%;
-      padding: 0px 20px;
-    }
-    
-    #work-bench-1 {
-      height: 620px;
-      width: 70%;
-      position: relative;
-      display: inline-block;
-    }
-    
-    #work-bench-2 {
-      height: 510px;
-      width: 100%;
-      position: relative;
-      display: inline-block;
-    }
-    
-    #beaker_2, #beaker_3, #cylinder {
-      margin: 40px 0px 0px 0px;
-      width: 400px;
-      z-index: 5;
-    }
+      #button-container {
+        display: flex;
+        justify-content: center;  /* Center horizontally */
+        align-items: center;  /* Align items vertically */
+        user-select: none;
+      }
+      .button-container button {
+        font-size: 16px;
+        margin: 20px 5px 0px 5px;
+        padding: 10px 20px;
+        border: 2px solid;
+        border-radius: 5px;
+        cursor: pointer;
+      }  
+      .button-container button:hover {
+        border: 2px solid white;
+      }
+      .button-container button:focus {
+        padding: 9px 19px;
+        border: 3px solid #FF2E37;
+      }
 
-    #pan_2 {
-      /* background: black; */
-      width: 150px;
-      height: 10px;
-      position: absolute;
-      bottom: 221px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-        
-    #total-mass-2 {
-      position: absolute;
-      bottom: 129px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      border-radius: 5px;
-      font-size: 24px;
-      font-weight: bold;
-      z-index: 10;
-    }
-    
-    #work-bench-3, #work-bench-4 {
-      height: 650px;
-      width: 450px;
-      position: relative;
-      display: inline-block;
-    }
-        
-    #total-mass-3, #total-mass-4 {
-      position: absolute;
-      bottom: 100px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      border-radius: 5px;
-      font-size: 24px;
-      font-weight: bold;
-      z-index: 10;
-    }
+      #shapes-container {      
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 60px 10px;
+        gap: 50px;
+        width: 100%;
+      }
 
-    #liquid {
-      position: absolute;
-      bottom: 200px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 38%;
-      height: 0;
-      background: #abdcf2;
-      transition: height 0.3s;
-      opacity: 0.75;
-      z-index: -10;
-    }
+      .shape-container {
+        display: flex;
+        justify-content: center;
+      }
 
-    #pan_3 {
-      /* background: black; */
-      width: 110px;
-      height: 10px;
-      position: absolute;
-      bottom: 190px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+      .shape {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
 
-    #solution {
-      position: absolute;
-      bottom: 211.5px;
-      left: 50%; transform: translateX(-50%);
-      width: 13%;
-      height: 0;
-      background: #abdcf2;
-      transition: height 0.3s ease-in-out;
-      opacity: 0.75;
-      z-index: -10;
-    }
-    .solution::after {
-      content: "";
-      position: absolute;
-      top: 0px;
-      right: 50%; transform: translateX(50%);
-      width: 100%;
-      height: 5px;
-      background: #def1fa; /* Subtle meniscus highlight */
-      border-radius: 0% 0% 50% 50%; /* Round only the bottom corners */
-      z-index: 0;
-    }
-    
-    
+      .sphere {
+        background: radial-gradient(circle, #ffc87f 30%, #d68a40 90%);
+        border-radius: 50%;
+        box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
+        z-index: -100;
+      }
 
-    
-    #saltMass {
-      position: absolute;
-      bottom: 460px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }    
-    #waterMass {
-      position: absolute;
-      bottom: 440px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }    
-    #SolnDensity {
-      position: absolute;
-      bottom: 420px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }    
-    #objectDensity {
-      position: absolute;
-      bottom: 400px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }
-    #volumeAdded {
-      position: absolute;
-      bottom: 60px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }
-    
-  </style>
-</head>
-<body>
-<div id="instruction-message">
-<h2 style="font-size: 24pt; color: #ff2e37; text-align: left;">
-<strong>Simulation Instructions</strong>
-</h2>
-<p>Use this lab simulation to follow along with your Illustrated Experimental Plan for the FOS Lab Period 2 Experiment.
-  <ol type="1">
-  <li>Use the drop-down menu to select your assigned fruit or vegetable.</li>
-  <li>In the <strong>Measure Dimensions</strong> tab, use the piece buttons to toggle between the three pieces of your assigned fruit or vegetable. Drag the ruler within the panel to measure the three dimensions of each piece individually. Each piece will be displayed in three ways, so that all three dimensions of the object can be measured.</li>
-  <li>In the <strong>Measure Mass</strong> tab, use the buttons along the bottom to control the items on the balance.</li>
-  <li>In the <strong>Float & Sink</strong> tab:</li>
-  <ol type="a">
-    <li>Use the add buttons to add one of your assigned fruit or vegetable pieces into the beaker.</li>
-    <li>Use the add buttons below the beaker to add water and solid sodium chloride to the beaker. </li>
-    <li>Use the transfer/remove buttons below the graduated cylinder to transfer portions of your prepared solution into the cylinder.</li>
-  </ol>
-  </ol>
-</p>
-<p>You can restart the simulation at any time by clicking on the Reset All Controls button.</p>
-</div>
-<hr>
+      .cube {
+        background: linear-gradient(135deg, #ffc87f 40%, #d68a40 100%);
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        z-index: -100;
+      }
 
-<div id="dropdown-container">
-  <label for="shapeSetSelector">Select Assigned Fruit/Vegatable:</label>
-  <select id="shapeSetSelector">
-    <option value="" selected>Choose from Dropdown</option>
-    <option value="set1">Green Beans</option>
-    <option value="set2">Cantaloupe Melon Balls</option>
-    <option value="set3">Banana Slices</option>
-    <option value="set4">Cherries</option>
-  </select>
-  <button id="resetButton" class="shape-button">Reset All Controls</button>
-</div>
+      .cylinder {
+        background: linear-gradient(180deg, #ffc87f 30%, #d68a40 100%);
+        border-radius: 10px;
+        box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.4), 5px 5px 10px rgba(0, 0, 0, 0.3);
+        z-index: -100;
+      }
+
+      .row {
+        display: flex;
+      }
+
+      .column {
+        flex: 50%;
+        padding: 0px 20px;
+      }
+
+      #work-bench-1 {
+        height: 620px;
+        width: 70%;
+        position: relative;
+        display: inline-block;
+      }
+
+      #work-bench-2 {
+        height: 510px;
+        width: 100%;
+        position: relative;
+        display: inline-block;
+      }
+
+      #beaker_2, #beaker_3, #cylinder {
+        margin: 40px 0px 0px 0px;
+        width: 400px;
+        z-index: 5;
+      }
+
+      #pan_2 {
+        /* background: black; */
+        width: 150px;
+        height: 10px;
+        position: absolute;
+        bottom: 221px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #total-mass-2 {
+        position: absolute;
+        bottom: 129px; /* Adjust as needed */
+        left: 50%; /* Adjust as needed */
+        transform: translateX(-50%);
+        border-radius: 5px;
+        font-size: 24px;
+        font-weight: bold;
+        z-index: 10;
+      }
+
+      #work-bench-3, #work-bench-4 {
+        height: 650px;
+        width: 450px;
+        position: relative;
+        display: inline-block;
+      }
+
+      #total-mass-3, #total-mass-4 {
+        position: absolute;
+        bottom: 100px; /* Adjust as needed */
+        left: 50%; /* Adjust as needed */
+        transform: translateX(-50%);
+        border-radius: 5px;
+        font-size: 24px;
+        font-weight: bold;
+        z-index: 10;
+      }
+
+      #liquid {
+        position: absolute;
+        bottom: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 38%;
+        height: 0;
+        background: #abdcf2;
+        transition: height 0.3s;
+        opacity: 0.75;
+        z-index: -10;
+      }
+
+      #pan_3 {
+        /* background: black; */
+        width: 110px;
+        height: 10px;
+        position: absolute;
+        bottom: 190px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #solution {
+        position: absolute;
+        bottom: 211.5px;
+        left: 50%; transform: translateX(-50%);
+        width: 13%;
+        height: 0;
+        background: #abdcf2;
+        transition: height 0.3s ease-in-out;
+        opacity: 0.75;
+        z-index: -10;
+      }
+      .solution::after {
+        content: "";
+        position: absolute;
+        top: 0px;
+        right: 50%; transform: translateX(50%);
+        width: 100%;
+        height: 5px;
+        background: #def1fa; /* Subtle meniscus highlight */
+        border-radius: 0% 0% 50% 50%; /* Round only the bottom corners */
+        z-index: 0;
+      }
 
 
 
-<div class="tab">
-  <button class="tablinks" onclick="openTabs(event, 'Dimensions')" id="defaultOpen">Measure Dimensions</button>
-  <button class="tablinks" onclick="openTabs(event, 'Mass')">Measure Mass</button>
-  <button class="tablinks" onclick="openTabs(event, 'Salt')">Float & Sink</button>
-</div>
+
+      #saltMass {
+        position: absolute;
+        bottom: 460px; /* Adjust as needed */
+        left: 50%; /* Adjust as needed */
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        color: red;
+        font-size: 14px;
+        font-weight: bold;
+        z-index: 10;
+      }    
+      #waterMass {
+        position: absolute;
+        bottom: 440px; /* Adjust as needed */
+        left: 50%; /* Adjust as needed */
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        color: red;
+        font-size: 14px;
+        font-weight: bold;
+        z-index: 10;
+      }    
+      #SolnDensity {
+        position: absolute;
+        bottom: 420px; /* Adjust as needed */
+        left: 50%; /* Adjust as needed */
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        color: red;
+        font-size: 14px;
+        font-weight: bold;
+        z-index: 10;
+      }    
+      #objectDensity {
+        position: absolute;
+        bottom: 400px; /* Adjust as needed */
+        left: 50%; /* Adjust as needed */
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        color: red;
+        font-size: 14px;
+        font-weight: bold;
+        z-index: 10;
+      }
+      #volumeAdded {
+        position: absolute;
+        bottom: 60px; /* Adjust as needed */
+        left: 50%; /* Adjust as needed */
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        color: red;
+        font-size: 14px;
+        font-weight: bold;
+        z-index: 10;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="instruction-message">
+      <h2 style="font-size: 24pt; color: #ff2e37; text-align: left;">
+        <strong>Simulation Instructions</strong>
+      </h2>
+      <p>Use this lab simulation to follow along with your Illustrated Experimental Plan for the FOS Lab Period 2 Experiment.
+      <ol type="1">
+        <li>Use the drop-down menu to select your assigned fruit or vegetable.</li>
+        <li>In the <strong>Measure Dimensions</strong> tab, use the piece buttons to toggle between the three pieces of your assigned fruit or vegetable. Drag the ruler within the panel to measure the three dimensions of each piece individually. Each piece will be displayed in three ways, so that all three dimensions of the object can be measured.</li>
+        <li>In the <strong>Measure Mass</strong> tab, use the buttons along the bottom to control the items on the balance.</li>
+        <li>In the <strong>Float & Sink</strong> tab:</li>
+        <ol type="a">
+          <li>Use the add buttons to add one of your assigned fruit or vegetable pieces into the beaker.</li>
+          <li>Use the add buttons below the beaker to add water and solid sodium chloride to the beaker. </li>
+          <li>Use the transfer/remove buttons below the graduated cylinder to transfer portions of your prepared solution into the cylinder.</li>
+        </ol>
+      </ol>
+      </p>
+    <p>You can restart the simulation at any time by clicking on the Reset All Controls button.</p>
+    </div>
+  <hr>
+
+  <div id="dropdown-container">
+    <label for="shapeSetSelector">Select Assigned Fruit/Vegatable:</label>
+    <select id="shapeSetSelector">
+      <option value="" selected>Choose from Dropdown</option>
+      <option value="set1">Green Beans</option>
+      <option value="set2">Cantaloupe Melon Balls</option>
+      <option value="set3">Banana Slices</option>
+      <option value="set4">Cherries</option>
+    </select>
+    <button id="resetButton" class="shape-button">Reset All Controls</button>
+  </div>
+
+
+
+  <div class="tab">
+    <button class="tablinks" onclick="openTabs(event, 'Dimensions')" id="defaultOpen">Measure Dimensions</button>
+    <button class="tablinks" onclick="openTabs(event, 'Mass')">Measure Mass</button>
+    <button class="tablinks" onclick="openTabs(event, 'Salt')">Float & Sink</button>
+  </div>
 
   <!-- Tab content -->
   <div id="Dimensions" class="tabcontent">
     <div id="drag-ruler" style="position:absolute; cursor:move;"><span id="cmText">cm</span></div>
     <!--Area #1 Code-->
-      <div class="button-container">
-        <button id="View1" class="shape-button" type="button" disabled>View Piece #1</button>
-        <button id="View2" class="shape-button" type="button" disabled>View Piece #2</button>
-        <button id="View3" class="shape-button" type="button" disabled>View Piece #3</button>
-      </div>     
+    <div class="button-container">
+      <button id="View1" class="shape-button" type="button" disabled>View Piece #1</button>
+      <button id="View2" class="shape-button" type="button" disabled>View Piece #2</button>
+      <button id="View3" class="shape-button" type="button" disabled>View Piece #3</button>
+    </div>     
     <div id="work-bench-1">
       <p style="font-size: 13.9pt; padding: 0px 10px;">The three images below display a single piece of your assigned fruit/vegetable. Each image represents the view from one angle of the same object.</p>
       <div id="shapes-container"></div>
@@ -438,11 +438,11 @@
 
   <div id="Mass" class="tabcontent">
     <!--Area #2 Code-->
-      <div class="button-container">
-        <button id="addPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
-        <button id="addPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
-        <button id="addPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
-      </div>
+    <div class="button-container">
+      <button id="addPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
+      <button id="addPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
+      <button id="addPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
+    </div>
     <div id="work-bench-2">
       <div id="pan_2"></div>
       <img id="beaker_2" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance%20(short).png?raw=true">
@@ -455,12 +455,12 @@
   </div>
 
   <div id="Salt" class="tabcontent">
-          <div class="button-container">
-            <button id="floatPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
-            <button id="floatPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
-            <button id="floatPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
-            <button onclick="emptyBeaker()" class="control-button">Clear All</button>
-          </div>
+    <div class="button-container">
+      <button id="floatPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
+      <button id="floatPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
+      <button id="floatPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
+      <button onclick="emptyBeaker()" class="control-button">Clear All</button>
+    </div>
     <div class="row">
       <div class="column"><!--Area #3 Code--> 
         <div id="work-bench-3">
@@ -494,9 +494,9 @@
       </div>
     </div>
   </div>
-      
 
-<p style="color: #ff2e37; text-align: left;"><em>This simulation was designed for use on a laptop or desktop computer. Functions may not operate properly on a mobile device.</em></p>
+
+  <p style="color: #ff2e37; text-align: left;"><em>This simulation was designed for use on a laptop or desktop computer. Functions may not operate on a mobile device.</em></p>
 
   <script>
 
@@ -504,7 +504,7 @@
     let addedShapes_2 = {};
     let totalMass2 = 0;
     let tareOffset = 0;
-    
+
     let totalMass3 = 0;
     let saltMass = 0;
     let waterMass = 0;
@@ -515,7 +515,7 @@
     let currentheight = 10;
     let addedShapeDensity_3 = 0;
     let SolnDensity = 0;
-    
+
     let totalMass4 = 0;
     let solVolume = 0;
     let liquidHeight2= 0;
@@ -590,20 +590,20 @@
       tareOffset = 0; // Reset tare offset when changing sets
       updateMassDisplay_2();
       enableButtons2();
-      
+
       // for float/sink panel
       currentSet_3 = event.target.value;
       removeShapes_3(); // Remove previous shapes first
       totalMass3 = 0;
       saltMass = 0;
       updateMassDisplay_3();
-    	waterMass = 0;
+      waterMass = 0;
       liquidHeight_2 = 0;
-    	addedShapeDensity_3 = 0;
+      addedShapeDensity_3 = 0;
       calcSolnDensity();
       document.getElementById('liquid').style.height = 0 + 'px';
       enableButtons3b();
-      
+
       // for solution in cylinder      
       totalMass4 = 0;
       solVolume = 0;
@@ -624,23 +624,23 @@
       disableButtons2();
       removeShapes_2();
       updateMassDisplay_2();
-      
-      
+
+
       // for float/sink panel
       currentSet_3 = "";
       totalMass3 = 0;
       saltMass = 0;
       updateMassDisplay_3();
-    	waterMass = 0;
+      waterMass = 0;
       liquidHeight_2 = 0;
-    	addedShapeDensity_3 = 0;
+      addedShapeDensity_3 = 0;
       calcSolnDensity();
       document.getElementById('liquid').style.height = 0 + 'px';
       disableButtons3b();      
       // reposition pan_3
       pan_3.removeAttribute("style"); // Removes all inline styles
       pan_3.classList.add("pan_3");
-      
+
       // for solution in cylinder      
       totalMass4 = 0;
       solVolume = 0;
@@ -929,7 +929,7 @@
       set3: { Piece1: 2.576, Piece2: 2.613, Piece3: 3.126 },
       set4: { Piece1: 4.180, Piece2: 3.311, Piece3: 3.888 }
     };	// volume data
-    
+
     const shapeGradients = {
       set1: 'linear-gradient(#607c3c, #8fa376, #607c3c)',
       set2: 'radial-gradient(circle, #FFA62F, #ffdbab)',
@@ -1058,7 +1058,7 @@
       shapeElement.style.left = "50%";
       shapeElement.style.transform = "translateX(-50%)";
       pan_2.appendChild(shapeElement); // Append to body so positioning works correctly
-      
+
       addedShapes_2[shape] = { element: shapeElement, mass: shapeSets2[currentSet_2][shape] };
       totalMass2 += shapeSets2[currentSet_2][shape] * errorPercent;
 
@@ -1071,10 +1071,10 @@
 
     function removeShapes_2() {
       for (let shape in addedShapes_2) {
-        totalMass2 = parseFloat((getRandomAmount(25, 30)).toFixed(3));
         addedShapes_2[shape].element.remove();
       }
       addedShapes_2 = {};
+      totalMass2 = parseFloat((getRandomAmount(25, 30)).toFixed(3));
       updateMassDisplay_2();
     }
 
@@ -1113,7 +1113,7 @@
     }
 
     function addShape_3(shape) {
-    	disableButtons3b();
+      disableButtons3b();
       if (!currentSet_3 || addedShapes_3[shape]) return;
       const selectedSet = document.getElementById("shapeSetSelector").value;
       const selectedPiece = shape;
@@ -1236,10 +1236,10 @@
       pan_3.appendChild(shapeElement_3); // Append to body so positioning works correctly
       addedShapes_3[shape] = { element: shapeElement_3, mass: shapeSets2[currentSet_2][shape] };
       totalMass3 += shapeSets3[currentSet_3][shape] * errorPercent;
-      
+
       // if needed, adjust liquid height 
-    	displaceWaterLevel(shapeSets3[currentSet_3][shape]);
-      
+      displaceWaterLevel(shapeSets3[currentSet_3][shape]);
+
       // store current object density
       currentheight = shapeElement_3.offsetHeight;
       addedShapeDensity_3 = shapeSets2[currentSet_3][shape]/shapeSets3[currentSet_3][shape];
@@ -1265,7 +1265,7 @@
       } else {
         // Object stays sunken
         object.style.left = "50%";
-      	object.style.transform = "translateX(-50%)";
+        object.style.transform = "translateX(-50%)";
       }
     }
 
@@ -1275,10 +1275,10 @@
       document.getElementById('liquid').style.height = liquidHeight_2 + 'px';
 
       if (liquidHeight_2 >= lim1) {
-      	disableButtons3a(); // Disable buttons when liquid height reaches 200
+        disableButtons3a(); // Disable buttons when liquid height reaches 200
       }
     }
-    
+
     function displaceWaterLevel(shapeVolume) {
       const shapeVolume_px = shapeVolume * 5;
 
@@ -1294,7 +1294,7 @@
         document.getElementById('liquid').style.height = liquidHeight_2 + 'px';
       }
     }
-  
+
     function updateMassDisplay_3() {
       document.querySelector('#total-mass-3 span').textContent = totalMass3.toFixed(3);
       // document.querySelector('#saltMass span').textContent = saltMass.toFixed(3);
@@ -1302,24 +1302,24 @@
       // document.querySelector('#SolnDensity span').textContent = SolnDensity.toFixed(3);
       // document.querySelector('#objectDensity span').textContent = addedShapeDensity_3.toFixed(3);
     }    
-    
+
     function calcSolnDensity() {
       if (waterMass <= 0) {
         SolnDensity = 0;
       } else if (saltMass <= 0) {
-      	 SolnDensity = 0.97303;
+        SolnDensity = 0.97303;
       } else {      
         SolnDensity = ((0.00871*((saltMass/(waterMass+saltMass))*100)) + 0.97303);
       }
     }
-    
+
     function emptyBeaker() {
-    	// for float/sink panel
+      // for float/sink panel
       totalMass3 = 0;
       saltMass = 0;
-    	waterMass = 0;
+      waterMass = 0;
       liquidHeight_2 = 0;
-    	addedShapeDensity_3 = 0;
+      addedShapeDensity_3 = 0;
       calcSolnDensity();
       updateMassDisplay_3();
       document.getElementById('liquid').style.height = 0 + 'px';
@@ -1328,7 +1328,7 @@
       // reposition pan_3
       pan_3.removeAttribute("style"); // Removes all inline styles
       pan_3.classList.add("pan_3");
-      
+
       // for solution in cylinder panel
       totalMass4 = 0;
       solVolume = 0;
@@ -1340,12 +1340,12 @@
     document.getElementById("floatPiece1").addEventListener("click", () => addShape_3("Piece1"));
     document.getElementById("floatPiece2").addEventListener("click", () => addShape_3("Piece2"));
     document.getElementById("floatPiece3").addEventListener("click", () => addShape_3("Piece3"));    
-    
+
     const addSodiumChlorideButton = document.querySelector('button[onclick="addSodiumChloride()"]');
     const addWaterButton = document.querySelector('button[onclick="addWater()"]');
     const emptyBeakerButton = document.querySelector('button[onclick="emptyBeaker()"]');
 
-    
+
 
 
 
@@ -1353,7 +1353,7 @@
     const addSolutionButton = document.querySelector('button[onclick="addSolution()"]');
     const removeSolutionButton = document.querySelector('button[onclick="removeSolution()"]');
     checkAddSolutionButton();
-    
+
     function checkAddSolutionButton() {
       if (liquidHeight_2 < 75) { // ensures at least 15 mL of solution has been prepared
         addSolutionButton.disabled = true;
@@ -1361,19 +1361,22 @@
         addSolutionButton.disabled = false;
       }
     }
-    
-    function addSolution() {
-    	removeShapes_3();
-      amount = getRandomAmount(0.25, 0.75);
-      solVolume = Math.min(cylinderVolume/px_mL, solVolume + amount);
 
-      calcSolnDensity();
-      totalMass4 = (SolnDensity) * solVolume; // amount = volumne (mL) in grad. cylinder
-      updateMassDisplay4();
-      disableButtons3a();
-      increaseLiquidLevel_2();  
-      increaseLiquidLevel_1(-amount);
-      document.querySelector('#total-mass-3 span').textContent = "- - - - . - - - ";
+    function addSolution() {
+      if (liquidHeight_2 > 0) {
+
+        removeShapes_3();
+        amount = getRandomAmount(0.25, 0.75);
+        solVolume = Math.min(cylinderVolume/px_mL, solVolume + amount);
+
+        calcSolnDensity();
+        totalMass4 = (SolnDensity) * solVolume; // amount = volumne (mL) in grad. cylinder
+        updateMassDisplay4();
+        disableButtons3a();
+        increaseLiquidLevel_2();  
+        increaseLiquidLevel_1(-amount);
+        document.querySelector('#total-mass-3 span').textContent = "- - - - . - - - ";
+      }
     }
 
     function removeSolution() {
@@ -1386,10 +1389,10 @@
         solVolume = Math.max(0, solVolume - amount);
 
         calcSolnDensity();
-      	totalMass4 = (SolnDensity) * solVolume; // amount = volumne (mL) in grad. cylinder
+        totalMass4 = (SolnDensity) * solVolume; // amount = volumne (mL) in grad. cylinder
         updateMassDisplay4();
         increaseLiquidLevel_2();
-        increaseLiquidLevel_1(amount);
+        // increaseLiquidLevel_1(amount);
         enableButtons4();
       }
     }
@@ -1406,9 +1409,9 @@
       document.querySelector('#total-mass-4 span').textContent = totalMass4.toFixed(3);  
       // document.querySelector('#volumeAdded span').textContent = solVolume.toFixed(4);
     }
-    
-    
-    
+
+
+
     function openTabs(evt, Sim_part) {
       // Declare all variables
       var i, tabcontent, tablinks;
@@ -1429,10 +1432,10 @@
       document.getElementById(Sim_part).style.display = "block";
       evt.currentTarget.className += " active";
     }
-    
-      // Get the element with id="defaultOpen" and click on it
-      document.getElementById("defaultOpen").click();
-    
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+
   </script>
-</body>
+  </body>
 </html>
