@@ -25,45 +25,51 @@
     }
     
     
-    .tab { 
+    .tab {
       overflow: hidden;
     }
 
     /* Style the buttons that are used to open the tab content */
     .tab button { 
-      margin: 20px 7px 20px 6px;
-      font: 16px Arial, sans-serif;  
-      background-color: inherit;
-      float: left;
-      background-color: #ffd7e1;
       border: 2px solid #FF2E37;
+      border-radius: 5px;
+      background-color: #ffd7e1;
+      margin: 0px 10px 10px 0px;
+      font: 24px Arial, sans-serif; 
+      float: left;
       outline: none;
       cursor: pointer;
-      padding: 14px 16px;
+      padding: 15px 10px;
       transition: 0.3s;
-      width: 32%;
+      width: 28%;
     }
 
     /* Change background color of buttons on hover */
     .tab button:hover {
-      border: 2px solid white;
+      background-color: #f5f5f5;
+      border: 2px solid #FF2E37;
+      border-radius: 5px;
     }
 
     /* Create an active/current tablink class */
     .tab button.active {
-      background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
+      font-weight: bold;
+      border: 2px solid #FF2E37;
+      border-radius: 5px;
+      background-color: white;
     }
 
     /* Style the tab content */
     .tabcontent {
       display: none;
-      padding: 10px 20px;
+      padding: 10px;
       border: 2px solid #FF2E37;
+      border-radius: 5px;
     }
     
     
     #dropdown-container {
-      margin: 20px auto 20px auto;
+      margin: 40px auto 40px auto;
       font-size: 18px;
       font-weight: bold;
       width: 800px;
@@ -79,7 +85,7 @@
     }
 
     #resetButton {
-      font-size: 16px;
+      font-size: 18px;
       background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
       padding: 10px 20px;
       margin-left: 80px;
@@ -92,7 +98,7 @@
     
     .control-button {
       padding: 10px 20px;
-      font-size: 14px;
+      font-size: 16px;
       background-image: linear-gradient(#ff9ab3, #fedee6 50%, #ff9ab3);
       border: 2px solid #FF2E37;
       border-radius: 5px;
@@ -121,7 +127,7 @@
       border-radius: 1px;
       box-shadow: 1px 1px 1px black;
       z-index: 1000;  /* Add this line */
-      top: 850px;
+      top: 840px;
       right: 50%; transform: translateX(50%);
       user-select: none;
     }
@@ -131,25 +137,24 @@
       color: white;
     }
 
-    #shape-buttons-1, #shape-buttons-2 {
+    #button-container {
       display: flex;
       justify-content: center;  /* Center horizontally */
       align-items: center;  /* Align items vertically */
-      margin: 20px;
-      gap: 10px;
       user-select: none;
     }
-    .shape-button {
+    .button-container button {
+      font-size: 16px;
+      margin: 20px 5px 0px 5px;
       padding: 10px 20px;
-      font-size: 14px;
+      border: 2px solid;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .shape-button:hover {
+    }  
+    .button-container button:hover {
       border: 2px solid white;
     }
-    .shape-button:focus {
+    .button-container button:focus {
       padding: 9px 19px;
       border: 3px solid #FF2E37;
     }
@@ -202,35 +207,17 @@
       flex: 50%;
       padding: 0px 20px;
     }
-
-    .button-container button {
-      font-size: 14px;
-      margin-top: 10px;
-      padding: 10px 20px;
-      border: 2px solid;
-      border-radius: 5px;
-      cursor: pointer;
-    }  
-    .button-container button:hover {
-      border: 2px solid white;
-    }
-    .button-container button:focus {
-      padding: 9px 19px;
-      border: 3px solid #FF2E37;
-    }
     
     #work-bench-1 {
-      margin: 20px 0px 20px 0px;
-      height: 740px;
-      width: 450px;
+      height: 620px;
+      width: 70%;
       position: relative;
       display: inline-block;
     }
     
     #work-bench-2 {
-      margin: 20px 0px 20px 0px;
-      height: 550px;
-      width: 450px;
+      height: 510px;
+      width: 100%;
       position: relative;
       display: inline-block;
     }
@@ -246,14 +233,14 @@
       width: 150px;
       height: 10px;
       position: absolute;
-      bottom: 260.5px;
+      bottom: 221px;
       left: 50%;
       transform: translateX(-50%);
     }
         
     #total-mass-2 {
       position: absolute;
-      bottom: 170px; /* Adjust as needed */
+      bottom: 129px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       border-radius: 5px;
@@ -263,8 +250,7 @@
     }
     
     #work-bench-3, #work-bench-4 {
-      margin: 20px 0px 20px 0px;
-      height: 850px;
+      height: 740px;
       width: 450px;
       position: relative;
       display: inline-block;
@@ -272,7 +258,7 @@
         
     #total-mass-3, #total-mass-4 {
       position: absolute;
-      bottom: 300px; /* Adjust as needed */
+      bottom: 190px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       border-radius: 5px;
@@ -281,9 +267,22 @@
       z-index: 10;
     }
     
-    #saltMass, #volumeAdded {
+    #volumeAdded {
       position: absolute;
-      bottom: 260px; /* Adjust as needed */
+      bottom: 160px; /* Adjust as needed */
+      left: 50%; /* Adjust as needed */
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      color: red;
+      font-size: 14px;
+      font-weight: bold;
+      z-index: 10;
+    }
+    
+    #saltMass {
+      position: absolute;
+      bottom: 160px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.8);
@@ -296,7 +295,7 @@
     
     #waterMass {
       position: absolute;
-      bottom: 240px; /* Adjust as needed */
+      bottom: 140px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.8);
@@ -309,7 +308,7 @@
     
     #SolnDensity {
       position: absolute;
-      bottom: 280px; /* Adjust as needed */
+      bottom: 120px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.8);
@@ -322,7 +321,7 @@
     
     #objectDensity {
       position: absolute;
-      bottom: 220px; /* Adjust as needed */
+      bottom: 100px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.8);
@@ -335,7 +334,7 @@
 
     #liquid {
       position: absolute;
-      bottom: 400px;
+      bottom: 290px;
       left: 50%;
       transform: translateX(-50%);
       width: 38%;
@@ -351,14 +350,14 @@
       width: 150px;
       height: 10px;
       position: absolute;
-      bottom: 390px;
+      bottom: 280px;
       left: 50%;
       transform: translateX(-50%);
     }
 
     #solution {
       position: absolute;
-      bottom: 412.5px;
+      bottom: 302.5px;
       left: 50%; transform: translateX(-50%);
       width: 13%;
       height: 0;
@@ -387,15 +386,18 @@
 <strong>Simulation Instructions</strong>
 </h2>
 <p>Use this lab simulation to follow along with your Illustrated Experimental Plan for the FOS Lab Period 2 Experiment.
-  <ol>
-  <li>Use the <strong>drop-down menu</strong> to select your assigned fruit or vegetable.</li>
-  <li>In the top-left panel, use the <strong>piece tabs</strong> to toggle between the three pieces of your assigned fruit or vegetable. <strong>Drag the ruler</strong> within the panel to measure the three dimensions of each piece individually. Each piece will be displayed in three ways, so that all three dimensions of the object can be measured.</li>
-  <li>In the top-right panel, use the <strong>buttons</strong> along the bottom to control the items on the balance.</li>
-  <li>In the bottom-left panel, use the ADD buttons below the beaker sitting on a balance to add one of your assigned fruit or vegetable pieces, solid sodium chloride, and water into the beaker.</li>
-  <li>In the bottom-left panel, use the <strong>add/remove</strong> buttons below the graduated cylinder sitting on a balance to transfer portions of your prepared solution into the cylinder.</li>
+  <ol type="1">
+  <li>Use the drop-down menu to select your assigned fruit or vegetable.</li>
+  <li>In the tab <strong>Measure Dimensions</strong>, use the piece buttons to toggle between the three pieces of your assigned fruit or vegetable. Drag the ruler within the panel to measure the three dimensions of each piece individually. Each piece will be displayed in three ways, so that all three dimensions of the object can be measured.</li>
+  <li>In the tab <strong>Measure Mass</strong>, use the buttons along the bottom to control the items on the balance.</li>
+  <li>In the tab <strong>Float & Sink</strong>:</li>
+  <ol type="a">
+    <li>First, use the add buttons below the beaker sitting on a balance to add one of your assigned fruit or vegetable pieces, solid sodium chloride, and water into the beaker.</li>
+    <li>Then, use the add/remove buttons below the graduated cylinder sitting on a balance to transfer portions of your prepared solution into the cylinder.</li>
+  </ol>
   </ol>
 </p>
-<p>You can restart the simulation at any time by clicking on the <strong>Reset All Controls</strong> button.</p>
+<p>You can restart the simulation at any time by clicking on the Reset All Controls button.</p>
 </div>
 <hr>
 
@@ -414,21 +416,21 @@
 
 
 <div class="tab">
-  <button class="tablinks" onclick="openTabs(event, 'Dimensions')" id="defaultOpen">Measure Fruit/Veggie Dimensions</button>
-  <button class="tablinks" onclick="openTabs(event, 'Mass')">Measure Fruit/Veggie Mass</button>
-  <button class="tablinks" onclick="openTabs(event, 'Salt')">Float Fruits/Veggies in Sodium Chlroide</button>
+  <button class="tablinks" onclick="openTabs(event, 'Dimensions')" id="defaultOpen">Measure Dimensions</button>
+  <button class="tablinks" onclick="openTabs(event, 'Mass')">Measure Mass</button>
+  <button class="tablinks" onclick="openTabs(event, 'Salt')">Float & Sink</button>
 </div>
 
   <!-- Tab content -->
   <div id="Dimensions" class="tabcontent">
     <div id="drag-ruler" style="position:absolute; cursor:move;"><span id="cmText">cm</span></div>
     <!--Area #1 Code-->
-    <div id="work-bench-1"> 
-      <div id="shape-buttons-1">
-        <button id="View1" class="shape-button" type="button" disabled>Piece #1</button>
-        <button id="View2" class="shape-button" type="button" disabled>Piece #2</button>
-        <button id="View3" class="shape-button" type="button" disabled>Piece #3</button>
+      <div class="button-container">
+        <button id="View1" class="shape-button" type="button" disabled>View Piece #1</button>
+        <button id="View2" class="shape-button" type="button" disabled>View Piece #2</button>
+        <button id="View3" class="shape-button" type="button" disabled>View Piece #3</button>
       </div>     
+    <div id="work-bench-1">
       <p style="font-size: 13.9pt; padding: 0px 10px;">The three images below display a single piece of your assigned fruit/vegetable. Each image represents the view from one angle of the same object.</p>
       <div id="shapes-container"></div>
     </div>
@@ -436,14 +438,16 @@
 
   <div id="Mass" class="tabcontent">
     <!--Area #2 Code-->
+      <div class="button-container">
+        <button id="addPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
+        <button id="addPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
+        <button id="addPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
+      </div>
     <div id="work-bench-2">
       <div id="pan_2"></div>
       <img id="beaker_2" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance%20(short).png?raw=true">
       <p id="total-mass-2"><span>0.000</span> g</p>
-      <div class="button-container" style="margin-bottom: 40px;">
-        <button id="addPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
-        <button id="addPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
-        <button id="addPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
+      <div class="button-container">
         <button id="removeShapes_2" class="control-button" style="margin-left: 20px;">Clear Balance</button>
         <button id="tareButton" class="control-button">Tare</button>
       </div>
@@ -451,8 +455,13 @@
   </div>
 
   <div id="Salt" class="tabcontent">
+          <div class="button-container">
+            <button id="floatPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
+            <button id="floatPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
+            <button id="floatPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
+            <button onclick="emptyBeaker()" class="control-button">Clear All</button>
+          </div>
     <div class="row">
-
       <div class="column"><!--Area #3 Code--> 
         <div id="work-bench-3">
           <div id="liquid"></div>
@@ -463,16 +472,9 @@
           <p id="waterMass">Water Mass: <span>0.000</span> g</p>
           <p id="SolnDensity">SolnDensity: <span>0.000</span> g/mL</p>
           <p id="objectDensity">objectDensity: <span>0.000</span> g/mL</p>
-
           <div class="button-container">
-            <button id="floatPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
-            <button id="floatPiece2" class="shape-button" type="button" disabled>Add Piece #2</button>
-            <button id="floatPiece3" class="shape-button" type="button" disabled>Add Piece #3</button>
-          </div>
-          <div class="button-container">
-            <button onclick="addSodiumChloride()">Add Solid Sodium Chloride</button>
             <button onclick="addWater()">Add D.I. Water</button>
-            <button onclick="emptyBeaker()" class="control-button" >Empty Beaker</button>
+            <button onclick="addSodiumChloride()">Add Solid Sodium Chloride</button>
           </div>
         </div>
       </div>
@@ -485,7 +487,7 @@
           <p id="volumeAdded">Solution Volume: <span>0.0000</span> mL</p>
 
           <div class="button-container">
-            <button onclick="addSolution()">Add Solution</button>
+            <button onclick="addSolution()">Transfer Solution</button>
             <button onclick="removeSolution()" class="control-button">Remove Solution</button>
           </div>
         </div>
@@ -584,7 +586,7 @@
       // for mass measurement panel
       currentSet_2 = event.target.value;
       removeShapes_2(); // Remove previous shapes first
-      totalMass2 = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
+      totalMass2 = parseFloat((getRandomAmount(25, 35)).toFixed(3));
       tareOffset = 0; // Reset tare offset when changing sets
       updateMassDisplay_2();
       enableButtons2();
@@ -941,7 +943,7 @@
       const selectedSet = document.getElementById("shapeSetSelector").value;
       const selectedPiece = shape;
       const shapeElement = document.createElement("div");
-      let reductionFactor = 0.6;
+      let reductionFactor = 0.40;
 
       switch (selectedSet) {
         case 'set1':
@@ -1069,7 +1071,7 @@
 
     function removeShapes_2() {
       for (let shape in addedShapes_2) {
-        totalMass2 = parseFloat((getRandomAmount(0.003, 0.009)).toFixed(3));
+        totalMass2 = parseFloat((getRandomAmount(25, 30)).toFixed(3));
         addedShapes_2[shape].element.remove();
       }
       addedShapes_2 = {};
