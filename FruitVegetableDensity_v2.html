@@ -313,70 +313,6 @@
       z-index: 0;
     }
     
-    
-
-    
-    #saltMass {
-      position: absolute;
-      bottom: 460px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }    
-    #waterMass {
-      position: absolute;
-      bottom: 440px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }    
-    #SolnDensity {
-      position: absolute;
-      bottom: 420px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }    
-    #objectDensity {
-      position: absolute;
-      bottom: 400px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }
-    #volumeAdded {
-      position: absolute;
-      bottom: 60px; /* Adjust as needed */
-      left: 50%; /* Adjust as needed */
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 5px;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      z-index: 10;
-    }
-    
   </style>
 </head>
 <body>
@@ -468,10 +404,6 @@
           <div id="pan_3"></div>
           <img id="beaker_3" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance.png?raw=true">
           <p id="total-mass-3"><span>0.000</span> g</p>
-          <p id="saltMass">NaCl Mass: <span>0.000</span> g</p>
-          <p id="waterMass">Water Mass: <span>0.000</span> g</p>
-          <p id="SolnDensity">SolnDensity: <span>0.000</span> g/mL</p>
-          <p id="objectDensity">objectDensity: <span>0.000</span> g/mL</p>
           <div class="button-container">
             <button onclick="addWater()">Add D.I. Water</button>
             <button onclick="addSodiumChloride()">Add Solid Sodium Chloride</button>
@@ -1297,10 +1229,6 @@
   
     function updateMassDisplay_3() {
       document.querySelector('#total-mass-3 span').textContent = totalMass3.toFixed(3);
-      document.querySelector('#saltMass span').textContent = saltMass.toFixed(3);
-      document.querySelector('#waterMass span').textContent = waterMass.toFixed(3);
-      document.querySelector('#SolnDensity span').textContent = SolnDensity.toFixed(3);
-      document.querySelector('#objectDensity span').textContent = addedShapeDensity_3.toFixed(3);
     }    
     
     function calcSolnDensity() {
@@ -1403,8 +1331,7 @@
     }
 
     function updateMassDisplay4(solVoume) {
-      document.querySelector('#total-mass-4 span').textContent = totalMass4.toFixed(3);  
-      document.querySelector('#volumeAdded span').textContent = solVolume.toFixed(4);
+      document.querySelector('#total-mass-4 span').textContent = totalMass4.toFixed(3); 
     }
     
     
