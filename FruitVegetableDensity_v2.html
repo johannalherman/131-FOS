@@ -121,8 +121,8 @@
       border-radius: 1px;
       box-shadow: 1px 1px 1px black;
       z-index: 1000;  /* Add this line */
-      top: 720px;
-      right: 50%; transform: translateX(9%);
+      top: 850px;
+      right: 50%; transform: translateX(50%);
       user-select: none;
     }
 
@@ -219,9 +219,17 @@
       border: 3px solid #FF2E37;
     }
     
-    #work-bench-1, #work-bench-2 {
+    #work-bench-1 {
       margin: 20px 0px 20px 0px;
       height: 740px;
+      width: 450px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    #work-bench-2 {
+      margin: 20px 0px 20px 0px;
+      height: 550px;
       width: 450px;
       position: relative;
       display: inline-block;
@@ -238,14 +246,14 @@
       width: 150px;
       height: 10px;
       position: absolute;
-      bottom: 340px;
+      bottom: 260.5px;
       left: 50%;
       transform: translateX(-50%);
     }
         
     #total-mass-2 {
       position: absolute;
-      bottom: 255px; /* Adjust as needed */
+      bottom: 170px; /* Adjust as needed */
       left: 50%; /* Adjust as needed */
       transform: translateX(-50%);
       border-radius: 5px;
@@ -430,7 +438,7 @@
     <!--Area #2 Code-->
     <div id="work-bench-2">
       <div id="pan_2"></div>
-      <img id="beaker_2" src="https://github.com/johannalherman/Chem131/blob/main/Balance.png?raw=true" style="padding-top: 150px;">
+      <img id="beaker_2" src="https://github.com/johannalherman/Chem131/blob/main/Beaker%20on%20Balance%20(short).png?raw=true">
       <p id="total-mass-2"><span>0.000</span> g</p>
       <div class="button-container" style="margin-bottom: 40px;">
         <button id="addPiece1" class="shape-button" type="button" disabled>Add Piece #1</button>
